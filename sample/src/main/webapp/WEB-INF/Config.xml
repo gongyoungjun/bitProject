@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration><!-- DB설정(Connection) -->
+   <typeAliases>
+     <typeAlias type="com.bit.web.play.vo.membersBean" alias="playBoard"/>
+      
+   </typeAliases>
+   <mappers>
+   
+     <mapper resource="com/bit/web/play/dao/play-mapper.xml"/>  
+     
+   </mappers>
+</configuration>
+
+
+
+
+
