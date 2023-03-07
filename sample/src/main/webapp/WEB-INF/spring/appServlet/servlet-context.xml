@@ -55,9 +55,9 @@
 	      <tx:method name="*" propagation="REQUIRED"/>	     
 	    </tx:attributes>	
 	</tx:advice>
-	<aop:config>
+	<!-- <aop:config>
 	     <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.bit.web.dao.*.*(..))"/>	
-	</aop:config>
+	</aop:config> -->
 	
 	<beans:bean id="download" class="com.bit.web.play.vo.DownLoadView"/>
 	
@@ -89,13 +89,13 @@
 	<context:component-scan base-package="com.bit.web.play.email" />
 	
 	
-	<interceptors>
+	<!-- <interceptors>
 	   <interceptor>
 	      <mapping path="/loginIntercepter"/>
 	      <beans:ref bean="loginInter"/>
 	   </interceptor>
 
-	</interceptors>
+	</interceptors> -->
 	
 	
 	

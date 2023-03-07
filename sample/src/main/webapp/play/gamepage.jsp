@@ -24,31 +24,62 @@
  
 </head>
 <script type="text/javascript">
-
+    //이미지 미리보기
+    var sel_file;
+ 
     $(document).ready(function() {
-    	
-       // $("#profile_img").on("change", handleImgFileSelect);
-        $("a#sendButton").click(function(){        	
-
-               $.ajax({
-    			url:'/web/ajax',
-    			type:'POST',
-    			data:$("form[name='game']").serialize(),
-
-    		    enctype: 'multipart/form-data',
-    		    contentType:false,
-    		    processData:false,
-    		    success:function(result){
-    		    	console.log(result);
-    		    },
-    		    error:function(){
-    		    	alert('Error');
-    		    }
-    		});
-    	}); 
-       
+        $("#file1").on("change", handleImgFileSelect);
     });
-    </script>	
+ 
+    function handleImgFileSelect(e) {
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+ 
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+ 
+        filesArr.forEach(function(f) {
+            if (!f.type.match(reg)) {
+                alert("확장자는 이미지 확장자만 가능합니다.");
+                return;
+            }
+ 
+            sel_file = f;
+ 
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#img").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(f);
+        });
+    }
+</script>
+
+<script>
+//파일 업로드
+function fn_submit(){
+        
+        var form = new FormData();
+        form.append( "file1", $("#file1")[0].files[0] );
+        
+         jQuery.ajax({
+             url : "/web/result"
+           , type : "POST"
+           , processData : false
+           , contentType : false
+           , data : form
+           , success:function(response) {
+               alert("성공하였습니다.");
+               console.log(response);
+           }
+           ,error: function (jqXHR) 
+           { 
+               alert(jqXHR.responseText); 
+           }
+       });
+}
+</script>
+
+
 
 
 <body>
@@ -59,15 +90,7 @@
 
 
 
-<!--  관리자 로그인이 아닐 경우 -->
-<c:choose>
-	<c:when test="${userId != admin}">
 
-</c:when>
-
-<!--  관리자 로그인 일 경우 -->
-<c:otherwise> 
-	<c:when test="${userId == admin}">
 		<div class="container" style="margin-top: 60px" align="center">
 		<div class="row">
 			<div class="main" style="background-color: #141414">
@@ -117,10 +140,6 @@
 </div>
 </div>
 
-
-</c:when>
-</c:otherwise>      
-</c:choose>    
 
 
 

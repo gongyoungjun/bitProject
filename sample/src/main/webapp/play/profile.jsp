@@ -36,14 +36,33 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	
-<script type="text/javascript">
-
 	
+<script>
+//파일 업로드
+function fn_submit(){
+        
+        var form = new FormData();
+        form.append( "file1", $("#file1")[0].files[0] );
+        
+         jQuery.ajax({
+             url : "/web/result"
+           , type : "POST"
+           , processData : false
+           , contentType : false
+           , data : form
+           , success:function(response) {
+               alert("성공하였습니다.");
+               console.log(response);
+           }
+           ,error: function (jqXHR) 
+           { 
+               alert(jqXHR.responseText); 
+           }
+       });
+}
+</script>	
 	
-
-
-
- 
+<!-- <script type="text/javascript"> 
     $(document).ready(function() {
     	
        // $("#profile_img").on("change", handleImgFileSelect);
@@ -67,33 +86,38 @@
     	}); 
        
     });
-    //이미지 미리보기
-//     var sel_file;
-//     function handleImgFileSelect(e) {
-//         var files = e.target.files;
-//         var filesArr = Array.prototype.slice.call(files);
- 
-//         var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
- 
-//         filesArr.forEach(function(f) {
-//             if (!f.type.match(reg)) {
-//                 alert("확장자는 이미지 확장자만 가능합니다.");
-//                 return;
-//             }
- 
-//             sel_file = f;
-//  			//이미지 미리 보기.
-//             var reader = new FileReader();
-//             reader.onload = function(e) {
-//                 $("#img").attr("src", e.target.result);
-//             }
-//             reader.readAsDataURL(f);
-//         });
-//     }
-    
-    
-</script>	
+</script>	 -->
 
+<script type="text/javascript">
+    //이미지 미리보기
+    var sel_file;
+ 
+    $(document).ready(function() {
+        $("#profile_img").on("change", handleImgFileSelect);
+    });
+ 
+    function handleImgFileSelect(e) {
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+ 
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+ 
+        filesArr.forEach(function(f) {
+            if (!f.type.match(reg)) {
+                alert("확장자는 이미지 확장자만 가능합니다.");
+                return;
+            }
+ 
+            sel_file = f;
+ 
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#img").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(f);
+        });
+    }
+</script>
 	
 	
 	
@@ -103,7 +127,7 @@
 
 <body>
 
-    <form name="replyFrm" method="post" enctype="multipart/form-data">
+    <form name="replyFrm" method="post">
 <!--header  -->
 <jsp:include page="testHeader.jsp"></jsp:include>
     <!--header  -->
@@ -113,15 +137,18 @@
     <main>
         <div class="profile1" align="center" >
             <img id="img" src="${profile_img}" style="max-width: 12%; height: auto; margin-top:70px; background-color: #141414;"/>
-            <div class="button">
             
+            <div>
 <!--             <div class="card"></div> -->
-
-                <span class="button">
-         		<a type="file" style="font-size: 1rem ">사진 수정</a><br>
-                <input type="file" name="profile_img" id="profile_img" class="inputText" size="50"/>
-				</span>
+         		<label for="file1">파일</label> 
+                <input type="file" name="profile_img" id="file1" size="50"/>
+                <button id="btn_submit" onclick="javascript:fn_submit()">전송</button>  
 			</div>
+			
+			<div>
+
+</div>
+			
 		</div>
 
 	</main>
