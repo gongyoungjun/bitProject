@@ -19,16 +19,16 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class UploadForm  {
     
+//    private String path="C:\\Users\\BIT\\git\\bitProject\\sample\\src\\main\\webapp\\upload\\";
     private String path="C:\\Users\\BIT\\git\\bitProject\\sample\\src\\main\\webapp\\resources\\img\\play\\upload\\";
-    
-    @RequestMapping("/form")
+    @RequestMapping("/form1")
     public String form()
     {
         return "form";
     }
     
-    @RequestMapping(value="/result",method=RequestMethod.POST)
-    public String result(@RequestParam("file1") MultipartFile multi,HttpServletRequest request,HttpServletResponse response, Model model)
+    @RequestMapping(value="/result1",method=RequestMethod.POST)
+    public String result(@RequestParam("file2") MultipartFile multi,HttpServletRequest request,HttpServletResponse response, Model model)
     {
         String url = null;
         

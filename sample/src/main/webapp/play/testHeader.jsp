@@ -5,6 +5,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/play/index.css">
+
 <style>
 	.search{
 		/* position: relative; */
@@ -44,12 +45,16 @@
 		
         top: 0px;
       }
+ 
+
 
 </style> 
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
 <script>
 $(function(){
 	var bannerOffset = $('.topFixBanner').offset();
@@ -76,6 +81,19 @@ $(function(){
 		}); 
    });
     
+    $('.outerbtn').click(function(){
+        $('.innerbtn').slideUp();
+        if ($('.innerbtn').is(':hidden')){
+           $('.innerbtn').slideDown();
+        } else{
+           $('.innerbtn').slideUp();
+        }
+     });
+    $("button#write").click(function(){
+    	window.open("/web/play/new_squad.jsp", "..", "left=300, top=200, width=600, height=800");
+    	
+    });
+    
 });
 </script>
 </head>
@@ -84,7 +102,7 @@ $(function(){
 <c:choose>
 <c:when test="${userId == null}"> <%-- 로그인 안 한 경 우 --%>
 <nav class="topFixBanner" style="background:transparent; display:flex; flez-wrap:wrap; justify-content:space-between; align-items:center;">
-	<a align="right"   href="mainpage.jsp" style="width: 45px; height: auto; margin-left:0px;">
+	<a align="right"   href="/web/play/mainpage.jsp" style="width: 45px; height: auto; margin-left:0px;">
 	<img src="/web/resources/img/play/technology.png" style="width:60px; height: auto; margin-left:50px;">
 	</a>
 	
@@ -111,11 +129,11 @@ $(function(){
 		</span>
 
 		<span class="login">	
-			<a type="button" href="login.jsp" style="margin-left: 30px">로그인
+			<a type="button" href="/web/play/login.jsp" style="margin-left: 30px">로그인
 			</a>
 		</span>
 		<span class="signup">
-			<a type="button" href="signup.jsp" style="margin-left: 30px;margin-right: 30px">회원가입
+			<a type="button" href="/web/play/signup.jsp" style="margin-left: 30px;margin-right: 30px">회원가입
 			</a>
 		</span>
 	</div>
@@ -125,18 +143,22 @@ $(function(){
 <c:otherwise> <%-- 로그인 한 경 우 --%>
 
 <nav class="topFixBanner" style="background:transparent; display:flex; flez-wrap:wrap; justify-content:space-between; align-items:center;">
-	<div class="banner_left" style="flex-grow:1; float:left; text-align:left;"><a href="mainpage.jsp"><img src="/web/resources/img/play/technology.png"  style="width:60px; height: auto; margin-left:50px;"></a></div>
-	<div class="banner_middle" style="flex-grow:1; text-align:left;"></div>
-		<span class="new_squad">
-			<button id="new_squad" class="btn" style="margin:3px; background-color: #141414;">새 스쿼드</button>
+	<div class="banner_left" style="flex-grow:1; float:left; text-align:left;"><a href="/web/play/mainpage.jsp"><img src="/web/resources/img/play/technology.png" style="width:60px; height: auto; margin-left:50px;"></a></div>
+	<div class="banner_middle" style="flex-grow:1; text-align:left;">
+ 		<span class="accordion" id="new_squad" style="display:inline-block">
+			
+				<button id="new_squad" class="outerbtn" style="margin:3px; inline-block; background-color: #141414;">새 스쿼드</button >
+				<button hidden="hidden" id="write" class="innerbtn" style="margin:3px; inline-block; background-color: #141414;">일반</button>
+				<button hidden="hidden" id="reserve" class="innerbtn" style="margin:3px; inline-block; background-color: #141414;">예약</button>
+			
+ 		</span>
+		<span class="my_squad" id="my_squad">
+			<button id="my_squad" onclick="location.href='/web/play/mysquad.jsp'" class="btn" style="margin:3px; background-color: #141414;">내 스쿼드</button>
 		</span>
-		<span class="my_squad">
-			<button id="my_squad" onclick="location.href='play/mysquad.jsp'" class="btn" style="margin:3px; background-color: #141414;">내 스쿼드</button>
+		<span class="my_wallet" id="my_wallet">
+			<button id="my_wallet" onclick="location.href='/web/play/pay.jsp'" class="btn" style="margin:3px; background-color: #141414;">지갑</button>
 		</span>
-		<span class="my_wallet">
-			<button id="my_wallet" onclick="location.href='play/pay.jsp'" class="btn" style="margin:3px; background-color: #141414;">지갑</button>
-		</span>
-		
+	</div>
 	<div class="banner_right" style="flex-grow:2; float:right; text-align:right;">	
 		<span class="search">
 			<input type="text" placeholder="" />
@@ -144,7 +166,7 @@ $(function(){
 		</span>
 
 		<span class="my_page">
-			<button class="btn" onclick="location.href='play/mypage.jsp'" style="margin:3px; background-color: #141414;">마이페이지</button>
+			<button class="btn" onclick="location.href='/web/play/mypage.jsp'" style="margin:3px; background-color: #141414;">마이페이지</button>
 		</span>
 		<span class="logout">
 				<button id="logout" type="button" class="btn" style="margin:3px; background-color: #141414;">로그아웃</button>

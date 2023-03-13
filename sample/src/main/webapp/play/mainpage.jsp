@@ -73,7 +73,7 @@
 	
 	<section>
 		<div class="content-list">
-			<h1>인기 스쿼드</h1>
+			<a href="/web/squadBoardInfoSelect?no=1&hostid=blue&job=info"><h1>인기 스쿼드</h1></a>
        
 			<div class="prev">
 				<i class="fa-solid fa-angle-right prev-arrow"></i>

@@ -55,9 +55,9 @@
 	      <tx:method name="*" propagation="REQUIRED"/>	     
 	    </tx:attributes>	
 	</tx:advice>
-	<!-- <aop:config>
-	     <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.bit.web.dao.*.*(..))"/>	
-	</aop:config> -->
+	<aop:config>
+	     <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.bit.web.play.dao.*.*(..))"/>	
+	</aop:config>
 	
 	<beans:bean id="download" class="com.bit.web.play.vo.DownLoadView"/>
 	
@@ -79,7 +79,7 @@
 	  <beans:property name="defaultEncoding" value="UTF-8"></beans:property>
 	  <beans:property name="maxInMemorySize" value="10000000"></beans:property>
 	</beans:bean>
-	
+	                                    
 	<beans:bean id="loginInter" class="com.bit.web.play.action.IntercepterPro" scope="singleton"></beans:bean>
 	
 	<context:component-scan base-package="com.bit.web.play.controller" />
@@ -87,15 +87,15 @@
 	<context:component-scan base-package="com.bit.web.play.action" />
 	<context:component-scan base-package="com.bit.web.play.vo" />	
 	<context:component-scan base-package="com.bit.web.play.email" />
-	
-	
-	<!-- <interceptors>
-	   <interceptor>
+	<interceptors>
+	<interceptor>
 	      <mapping path="/loginIntercepter"/>
 	      <beans:ref bean="loginInter"/>
 	   </interceptor>
+	
+	</interceptors>
+	
 
-	</interceptors> -->
 	
 	
 	

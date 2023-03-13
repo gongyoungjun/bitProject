@@ -51,7 +51,7 @@ $(function(){
 	
 $("span#uniqueId a").click(function(){
 
-	let id=$("input[name='id']").val();
+	let id=$("input[name='members_id']").val();
 	   $.ajax({
 		   url:'/web/ajaxFindID',
 		   type:'POST',
@@ -61,8 +61,8 @@ $("span#uniqueId a").click(function(){
 		   success:function(result){
 			   if(result=='true'){
 				   $("span#sid1").html("<font style='blue'>중복</font>");
-				   $("input[name='id']").val('');
-				   $("input[name='id']").focus();
+				   $("input[name='members_id']").val('');
+				   $("input[name='members_id']").focus();
 			   }else{
 				   $("span#sid1").html("<font style='red'>가능</font>");					   
 			   }
@@ -126,7 +126,7 @@ $("span#unique a").click(function(){
 				||$("input#birth").val().length==0
 				||$("input#tel").val().length==0
 				||$("input#email").val().length==0
-				||$("input#profile_img").val().length==0
+// 				||$("input#profile_img").val().length==0
 		){
 		alert('다 입력해주세요');
 		return false;
@@ -164,7 +164,7 @@ $("span#unique a").click(function(){
 					
 						<input type="text"
 							style="background-color: #141414; margin-top: 10px; width: 300px; height: 50px"
-							name="id" placeholder="아이디" class="form-control" id="id" />
+							name="members_id" placeholder="아이디" class="form-control" id="id" />
 						<span class="buttonFuc" id="uniqueId"><br>
 						<a href="#" id="uniqueId">중복 </a><span id="sid1"></span></span>
 					</div>

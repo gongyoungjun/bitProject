@@ -19,30 +19,31 @@
 
 <!-- Custom CSS -->
 <!-- <link href="css/login.css" rel="stylesheet"> -->
-<!-- <link href="/web/resources/boardFront/css/clean-blog.css" -->
-<!-- 	rel="stylesheet"> -->
+<link href="/web/resources/boardFront/css/clean-blog.css"
+	rel="stylesheet">
 <!-- Custom Fonts -->
-<!-- <link -->
-<!-- 	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" -->
-<!-- 	rel="stylesheet" type="text/css"> -->
-<!-- <link -->
-<!-- 	href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' -->
-<!-- 	rel='stylesheet' type='text/css'> -->
-<!-- <link -->
-<!-- 	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' -->
-<!-- 	rel='stylesheet' type='text/css'> -->
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
+	rel='stylesheet' type='text/css'>
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css'>
+
 
 </head>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	
 	
-<script>
+<!-- <script> 
 //파일 업로드
 function fn_submit(){
         
         var form = new FormData();
-        form.append( "file1", $("#file1")[0].files[0] );
+        form.append("profile_img", $("#profile_img")[0].files[0] );
         
          jQuery.ajax({
              url : "/web/result"
@@ -60,33 +61,8 @@ function fn_submit(){
            }
        });
 }
-</script>	
+</script>	-->
 	
-<!-- <script type="text/javascript"> 
-    $(document).ready(function() {
-    	
-       // $("#profile_img").on("change", handleImgFileSelect);
-        $("a#sendButton").click(function(){        	
-
-               $.ajax({
-    			url:'/web/ajax',
-    			type:'POST',
-    			data:$("form[name='replyFrm']").serialize(),
-
-    		    enctype: 'multipart/form-data',
-    		    contentType:false,
-    		    processData:false,
-    		    success:function(result){
-    		    	console.log(result);
-    		    },
-    		    error:function(){
-    		    	alert('Error');
-    		    }
-    		});
-    	}); 
-       
-    });
-</script>	 -->
 
 <script type="text/javascript">
     //이미지 미리보기
@@ -119,32 +95,59 @@ function fn_submit(){
     }
 </script>
 	
+<script>
+		
+		//포로필 업데이트
+   $(function(){
+	 $("a#sendButton").click(function(){
+		 if($("input[name='nickname']").val().length!=0
+			 ||$("input#genre1").val().length!=0
+			 ||$("input#genre2").val().length!=0
+			 ||$("input#tel").val().length!=0
+			 ||$("input#email").val().length!=0
+			 ||$("input#aboutme").val().length!=0
+		
+			 
+		 ){
+			return false;
+		 
+// 		{if($("[type='password']").val().length==0|| $("textarea").val().length==0){
+// 			 alert('password or textarea Check!');
+// 			 $("[type='password']").val('');
+// 			 $("textarea").val('');
+// 			 return false;
+		 }
+		 $("form").submit();
+		 
+	 });
+ });		 
 	
-	
+</script>
 
 
 
 
 <body>
 
-    <form name="replyFrm" method="post">
+    <form name="profileUpdate" method="post">
 <!--header  -->
 <jsp:include page="testHeader.jsp"></jsp:include>
     <!--header  -->
     
     
 <%--     <input type="hidden" name="id" value="${user_id}"/> --%>
-    <main>
-        <div class="profile1" align="center" >
+    <main >
+        <div class="profile1"  align="center" >
             <img id="img" src="${profile_img}" style="max-width: 12%; height: auto; margin-top:70px; background-color: #141414;"/>
             
             <div>
 <!--             <div class="card"></div> -->
-         		<label for="file1">파일</label> 
-                <input type="file" name="profile_img" id="file1" size="50"/>
-                <button id="btn_submit" onclick="javascript:fn_submit()">전송</button>  
+         		<label for="profile_img"></label> 
+                <input type="file" name="profile_img" id="profile_img" size="50"/>
+                
 			</div>
-			
+			<a id="btn_submit" class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem; width:300px; height: 30px;"
+			onclick="javascript:fn_submit()">사진 업데이트</a>
 			<div>
 
 </div>
@@ -214,6 +217,8 @@ function fn_submit(){
 		
 		
     	<div class="form-group" align="center" >
+    	
+    		
     		<a id="sendButton" href="#" class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem; width:300px; height: 30px">확인</a>
 		</div>		
 	</div>

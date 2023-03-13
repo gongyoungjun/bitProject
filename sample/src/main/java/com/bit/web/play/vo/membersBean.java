@@ -2,13 +2,14 @@ package com.bit.web.play.vo;
 
 import java.util.Date;
 
+
+
 import lombok.Data;
 
 @Data
 public class membersBean {
 
-	private int members_no=1;
-	private String id;
+	private String members_id;
 	private String password;
 	private String nickname;
 	private String birth;

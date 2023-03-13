@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
+import com.bit.web.play.vo.squadboardBean;
 
 @Repository
 public class playDao extends SqlSessionDaoSupport{
@@ -41,12 +44,28 @@ public class playDao extends SqlSessionDaoSupport{
 		// TODO Auto-generated method stub
 		return this.getSqlSession().selectOne("loginPass", inputId);
 	}
+	// 스쿼드 모집 게시판 PK 생성
+	public int getSquadBoardSequence() {
+		return this.getSqlSession().selectOne("getSquadBoardSequence");
+	}
+	// 스쿼드 모집 글 insert
+	public void insertSquadBoard(squadboardBean bean) {
+		this.getSqlSession().insert("insertSquadBoard", bean);
+	}
+	// 유저 아이디로 회원번호 return
+	public int getUserNo(String writerId) {
+		return this.getSqlSession().selectOne("getUserNo", writerId);
+	}
+	// 유저 아이디로 닉네임 return
+	public String getUserName(String writerId) {
+		return this.getSqlSession().selectOne("getUserName", writerId);
+	}
 
 	//회원가입
 	public void insertSeqNumber(membersBean bean) {
 		this.getSqlSession().insert("insertSeqNumber", bean);
 	}
-	public Integer newAjaxGetSequence() {
+	public String newAjaxGetSequence() {
 		return this.getSqlSession().selectOne("newAjaxGetSequence");
 	}
 	
@@ -60,35 +79,46 @@ public class playDao extends SqlSessionDaoSupport{
 	}
 	
 	//프로필수정
-	
-	public Integer getSequence() {
-		return this.getSqlSession().selectOne("getSequence");
+	//이미지
+	public void updateImg(membersBean bean) {
+		this.getSqlSession().update("updateImg", bean);
 	}
+	//아이디 가져오기
+	public String loginCheck(String checkId) {
+		return this.getSqlSession().selectOne("loginCheck", checkId);
+	}
+	
 	public void updateReply(HashMap<String, Object>map) {
 		this.getSqlSession().update("updateReply",map);
-	}
-	public void updateStep(HashMap<String, Object>map) {
-		this.getSqlSession().update("updateStep",map);
-	}
+	}	
 
-	//프로필 수정(창영씨 버전)
-	public void updateBoard(membersBean bean) {
-		this.getSqlSession().update("updateBoard", bean);
-	}
-
-
-	
-	
-
-
-//	@Override
-//	public void updateData(Map<String, Object> map) throws Exception{
-//		SqlSession.insert("updateData",map);
+//	public String getTotalRow(HashMap<String, Object>map) {
+//		// TODO Auto-generated method stub
+//		return this.getSqlSession().selectOne("getTotalRow",map);
 //	}
 
 
 	
+	//스쿼드게시판 
 	
+
+	
+	//스쿼드게시판 - 상세검색
+	public Object selectSquadBoardInfo(int no) {
+		return this.getSqlSession().selectOne("selectSquadBoardInfo", no);
+	}
+	
+	//스쿼드게시판 - 호스트기준 스쿼드 정보 검색
+	public List<squadboardBean>selectSquadBoardHost(String id){
+		return this.getSqlSession().selectList("selectSquadBoardHost", id);
+	}
+	//호스트리뷰 검색 - 호스트기준
+	public List<hostreviewBean>selectHostReviewHost(String id){
+		return this.getSqlSession().selectList("selectHostReviewHost", id);
+	}
+
+
+
 	
 	
 	
@@ -101,66 +131,3 @@ public class playDao extends SqlSessionDaoSupport{
 }
 
 
-
-	
-	//아이디 중복체크
-//	@Repository
-//	public class UserDAOImpl implements UserDAO {
-//	    
-//	    @Autowired
-//	    private SqlSession sqlSession;
-//
-//	    @Override
-//	    public User getUserById(String id) {
-//	        return sqlSession.selectOne("user.getUserById", id);
-//	    }
-//	}
-	
-	
-//	
-//	//게시물 작성
-//	public void insertBoard(ReplyBoard2 Board) {
-//		this.getSqlSession().insert("insertBoard", Board);
-//	}
-//	
-//	//게시물
-//	public Integer getSequence() {
-//		return this.getSqlSession().selectOne("getSequence");
-//	}
-//	public void insertSeqNumber2(homeworkBean bean) {
-//		this.getSqlSession().insert("insertSeqNumber2", bean);
-//	}
-//	
-//	public void updateHit(int no) {
-//		this.getSqlSession().update("updateHit", no);
-//	}
-//	
-//	
-//	
-//	public void updateReply(HashMap<String, Object>map) {
-//		this.getSqlSession().update("updateReply",map);
-//	}
-//	public void updateStep(HashMap<String, Object>map) {
-//		this.getSqlSession().update("updateStep",map);
-//	}
-//	
-//	
-//	
-//	
-//	
-//	
-//	public String newAjaxGetId(String id) {
-//		return this.getSqlSession().selectOne("newAjaxGetId",id);
-//	}
-//	
-//	
-//	public String newgetDbPass(String id) {
-//		return this.getSqlSession().selectOne("com.bit.homework.homework-mapper.newgetDbPass", id);
-//	}
-//	
-//	public List<ReplyBoard>selectReplyBoard2(HashMap<String, Object>map){
-//		return this.getSqlSession().selectList("selectReplyBoard",map);
-//	}
-//	
-//
-//	
