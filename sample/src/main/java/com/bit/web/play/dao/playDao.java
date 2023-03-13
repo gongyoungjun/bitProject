@@ -25,7 +25,10 @@ import com.bit.web.play.vo.squadboardBean;
 
 @Repository
 public class playDao extends SqlSessionDaoSupport{
-	
+
+	@Autowired
+	SqlSession sqlSession;
+
 	@Autowired
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		super.setSqlSessionFactory(sqlSessionFactory);
@@ -33,10 +36,12 @@ public class playDao extends SqlSessionDaoSupport{
 	
 	//아이디 찾는거 
 	public String find_user_id(String email) {
+//		sqlSession.selectOne("idSearch", email);
 		return this.getSqlSession().selectOne("idSearch", email);
 	}
 	//비밀번호 찾기
 	public String find_user_pw(HashMap<String,Object> map) {
+//		sqlSession.selectOne("pwSearch", map);
 		return this.getSqlSession().selectOne("pwSearch", map);
 	}
 	//로그인 

@@ -5,8 +5,10 @@ import java.util.Date;
 
 
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 @Data
+@Alias("members")
 public class membersBean {
 
 	private String members_id;

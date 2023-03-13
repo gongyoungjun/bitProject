@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
-PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-config.dtd">
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration><!-- DB설정(Connection) -->
-   <typeAliases>
-     <typeAlias type="com.bit.web.play.vo.membersBean" alias="members"/>
-     <typeAlias type="com.bit.web.play.vo.squadboardBean" alias="squadboard"/>
-     <typeAlias type="com.bit.web.play.vo.hostreviewBean" alias="hostreview"/>
-   </typeAliases>
-   <mappers>
-   
-     <mapper resource="com/bit/web/play/dao/play-mapper.xml"/>  
-     
-   </mappers>
+    <settings>
+        <!-- TODO 0313 java는 무조건 camelcase 사용해야합니다.
+        아래와같이 설정하면 kebabcase  -> camelcase로 자동변환해줍니다.
+        game_img < 케밥
+        gameImg < 카멜
+        select game_img from .. . 쿼리하고,
+        vo에 변수이름을 gameImg 로 적어두면 자동으로 매핑시켜주는 설정입니다.
+        -->
+        <setting value="true" name="mapUnderscoreToCamelCase"/>   <!-- default : true -->
+    </settings>
+    <typeAliases>
+        <!--아래와 같이 패키지를 스캔하여 bean name으로 alias를 사용할수있습니다.
+        매번 추가할 필요가없어집니다.
+        membersBean 라는 이름으로 mapper에서 사용하면 추가 작업이 필요없으나..
+        membersBean 빈을 members로 alias 주셨기때문에
+        membersBean 빈에 어노테이션으로 이름을 따루 선언해주었습니다.
+        membersBean,squadboardBean,hostreviewBean  참조
+        -->
+        <package name="com.bit.web.play.vo"/>
+  <!--           <typeAlias type="com.bit.web.play.vo.membersBean" alias="members"/>
+             <typeAlias type="com.bit.web.play.vo.squadboardBean" alias="squadboard"/>
+             <typeAlias type="com.bit.web.play.vo.hostreviewBean" alias="hostreview"/>-->
+    </typeAliases>
 </configuration>
-
-
 
 
 

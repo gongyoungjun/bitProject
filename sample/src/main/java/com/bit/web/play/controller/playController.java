@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.bit.web.play.service.PlayService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.texen.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,16 +38,24 @@ import com.bit.web.play.vo.squadboardBean;
 import com.google.common.util.concurrent.Service;
 
 @Controller
+@Slf4j
 public class playController {
 	@Autowired
 	private playDao dao;
-	
-	
+
+	@Autowired
+	private PlayService playService;
+
 //	아이디 찾기
 	@RequestMapping(value = "idSearch", method = RequestMethod.GET)
 	@ResponseBody
 	public String sendId(@RequestParam(value ="email", required = false)String email) {
-		String checkedId = dao.find_user_id(email);
+//		String checkedId = dao.find_user_id(email);
+		//TODO 0313
+		//서비스를 사용해주어야합니다.
+		//트렌젝션의 발생도 서비스에서 시작되어야하구요
+		//서비스는
+		String checkedId = playService.find_user_id(email);
 		MailUtil.naverMailSend(email, "PlaySquad ID입니다.", checkedId);
 		return "success";
 	};
@@ -157,12 +167,33 @@ public class playController {
 	@RequestMapping(value = "newMember")
 
 	public String newAjaxCrudReplyAction(membersBean bean) { //requestparam 부분은 이미지를 받아오기
-	
+
 		//bean.setMembers_id(dao.newAjaxGetSequence());
-		System.out.println(bean); //값이 들어가는지 
-		
-		dao.insertSeqNumber(bean);
-		
+		//TODO 0313  log.debug 사용해주세요
+		//@Slf4j 롬복을 class에 선언해주시면 간단히 사용가능합니다.
+//		System.out.println(bean); //값이 들어가는지
+		log.debug("회원가입 {}", bean);
+
+		//TODO 0313 service interface가 필요합니다.
+		//controller 에서 바로 dao 호출하는건 권장하지 않는 방법입니다.
+		//단순한 로직이라도 서비스 인터페이스를 사용해야합니다.
+		//인터페이스는 약속이고, dao Repository는 서비스를 제공하는 사람이 자유롭게 사용하는 영역으로 나누어야 할거같습니다.
+		//서비스 인터페이스를 생성한다는건 서비스를 제공하는사람과 사용하는 사람의 약속입니다.
+		//서비스 인터페이스를 만들고 (insertSeqNumber)
+		//이서비스를 호출하면 회원을 가입해준다고 약속하는것이 인터페이스입니다.
+		//인터페이스로 제공하면, 누구나 가져다쓸수있게되며..(다른서비스에서),
+		//본인이 만든 서비스가 변경이 필요할경우, (파라미터 변경, 응답값 변경)
+		//이미 insertSeqNumber를 사용하는 사람은 오류가 날수있으므로, 변경이 필요해도 기존에 사용하던사람이
+		//오류없이 사용할수 있도록 하위호환을 지켜주셔야하며 (호출하면 어떤값이 온다 라는것을 지켜주어야합니다.)
+		//변경이 많다면 새로운 서비스를 만들어주는것이 일반적입니다./v1/insertSeqNumber -> /v2/insertSeqNumber
+
+//		dao.insertSeqNumber(bean);
+		//반면 서비스에서 가져다 사용하는 dao의 경우는
+		//필요하 바로 참조하는 서비스가 아니기에
+		// dao를 가져다 쓰는 사람의 하위호환가지 지켜줄 필요가 없습니다.
+		//dao는 반드시 서비스를 통해 호출하도록 강제하여
+		//서비스를 제공하는 사람의 자율성을 높여주어야 합니다.
+		playService.insertSeqNumber(bean);
 		return "redirect:/play/login.jsp";
 		
 	};
