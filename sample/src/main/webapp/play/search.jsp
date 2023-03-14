@@ -50,6 +50,21 @@
         }
     </script>
 
+<script>
+$(function(){
+	 $("span#search a").click(function(){
+		if($("#query").val().length==0|| $("#data").val().length==0){
+			alert('query or data Check!');
+			$("select#query").prop("selectedIndex",0);
+			$("input#data").val('');
+			return false;
+		}
+		$("form").submit();
+	 }) 
+ });
+
+</script>
+
 
 
 <body>
@@ -60,16 +75,16 @@
     
 	<!--검색창 -->
 
-    <form method="post">
+    <form method="get" action="/web/searchInfoSelect">
         <div class="search" style="height: 300px; min-width: 400px; margin-top: 300px" align="center">
            <td> 
-            <select  style="height: 60px; width:100px; background-color: #141414; font-style: white;vertical-align: middle; font-size: 0.4cm;">
+            <select id="query" name="query" style="height: 60px; width:100px; background-color: #141414; font-style: white;vertical-align: middle; font-size: 0.4cm;">
             	<option value="all">전체</option>
             	<option value="host">호스트</option>
             	<option value="category">카테고리</option>
             </select> 
-            <input type="text" class="." name="." style="height: 60px; width:400px; background-color: #141414; font-style: white;  font-size: 0.4cm;">
-			<button type="submit" class="btn btn-info search-btn" style="height: 60px; width:auto; background-color: #141414; font-style: white;
+            <input type="text" class="button" id="data" name="data" style="height: 60px; width:400px; background-color: #141414; font-style: white;  font-size: 0.4cm;">
+			<button  class="btn btn-info search-btn" style="height: 60px; width:auto; background-color: #141414; font-style: white;
 																		border: 1px; border-color: white">
 			검색</button>
 			</td>
@@ -77,21 +92,43 @@
 	</form>
 
 
-    <section>
-        <div class="content-list" style="height: 100px; min-width: 1200px;">
-            <h1 style="margin-left: 300px;">호스트</h1>
-            <div class="slider">
-            </div>
+    <table style="margin-left:300px">
+    
+        <thead class="content-list" style="height: 100px; min-width: 1200px;">
+        	<h1 style="margin-left: 300px;">호스트</h1>
+           <tr> 
+			<th scope="col" class="fir">NO.</th>
+			<th scope="col">IMG</th>
+			<th scope="col">TITLE</th>
+			<th scope="col">WRITER</th>
+			<th scope="col">REGDATE</th>
+			<th scope="col">HIT</th>		
 
-        </div>
-        <div class="content-list" style="height: 100px; min-width: 1200px;">
-            <h1 style="margin-left: 300px;">카테고리</h1>
-            <div class="slider">
-            </div>
+			</tr>
+        </thead>
+        
+		<tbody>
+		
+		<td>
+			${gamegenre_no}
+		</td>
+		<td>
+			${members_id}
+		</td>
+		<td>
+			${hostname}
+		</td>
+		<td>
+			${title}
+		</td>
+		<td>
+			${contents} 
+		</td>
+		<td>
+			${playtime}
+		</td>										
+		</tbody>
 
-        </div>
-
-    </section>
 
 
 

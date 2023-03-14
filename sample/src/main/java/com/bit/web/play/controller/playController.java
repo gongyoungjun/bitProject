@@ -1,5 +1,7 @@
 package com.bit.web.play.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
@@ -12,6 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.bit.web.play.service.PlayService;
+import com.bit.web.play.service.impl.PlayServiceImpl;
+
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.texen.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +43,7 @@ import com.bit.web.play.vo.squadboardBean;
 import com.google.common.util.concurrent.Service;
 
 @Controller
+@Slf4j
 public class playController {
 	@Autowired
 	private playDao dao;
@@ -159,12 +167,17 @@ public class playController {
 	public String newAjaxCrudReplyAction(membersBean bean) { //requestparam 부분은 이미지를 받아오기
 	
 		//bean.setMembers_id(dao.newAjaxGetSequence());
-		System.out.println(bean); //값이 들어가는지 
+//		System.out.println(bean); //값이 들어가는지 
+//		
+//		dao.insertSeqNumber(bean);
+//		
+//		return "redirect:/play/login.jsp";
+
+	
+		log.debug("회원가입 {}", bean);
 		
-		dao.insertSeqNumber(bean);
-		
+		PlayService.insertSeqNumber(bean); //오류가 계속 발생
 		return "redirect:/play/login.jsp";
-		
 	};
 	
 	//회원가입 - 아이디 중복체크
@@ -247,9 +260,20 @@ public class playController {
 			return "play/squadboard";
 		}
 
+		//검색 게시판
+		
 
-
-
+		// 게시물 목록 + 페이징 추가 + 검색
+		
+		@RequestMapping(value="searchInfoSelect", method = RequestMethod.GET)
+		public String searchInfoSelect(Model model, squadboardBean squadboard, 
+				String hostname,Object gamegenre_no) {
+			System.out.println(dao.selectHostNameList(hostname));
+			model.addAttribute("hostList", dao.selectHostNameList(hostname));
+			model.addAttribute("gameGenreList", dao.selectGamegenre_noList(gamegenre_no));
+			return "play/search";
+		
+		}
 
 }
 	        

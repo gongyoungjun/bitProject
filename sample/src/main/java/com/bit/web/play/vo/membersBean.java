@@ -2,11 +2,12 @@ package com.bit.web.play.vo;
 
 import java.util.Date;
 
-
+import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
 @Data
+@Alias("members")
 public class membersBean {
 
 	private String members_id;

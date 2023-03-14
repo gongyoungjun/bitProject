@@ -2,9 +2,12 @@ package com.bit.web.play.vo;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Data;
 
 @Data
+@Alias("squadboard")
 public class squadboardBean {
 	private int squadboard_no;
 	private int gamegenre_no;

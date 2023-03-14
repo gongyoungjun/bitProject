@@ -2,9 +2,12 @@ package com.bit.web.play.vo;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
+
 import lombok.Data;
 
 @Data
+@Alias("hostreview")
 public class hostreviewBean {
 	private int hostreview_no;
 	private String host_id;

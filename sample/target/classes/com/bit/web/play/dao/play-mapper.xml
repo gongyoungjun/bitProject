@@ -127,31 +127,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 
-<!-- 스쿼드게시판 PK select -->
-<select id="getSquadBoardSequence" resultType="Integer">
-SELECT SQUADBOARD_SEQ.NEXTVAL From Dual
-</select>
+	<!-- 스쿼드게시판 PK select -->
+	<select id="getSquadBoardSequence" resultType="Integer">
+		SELECT SQUADBOARD_SEQ.NEXTVAL From Dual
+	</select>
 
 
 
-<!-- id로 닉네임 select -->
-<select id="getUserName" parameterType="java.lang.String" resultType="java.lang.String">
-SELECT NICKNAME FROM MEMBERS
-WHERE MEMBERS_ID = #{value}
-</select>
+	<!-- id로 닉네임 select -->
+	<select id="getUserName" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT NICKNAME FROM MEMBERS
+		WHERE MEMBERS_ID = #{value}
+	</select>
+	
+	<!-- 스쿼드게시판 insert -->
+	<insert id="insertSquadBoard" parameterType="com.bit.web.play.vo.squadboardBean">
+		INSERT INTO SQUADBOARD
+		(SQUADBOARD_NO, GAMEGENRE_NO, MEMBERS_ID, HOSTNAME, TITLE, CONTENTS, USER_ACCEPTCNT, USER_MAXCNT, RECRUITOPTION, PLAYTIME, REGDATE, RESERVEDATE, SQUADSTATE, PRICE, PAYEDSTATE, FILENAME, TAGS)
+		VALUES(#{squadboard_no}, #{gamegenre_no}, #{members_id}, #{hostname}, #{title}, #{contents}, 
+		#{user_acceptcnt}, #{user_maxcnt}, #{recruitoption}, #{playtime}, SYSDATE, #{reservedate}, 
+		#{squadstate}, #{price}, #{payedstate}, #{filename}, #{tags})
+	</insert>
 
-<!-- 스쿼드게시판 insert -->
-<insert id="insertSquadBoard" parameterType="com.bit.web.play.vo.squadboardBean">
-INSERT INTO SQUADBOARD
-(SQUADBOARD_NO, GAMEGENRE_NO, MEMBERS_ID, HOSTNAME, TITLE, CONTENTS, USER_ACCEPTCNT, USER_MAXCNT, RECRUITOPTION, PLAYTIME, REGDATE, RESERVEDATE, SQUADSTATE, PRICE, PAYEDSTATE, FILENAME, TAGS)
-VALUES(#{squadboard_no}, #{gamegenre_no}, #{members_id}, #{hostname}, #{title}, #{contents}, 
-#{user_acceptcnt}, #{user_maxcnt}, #{recruitoption}, #{playtime}, SYSDATE, #{reservedate}, 
-#{squadstate}, #{price}, #{payedstate}, #{filename}, #{tags})
-</insert>
-
-
+	<!-- 검색 구현 -->
+	<select id="selectHostNameList" parameterType="java.lang.String" resultType="squadboard">
+		select gamegenre_no, members_id, hostname, title, contents, playtime, regdate
+		from squadboard
+		where hostname like '%'
+		order by regdate desc
+	</select>
 
 	
+
 	
 	
 </mapper>

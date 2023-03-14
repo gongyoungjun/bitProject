@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bit.web.play.vo.gamegenreBean;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
 import com.bit.web.play.vo.squadboardBean;
@@ -100,9 +101,7 @@ public class playDao extends SqlSessionDaoSupport{
 
 	
 	//스쿼드게시판 
-	
 
-	
 	//스쿼드게시판 - 상세검색
 	public Object selectSquadBoardInfo(int no) {
 		return this.getSqlSession().selectOne("selectSquadBoardInfo", no);
@@ -117,16 +116,21 @@ public class playDao extends SqlSessionDaoSupport{
 		return this.getSqlSession().selectList("selectHostReviewHost", id);
 	}
 
+	//검색
+	
 
-
-	
-	
-	
-	//로그인
-	public String newgetDbPass(String id) {
-		return this.getSqlSession().selectOne("com.bit.web.play.play-mapper.newgetDbPass", id);
+	// 게시물 목록
+	// 호스트 닉네임 기준
+	public List<squadboardBean> selectHostNameList(String hostname) {
+		return this.getSqlSession().selectList("selectHostNameList",hostname);
 	}
-	
+	// 게임장르 기준
+	public Object selectGamegenre_noList2(Object gamegenre_no) {
+		return this.getSqlSession().selectOne("selectGamegenre_noList",gamegenre_no);
+	}
+	public List<squadboardBean> selectGamegenre_noList(Object gamegenre_no) {
+		return this.getSqlSession().selectList("selectGamegenre_noList",gamegenre_no);
+	}
 	
 }
 

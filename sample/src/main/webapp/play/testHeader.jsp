@@ -93,7 +93,10 @@ $(function(){
     	window.open("/web/play/new_squad.jsp", "..", "left=300, top=200, width=600, height=800");
     	
     });
-    
+    $("button#search").click(function(){
+    	window.open("/web/play/search.jsp", "..", "left=300, top=200, width=600, height=800");
+    	
+    });
 });
 </script>
 </head>
@@ -161,8 +164,9 @@ $(function(){
 	</div>
 	<div class="banner_right" style="flex-grow:2; float:right; text-align:right;">	
 		<span class="search">
-			<input type="text" placeholder="" />
-					<i class="fa-solid fa-magnifying-glass"></i>
+<!-- 			<input type="text" placeholder="" /> -->
+<!-- 					<i class="fa-solid fa-magnifying-glass" id="search"></i> -->
+				<button id="search" class="fa-solid fa-magnifying-glass" style="margin:3px; inline-block; background-color: #141414;">검색</button>
 		</span>
 
 		<span class="my_page">
