@@ -1,52 +1,33 @@
 package com.bit.web.play.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.bit.web.play.service.PlayService;
-import com.bit.web.play.service.impl.PlayServiceImpl;
-
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.velocity.texen.util.FileUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.bit.web.play.dao.playDao;
 import com.bit.web.play.email.MailUtil;
+import com.bit.web.play.service.PlayService;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
 import com.bit.web.play.vo.squadboardBean;
-import com.google.common.util.concurrent.Service;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 @Controller
+@RequiredArgsConstructor
 @Slf4j
 public class playController {
-	@Autowired
-	private playDao dao;
+
+	private final playDao dao;
+
+	//TODO 0314
+	private final PlayService playService;
 	
 	
 //	아이디 찾기
@@ -175,8 +156,8 @@ public class playController {
 
 	
 		log.debug("회원가입 {}", bean);
-		
-		PlayService.insertSeqNumber(bean); //에러가 발생합니다. static으로 선언되지 않아서 메소드를 불러오지 못한다고 합니다.
+
+		playService.insertSeqNumber(bean); //에러가 발생합니다. static으로 선언되지 않아서 메소드를 불러오지 못한다고 합니다.
 		return "redirect:/play/login.jsp";
 	};
 	
