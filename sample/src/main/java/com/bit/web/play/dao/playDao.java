@@ -19,18 +19,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.bit.web.play.vo.gamegenreBean;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
 import com.bit.web.play.vo.squadboardBean;
 
+
+
 @Repository
 public class playDao extends SqlSessionDaoSupport{
-	
+
+	@Autowired
+	SqlSession sqlSession;
+
 	@Autowired
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		super.setSqlSessionFactory(sqlSessionFactory);
-	}	
+	}
 	
 	//아이디 찾는거 
 	public String find_user_id(String email) {

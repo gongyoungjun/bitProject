@@ -2,9 +2,8 @@ package com.bit.web.play.vo;
 
 import java.util.Date;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 @Data
 @Alias("members")

@@ -3,20 +3,26 @@ package com.bit.web.play.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+@Slf4j
 public class IntercepterPro extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("preHandle");
+
+		log.debug("preHandle");
+		//or
+		log.debug("preHandle : {}", request.getParameter("user_id"));
+		log.debug("preHandle : {}", request.getParameter("user_passwd"));
+
 		String user_id=request.getParameter("user_id");
 		String user_passwd=request.getParameter("user_passwd");		
 		if(!(user_id.equals("Admin")&& user_passwd.equals("1234"))) {
 			response.sendRedirect("intercepterMvc/adminLogin.jsp");
-			return false;
+			return false; 
 		}
 		return true;
 		
@@ -28,14 +34,7 @@ public class IntercepterPro extends HandlerInterceptorAdapter{
 		System.out.println("postHandle");
 		System.out.println(modelAndView.getModel().get("message"));
 		modelAndView.getModel().put("message", "ModifyMessage");
-		//int rs=10/0; error afterCompletionÀ¸·Î Exception°´Ã¼ Àü´Ş 
-		/***
-         * View¸¦ ·»´õ¸µÇÏ±â Àü¿¡ 
-         * postHandle ¸Ş¼Òµå°¡ È£ÃâµÈ´Ù.        
-         * modelAndView Á¤º¸¸¦ ¾Ë ¼ö ÀÖ´Ù.
-         * Æ¯Á¤ View¿¡ modelAndView °ªÀ» ¼öÁ¤ÇØ¾ßÇÒ ÇÊ¿ä°¡ ÀÖ´Ù¸é
-         * postHandle ¸Ş¼Òµå¿¡¼­ ÀÛ¾÷ÀÌ ÀÌ·ïÁö¸é µÈ´Ù.
-         */
+
 			
 	}
 	@Override
@@ -44,16 +43,86 @@ public class IntercepterPro extends HandlerInterceptorAdapter{
 		// TODO Auto-generated method stub
 		System.out.println("ex="+ex);
 		System.out.println("afterCompletion");
-		/***
-         * Å¬¶óÀÌ¾ğÆ®¿¡°Ô 
-         * ÃÖÁ¾ÀûÀ¸·Î Response¸¦ Àü´ŞÇÏ±â Àü¿¡
-         * È£ÃâµÇ´Â afterCompletion ¸Ş¼Òµå¿¡´Â
-         * Exception Á¤º¸°¡ ´ã°Ü¿Â´Ù.       
-         * afterCompletion ¸Ş¼Òµå¿¡¼­´Â
-         * responseÀÇ °ªÀ» Control ÇÏ°Å³ª
-         * Exception °ª¿¡ µû¸¥ ÇÚµé¸µÀ» ÇÏ¸é µÈ´Ù.
-         */
+
 		
 	}	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//package com.bit.web.play.action;
+//
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
+//
+//import org.springframework.web.servlet.ModelAndView;
+//import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+//
+//public class IntercepterPro extends HandlerInterceptorAdapter{
+//	@Override
+//	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+//			throws Exception {
+//		// TODO Auto-generated method stub
+//		System.out.println("preHandle");
+//		String user_id=request.getParameter("user_id");
+//		String user_passwd=request.getParameter("user_passwd");		
+//		if(!(user_id.equals("Admin")&& user_passwd.equals("1234"))) {
+//			response.sendRedirect("intercepterMvc/adminLogin.jsp");
+//			return false;
+//		}
+//		return true;
+//		
+//	}
+//	@Override
+//	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+//			ModelAndView modelAndView) throws Exception {
+//		// TODO Auto-generated method stub
+//		System.out.println("postHandle");
+//		System.out.println(modelAndView.getModel().get("message"));
+//		modelAndView.getModel().put("message", "ModifyMessage");
+//		//int rs=10/0; error afterCompletionìœ¼ë¡œ Exceptionê°ì²´ ì „ë‹¬ 
+//		/***
+//         * Viewë¥¼ ë Œë”ë§í•˜ê¸° ì „ì— 
+//         * postHandle ë©”ì†Œë“œê°€ í˜¸ì¶œëœë‹¤.        
+//         * modelAndView ì •ë³´ë¥¼ ì•Œ ìˆ˜ ìˆë‹¤.
+//         * íŠ¹ì • Viewì— modelAndView ê°’ì„ ìˆ˜ì •í•´ì•¼í•  í•„ìš”ê°€ ìˆë‹¤ë©´
+//         * postHandle ë©”ì†Œë“œì—ì„œ ì‘ì—…ì´ ì´ë¤„ì§€ë©´ ëœë‹¤.
+//         */
+//			
+//	}
+//	@Override
+//	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+//			throws Exception {
+//		// TODO Auto-generated method stub
+//		System.out.println("ex="+ex);
+//		System.out.println("afterCompletion");
+//		/***
+//         * í´ë¼ì´ì–¸íŠ¸ì—ê²Œ 
+//         * ìµœì¢…ì ìœ¼ë¡œ Responseë¥¼ ì „ë‹¬í•˜ê¸° ì „ì—
+//         * í˜¸ì¶œë˜ëŠ” afterCompletion ë©”ì†Œë“œì—ëŠ”
+//         * Exception ì •ë³´ê°€ ë‹´ê²¨ì˜¨ë‹¤.       
+//         * afterCompletion ë©”ì†Œë“œì—ì„œëŠ”
+//         * responseì˜ ê°’ì„ Control í•˜ê±°ë‚˜
+//         * Exception ê°’ì— ë”°ë¥¸ í•¸ë“¤ë§ì„ í•˜ë©´ ëœë‹¤.
+//         */
+//		
+//	}	
+//
+//}

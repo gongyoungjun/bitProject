@@ -15,7 +15,7 @@
 	integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/play/index.css">
+	href="../resources/css/play/index.css">
 
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>

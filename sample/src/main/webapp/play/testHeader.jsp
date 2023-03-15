@@ -1,24 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-<!DOCTYPE html>
-<html>
-<head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/play/index.css">
-
 <style>
 	.search{
 		/* position: relative; */
 	
 	}
 	.topFixBanner {
-
         text-align: left; 
-
         background-color: #ffffff;
-
         padding: 20px 0px 20px 20px;
-
 		/* border-bottom:#666666 solid 2px; */
 		
 		display:flex;
@@ -30,7 +22,6 @@
 		align-items:center;
       }
       .topFixBannerFixed {
-
         position: sticky;
         
 		/* border-bottom:#666666 solid 2px; */
@@ -46,15 +37,10 @@
         top: 0px;
       }
  
-
-
 </style> 
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-
 <script>
 $(function(){
 	var bannerOffset = $('.topFixBanner').offset();
@@ -184,8 +170,3 @@ $(function(){
 <div class ="testContents">
 
 </div>
-
-
-
-</body>
-</html>

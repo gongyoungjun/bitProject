@@ -1,35 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
-PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-config.dtd">
-
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration><!-- DB설정(Connection) -->
     <settings>
-     
-    <setting value="true" name="mapUnderscoreToCamelCase"/> 
-    
+
+        <setting value="true" name="mapUnderscoreToCamelCase"/>   <!-- default : true -->
     </settings>
     <typeAliases>
-
         <package name="com.bit.web.play.vo"/>
-  
     </typeAliases>
 </configuration>
-
-<!-- <configuration>DB설정(Connection)
-   <typeAliases>
-     <typeAlias type="com.bit.web.play.vo.membersBean" alias="members"/>
-     <typeAlias type="com.bit.web.play.vo.squadboardBean" alias="squadboard"/>
-     <typeAlias type="com.bit.web.play.vo.hostreviewBean" alias="hostreview"/>
-   </typeAliases>
-   <mappers>
-   
-     <mapper resource="com/bit/web/play/dao/play-mapper.xml"/>  
-     
-   </mappers>
-</configuration> -->
-
-
-
 
 
