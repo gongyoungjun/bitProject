@@ -8,6 +8,7 @@ import com.bit.web.play.vo.membersBean;
 import com.bit.web.play.vo.squadboardBean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 @Controller
+//TODO 0314
 @RequiredArgsConstructor
 @Slf4j
 public class playController {
 
 	private final playDao dao;
-
-	//TODO 0314
+	//TODO 0314 서비스를 wired 해주셔야합니다.
 	private final PlayService playService;
 	
 	
@@ -157,7 +158,8 @@ public class playController {
 	
 		log.debug("회원가입 {}", bean);
 
-		playService.insertSeqNumber(bean); //에러가 발생합니다. static으로 선언되지 않아서 메소드를 불러오지 못한다고 합니다.
+		//TODO 0314
+		playService.insertSeqNumber(bean); //오류가 계속 발생
 		return "redirect:/play/login.jsp";
 	};
 	
