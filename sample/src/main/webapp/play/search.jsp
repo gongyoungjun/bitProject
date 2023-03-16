@@ -16,52 +16,11 @@
 </head>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script type="text/javascript">
-        const next = document.querySelectorAll('.next');
-        const prev = document.querySelectorAll('.prev');
-        const slider = document.querySelectorAll('.slider')
+	
 
-        for(let i =0;i<slider.length;i++){
-            getMovies(slider[i],i+1);
-            makeSlider(slider[i],prev[i],next[i]);
-        }
-        function makeSlider(element,prev,next){
-            next.addEventListener('click',()=>{
-                const offsetX = element.offsetWidth;
-                element.scrollBy(offsetX,0)
-            })
-            prev.addEventListener('click',()=>{
-                const offsetX = element.offsetWidth;
-                element.scrollBy(-offsetX,0)
-            })
-        }
-        function getMovies(element,page){
-            fetch(`https://yts.mx/api/v2/list_movies.json?limit=20&sort_by=rating&page=${page}`)
-                .then(data=>data.json())
-                .then(data=>{
-                    const movies = data.data.movies;
-                    movies.forEach(movie=>{
-                        const div = document.createElement('div');
-                        div.className='item';
-                        div.innerHTML = `<img src="${movie.medium_cover_image}" alt="">`;
-                        element.appendChild(div);
-                    })
-                })
-        }
-    </script>
 
 <script>
-$(function(){
-	 $("span#search a").click(function(){
-		if($("#query").val().length==0|| $("#data").val().length==0){
-			alert('query or data Check!');
-			$("select#query").prop("selectedIndex",0);
-			$("input#data").val('');
-			return false;
-		}
-		$("form").submit();
-	 }) 
- });
+
 
 </script>
 
@@ -75,62 +34,41 @@ $(function(){
     
 	<!--검색창 -->
 
-    <form method="get" action="/web/searchInfoSelect">
+    <form method="get" name="search-form">
         <div class="search" style="height: 300px; min-width: 400px; margin-top: 300px" align="center">
+
            <td> 
-            <select id="query" name="query" style="height: 60px; width:100px; background-color: #141414; font-style: white;vertical-align: middle; font-size: 0.4cm;">
+           
+            <select id="searchType" name="searchType" style="height: 60px; width:100px; background-color: #141414; font-style: white;vertical-align: middle; font-size: 0.4cm;">
             	<option value="all">전체</option>
             	<option value="host">호스트</option>
             	<option value="category">카테고리</option>
             </select> 
             <input type="text" class="button" id="data" name="data" style="height: 60px; width:400px; background-color: #141414; font-style: white;  font-size: 0.4cm;">
-			<button  class="btn btn-info search-btn" style="height: 60px; width:auto; background-color: #141414; font-style: white;
+			<a href="/web/searchInfoSelect">
+			<button   class="btn btn-info search-btn" style="height: 60px; width:auto; background-color: #141414; font-style: white;
 																		border: 1px; border-color: white">
-			검색</button>
+				검색</button></a>
 			</td>
+			
+
+			
 		</div>
 	</form>
+	
+	<c:forEach  var="list" >
+	
+	<div class="board-meta" style="font-weight: 400; font-size: 1.2rem; color: #141414;">
+
+ <p>
+ <i class="glyphicon glyphicon-user"></i>${list.hostname} 
+ <i class="glyphicon glyphicon-user"></i>${list.contents}
+ <i class="glyphicon glyphicon-user"></i> ${list.playtime}
+ <i class="glyphicon glyphicon-user"></i> ${list.regdate}
+ </p>
 
 
-    <table style="margin-left:300px">
-    
-        <thead class="content-list" style="height: 100px; min-width: 1200px;">
-        	<h1 style="margin-left: 300px;">호스트</h1>
-           <tr> 
-			<th scope="col" class="fir">NO.</th>
-			<th scope="col">IMG</th>
-			<th scope="col">TITLE</th>
-			<th scope="col">WRITER</th>
-			<th scope="col">REGDATE</th>
-			<th scope="col">HIT</th>		
-
-			</tr>
-        </thead>
-        
-		<tbody>
-		
-		<td>
-			${gamegenre_no}
-		</td>
-		<td>
-			${members_id}
-		</td>
-		<td>
-			${hostname}
-		</td>
-		<td>
-			${title}
-		</td>
-		<td>
-			${contents} 
-		</td>
-		<td>
-			${playtime}
-		</td>										
-		</tbody>
-
-
-
-
+</div>
+</c:forEach>
 </body>
 </html>

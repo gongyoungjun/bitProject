@@ -11,62 +11,63 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bit.web.play.vo.gamegenreBean;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
 import com.bit.web.play.vo.squadboardBean;
 
-
-
 @Repository
 public class playDao extends SqlSessionDaoSupport{
+	
 
-	@Autowired
-	SqlSession sqlSession;
-
+	
+	
 	@Autowired
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		super.setSqlSessionFactory(sqlSessionFactory);
-	}
+	}	
 	
-	//¾ÆÀÌµğ Ã£´Â°Å 
+	//ì•„ì´ë”” ì°¾ëŠ”ê±° 
 	public String find_user_id(String email) {
 		return this.getSqlSession().selectOne("idSearch", email);
 	}
-	//ºñ¹Ğ¹øÈ£ Ã£±â
+	//ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°
 	public String find_user_pw(HashMap<String,Object> map) {
 		return this.getSqlSession().selectOne("pwSearch", map);
 	}
-	//·Î±×ÀÎ 
+	//ë¡œê·¸ì¸ 
 	public String loginPass(String inputId) {
 		// TODO Auto-generated method stub
 		return this.getSqlSession().selectOne("loginPass", inputId);
 	}
-	// ½ºÄõµå ¸ğÁı °Ô½ÃÆÇ PK »ı¼º
+	// ìŠ¤ì¿¼ë“œ ëª¨ì§‘ ê²Œì‹œíŒ PK ìƒì„±
 	public int getSquadBoardSequence() {
 		return this.getSqlSession().selectOne("getSquadBoardSequence");
 	}
-	// ½ºÄõµå ¸ğÁı ±Û insert
+	// ìŠ¤ì¿¼ë“œ ëª¨ì§‘ ê¸€ insert
 	public void insertSquadBoard(squadboardBean bean) {
 		this.getSqlSession().insert("insertSquadBoard", bean);
 	}
-	// À¯Àú ¾ÆÀÌµğ·Î È¸¿ø¹øÈ£ return
+	// ìœ ì € ì•„ì´ë””ë¡œ íšŒì›ë²ˆí˜¸ return
 	public int getUserNo(String writerId) {
 		return this.getSqlSession().selectOne("getUserNo", writerId);
 	}
-	// À¯Àú ¾ÆÀÌµğ·Î ´Ğ³×ÀÓ return
+	// ìœ ì € ì•„ì´ë””ë¡œ ë‹‰ë„¤ì„ return
 	public String getUserName(String writerId) {
 		return this.getSqlSession().selectOne("getUserName", writerId);
 	}
 
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	public void insertSeqNumber(membersBean bean) {
 		this.getSqlSession().insert("insertSeqNumber", bean);
 	}
@@ -74,21 +75,21 @@ public class playDao extends SqlSessionDaoSupport{
 		return this.getSqlSession().selectOne("newAjaxGetSequence");
 	}
 	
-	//È¸¿ø°¡ÀÔ - ¾ÆÀÌµğ Áßº¹
+	//íšŒì›ê°€ì… - ì•„ì´ë”” ì¤‘ë³µ
 	public String ajaxGetId(String id) {
 		return this.getSqlSession().selectOne("ajaxGetId", id);
 	}
-	//È¸¿ø°¡ÀÔ - ´Ğ³×ÀÓ Áßº¹
+	//íšŒì›ê°€ì… - ë‹‰ë„¤ì„ ì¤‘ë³µ
 	public String ajaxGetNickname(String nickname) {
 		return this.getSqlSession().selectOne("ajaxGetNickname", nickname);
 	}
 	
-	//ÇÁ·ÎÇÊ¼öÁ¤
-	//ÀÌ¹ÌÁö
+	//í”„ë¡œí•„ìˆ˜ì •
+	//ì´ë¯¸ì§€
 	public void updateImg(membersBean bean) {
 		this.getSqlSession().update("updateImg", bean);
 	}
-	//¾ÆÀÌµğ °¡Á®¿À±â
+	//ì•„ì´ë”” ê°€ì ¸ì˜¤ê¸°
 	public String loginCheck(String checkId) {
 		return this.getSqlSession().selectOne("loginCheck", checkId);
 	}
@@ -104,35 +105,37 @@ public class playDao extends SqlSessionDaoSupport{
 
 
 	
-	//½ºÄõµå°Ô½ÃÆÇ 
+	//ìŠ¤ì¿¼ë“œê²Œì‹œíŒ 
 
-	//½ºÄõµå°Ô½ÃÆÇ - »ó¼¼°Ë»ö
+	//ìŠ¤ì¿¼ë“œê²Œì‹œíŒ - ìƒì„¸ê²€ìƒ‰
 	public Object selectSquadBoardInfo(int no) {
 		return this.getSqlSession().selectOne("selectSquadBoardInfo", no);
 	}
 	
-	//½ºÄõµå°Ô½ÃÆÇ - È£½ºÆ®±âÁØ ½ºÄõµå Á¤º¸ °Ë»ö
+	//ìŠ¤ì¿¼ë“œê²Œì‹œíŒ - í˜¸ìŠ¤íŠ¸ê¸°ì¤€ ìŠ¤ì¿¼ë“œ ì •ë³´ ê²€ìƒ‰
 	public List<squadboardBean>selectSquadBoardHost(String id){
 		return this.getSqlSession().selectList("selectSquadBoardHost", id);
 	}
-	//È£½ºÆ®¸®ºä °Ë»ö - È£½ºÆ®±âÁØ
+	//í˜¸ìŠ¤íŠ¸ë¦¬ë·° ê²€ìƒ‰ - í˜¸ìŠ¤íŠ¸ê¸°ì¤€
 	public List<hostreviewBean>selectHostReviewHost(String id){
 		return this.getSqlSession().selectList("selectHostReviewHost", id);
 	}
 
-	//°Ë»ö
-	
 
-	// °Ô½Ã¹° ¸ñ·Ï
-	// È£½ºÆ® ´Ğ³×ÀÓ ±âÁØ
+	
+	//ê²€ìƒ‰
+
+	public Object selectSearchList(int squadboard_no){
+		return this.getSqlSession().selectOne("selectSearchList", squadboard_no);
+	}
+	
+	// í˜¸ìŠ¤íŠ¸ ë‹‰ë„¤ì„ ê¸°ì¤€
 	public List<squadboardBean> selectHostNameList(String hostname) {
 		return this.getSqlSession().selectList("selectHostNameList",hostname);
 	}
-	// °ÔÀÓÀå¸£ ±âÁØ
-	public Object selectGamegenre_noList2(Object gamegenre_no) {
-		return this.getSqlSession().selectOne("selectGamegenre_noList",gamegenre_no);
-	}
-	public List<squadboardBean> selectGamegenre_noList(Object gamegenre_no) {
+	// ê²Œì„ì¥ë¥´ ê¸°ì¤€
+
+	public List<squadboardBean> selectGamegenre_noList(int gamegenre_no) {
 		return this.getSqlSession().selectList("selectGamegenre_noList",gamegenre_no);
 	}
 	

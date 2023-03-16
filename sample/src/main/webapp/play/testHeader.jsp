@@ -8,9 +8,13 @@
 	
 	}
 	.topFixBanner {
+
         text-align: left; 
+
         background-color: #ffffff;
+
         padding: 20px 0px 20px 20px;
+
 		/* border-bottom:#666666 solid 2px; */
 		
 		display:flex;
@@ -22,6 +26,7 @@
 		align-items:center;
       }
       .topFixBannerFixed {
+
         position: sticky;
         
 		/* border-bottom:#666666 solid 2px; */
@@ -37,6 +42,8 @@
         top: 0px;
       }
  
+
+
 </style> 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>

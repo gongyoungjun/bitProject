@@ -3,6 +3,7 @@ package com.bit.web.play.controller;
 import com.bit.web.play.dao.playDao;
 import com.bit.web.play.email.MailUtil;
 import com.bit.web.play.service.PlayService;
+import com.bit.web.play.service.impl.PlayServiceImpl;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
 import com.bit.web.play.vo.squadboardBean;
@@ -19,6 +20,7 @@ import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 //TODO 0314
@@ -158,8 +160,8 @@ public class playController {
 	
 		log.debug("회원가입 {}", bean);
 
-		//TODO 0314
-		playService.insertSeqNumber(bean); //오류가 계속 발생
+		
+		playService.insertSeqNumber(bean); 
 		return "redirect:/play/login.jsp";
 	};
 	
@@ -248,10 +250,13 @@ public class playController {
 
 		// 게시물 목록 + 페이징 추가 + 검색
 		
+		
 		@RequestMapping(value="searchInfoSelect", method = RequestMethod.GET)
 		public String searchInfoSelect(Model model, squadboardBean squadboard, 
-				String hostname,Object gamegenre_no) {
-			System.out.println(dao.selectHostNameList(hostname));
+			int squadboard_no, String hostname,int gamegenre_no) {
+			System.out.println(dao.selectSearchList(squadboard_no));
+			
+			model.addAttribute("squadList", dao.selectSearchList(squadboard_no));
 			model.addAttribute("hostList", dao.selectHostNameList(hostname));
 			model.addAttribute("gameGenreList", dao.selectGamegenre_noList(gamegenre_no));
 			return "play/search";

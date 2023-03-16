@@ -49,6 +49,8 @@
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
 		<beans:property name="configLocation" value="/WEB-INF/Config.xml"></beans:property>
 
+
+
 		<beans:property name="mapperLocations" value="classpath:/mappers/*Mapper.xml" />
 	</beans:bean>
 
