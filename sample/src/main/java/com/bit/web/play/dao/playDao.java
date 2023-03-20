@@ -138,10 +138,10 @@ public class playDao extends SqlSessionDaoSupport{
 	public List<squadboardBean> selectHostNameList(String hostname) {
 		return this.getSqlSession().selectList("selectHostNameList",hostname);
 	}
-	// 게임장르 기준
+	// 타이틀 기준
 
-	public List<squadboardBean> selectGamegenre_noList(int gamegenre_no) {
-		return this.getSqlSession().selectList("selectGamegenre_noList",gamegenre_no);
+	public List<squadboardBean> selectTitleList(String title) {
+		return this.getSqlSession().selectList("selectTitleList",title);
 	}
 	
 	

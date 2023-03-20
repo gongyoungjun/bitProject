@@ -42,8 +42,8 @@ public class PlayServiceImpl implements PlayService {
 	}
 	
 	@Override
-	public List<squadboardBean> selectGamegenre_noList(int gamegenre_no) {
-		return dao.selectGamegenre_noList(gamegenre_no);
+	public List<squadboardBean> selectTitleList(String title) {
+		return dao.selectTitleList(title);
 	}
 
 	

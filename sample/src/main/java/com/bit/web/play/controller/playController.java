@@ -292,12 +292,12 @@ public class playController {
 //		// 게시물 목록 + 페이징 추가 + 검색
 
 		@RequestMapping(value="listPageSearch", method = RequestMethod.GET)
-		public String searchInfoSelect(squadboardBean bean, Model model,int squadboard_no, String hostname,int gamegenre_no) {
+		public String searchInfoSelect(squadboardBean bean, Model model,int squadboard_no, String hostname,String title) {
 			//System.out.println(dao.selectSearchList(squadboard_no));
 			
 			model.addAttribute("squadList", playService.selectSearchList(squadboard_no));
 			model.addAttribute("hostList", playService.selectHostNameList(hostname));
-			model.addAttribute("gameGenreList", playService.selectGamegenre_noList(gamegenre_no));
+			model.addAttribute("titleList", playService.selectTitleList(title));
 			return "play/search";
 		
 		}

@@ -61,6 +61,7 @@ $(function(){
 
 	<div align="center" style="margin:200px; color:black; background:#141414;">
 		<select id="query" name="query" >
+		    <option selected="selected" value="all">선택</option>
 		    <option value="all">전체</option>
 	        <option value="host">호스트</option>
 		    <option value="squard">스쿼드</option>

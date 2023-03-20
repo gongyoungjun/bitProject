@@ -179,11 +179,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<!-- 검색 구현 -->
-	<select id="selectSearchList" parameterType="java.lang.String" resultType="squadboard">
-		select gamegenre_no, members_id, hostname, title, contents, playtime, regdate
+<!-- 	<select id="selectSearchList" parameterType="java.lang.String" resultType="com.bit.web.play.vo.squadboardBean"> -->
+<!-- 		select gamegenre_no, members_id, hostname, title, contents, playtime, regdate -->
+<!-- 		from squadboard -->
+<!-- 		where hostname like '%' -->
+<!-- 		order by regdate desc -->
+<!-- 	</select> -->
+
+		<select id="listPageSearch" parameterType="hashMap" resultType="com.bit.web.play.vo.squadboardBean">
+		select SQUADBOARD_NO, gamegenre_no, members_id, hostname, title, contents, playtime, regdate
 		from squadboard
-		where hostname like '%'
-		order by regdate desc
+		
+		<if test='query.equals("all")'>
+			WHERE hostname LIKE '%'||#{hostname}||'%'
+				or  title LIKE '%'||#{title}||'%'
+		</if>
+		
+		<if test='query.equals("host")'>
+			WHERE hostname LIKE '%'||#{hostname}||'%'
+		</if>
+		
+		<if test='query.equals("squard")'>
+			WHERE title LIKE '%'||#{title}||'%'
+		</if>
+
+
 	</select>
 
 	

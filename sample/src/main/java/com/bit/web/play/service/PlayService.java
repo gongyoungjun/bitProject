@@ -20,7 +20,7 @@ public interface PlayService {
 
     public List<squadboardBean> selectHostNameList(String hostname);
     
-    List<squadboardBean> selectGamegenre_noList(int gamegenre_no);
+    public List<squadboardBean> selectTitleList(String title);
     
 
 
