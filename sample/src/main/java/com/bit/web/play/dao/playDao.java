@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bit.web.play.vo.NoticeBoardBean;
 import com.bit.web.play.vo.gamegenreBean;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
@@ -84,6 +85,12 @@ public class playDao extends SqlSessionDaoSupport{
 		return this.getSqlSession().selectOne("ajaxGetNickname", nickname);
 	}
 	
+	//권한
+	public String selectAuthority(String inputId) {
+		// TODO Auto-generated method stub
+		return this.getSqlSession().selectOne("selectAuthority", inputId);
+	}
+	
 	//프로필수정
 	//이미지
 	public void updateImg(membersBean bean) {
@@ -120,13 +127,11 @@ public class playDao extends SqlSessionDaoSupport{
 	public List<hostreviewBean>selectHostReviewHost(String id){
 		return this.getSqlSession().selectList("selectHostReviewHost", id);
 	}
-
-
 	
 	//검색
-
+	
 	public Object selectSearchList(int squadboard_no){
-		return this.getSqlSession().selectOne("selectSearchList", squadboard_no);
+		return this.getSqlSession().selectList("selectSearchList", squadboard_no);
 	}
 	
 	// 호스트 닉네임 기준
@@ -138,6 +143,38 @@ public class playDao extends SqlSessionDaoSupport{
 	public List<squadboardBean> selectGamegenre_noList(int gamegenre_no) {
 		return this.getSqlSession().selectList("selectGamegenre_noList",gamegenre_no);
 	}
+	
+	
+	// 모집중인 스쿼드 리스트
+	public List<squadboardBean> squadstate0Select(){
+		return this.getSqlSession().selectList("squadstate0Select");
+	}
+	// 인기게임 리스트
+	public List<gamegenreBean> popularGameListSelect(){
+		return this.getSqlSession().selectList("popularGameListSelect");
+	}
+	// 인기 스쿼드 리스트 호스트 팔로워순
+	public List<squadboardBean> squadPopularSelect(){
+		return this.getSqlSession().selectList("squadPopularSelect");
+	}
+	
+	//공지사항NO
+	public Integer getSequence2() {
+		return this.getSqlSession().selectOne("getSequence2");
+	}
+	//공지사항 insert
+	public String insertNoticeBoard(NoticeBoardBean bean) {
+		return this.getSqlSession().selectOne("insertNoticeBoard", bean);
+	}
+	//공지사항 select
+	public List<NoticeBoardBean> selectNoticeBoard(){
+		return this.getSqlSession().selectList("selectNoticeBoard");
+	}
+	
+
+	
+	
+	
 	
 }
 

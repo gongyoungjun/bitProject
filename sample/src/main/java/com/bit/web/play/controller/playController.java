@@ -6,7 +6,9 @@ import com.bit.web.play.service.PlayService;
 import com.bit.web.play.service.impl.PlayServiceImpl;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
+import com.bit.web.play.vo.searchType;
 import com.bit.web.play.vo.squadboardBean;
+import com.bit.web.play.vo.gamegenreBean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.bit.web.play.vo.NoticeBoardBean;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileOutputStream;
@@ -59,11 +62,14 @@ public class playController {
 							HttpServletRequest req) {
 		
 		 String loginPass = dao.loginPass(inputId);
+		 String authority = dao.selectAuthority(inputId);
 		 System.out.println(inputId);
 		 System.out.println(inputPassword);
 		 System.out.println(loginPass);
 		 if(loginPass.equals(inputPassword)) {
 			 req.getSession().setAttribute("userId", inputId);
+			 req.getSession().setAttribute("userAuthority", authority);
+			 System.out.println(dao.selectAuthority(inputId));
 			 req.getSession().setMaxInactiveInterval(60*60*24);
 			 return "success";
 		 }else { 
@@ -72,12 +78,13 @@ public class playController {
 	};
 	
 //	로그아웃
-	@RequestMapping(value = "logoutAction", method = RequestMethod.GET)
+	@RequestMapping(value = "logoutAction")
 	@ResponseBody
 	public String logoutAction(HttpServletRequest req) {
 		System.out.println("User Logout");
 		req.getSession().invalidate();
-		return "logout success";
+		System.out.println("Session Deleted");
+		return "Logout Success";
 	};
 	
 	
@@ -140,27 +147,43 @@ public class playController {
 			dao.insertSquadBoard(bean);		
 			System.out.println("Board Insert Success!");
 			return"insert success";
-		}
-
+		};
+		
+	// 모집중인 스쿼드
+	@GetMapping(value = "squadstate0ListAction")
+	@ResponseBody
+	public List<squadboardBean> mainPageListAction(Model model) {
+		//model.addAttribute("mojib", dao.squadstate0Select());
+		//System.out.println(model);
+		System.out.println(dao.squadstate0Select());
+		return  dao.squadstate0Select();
+	};
+	
+	// 인기게임
+	@GetMapping(value = "popularGameListAction")
+	@ResponseBody
+	public List<gamegenreBean> popularGameListAction(){
+		System.out.println(dao.popularGameListSelect());
+		return dao.popularGameListSelect();
+	};
+	
+	// 인기스쿼드 호스트 팔로워순
+	@GetMapping(value = "squadPopularSelectAction")
+	@ResponseBody
+	public List<squadboardBean> squadPopularSelectAction(){
+		return dao.squadPopularSelect();
+	};
+	
 
 
 	//회원가입
 	
 	@RequestMapping(value = "newMember")
 
-	public String newAjaxCrudReplyAction(membersBean bean) { //requestparam 부분은 이미지를 받아오기
-	
-		//bean.setMembers_id(dao.newAjaxGetSequence());
-//		System.out.println(bean); //값이 들어가는지 
-//		
-//		dao.insertSeqNumber(bean);
-//		
-//		return "redirect:/play/login.jsp";
-
+	public String newAjaxCrudReplyAction(membersBean bean) {
 	
 		log.debug("회원가입 {}", bean);
 
-		
 		playService.insertSeqNumber(bean); 
 		return "redirect:/play/login.jsp";
 	};
@@ -245,22 +268,44 @@ public class playController {
 			return "play/squadboard";
 		}
 
-		//검색 게시판
-		
 
-		// 게시물 목록 + 페이징 추가 + 검색
-		
-		
-		@RequestMapping(value="searchInfoSelect", method = RequestMethod.GET)
-		public String searchInfoSelect(Model model, squadboardBean squadboard, 
-			int squadboard_no, String hostname,int gamegenre_no) {
-			System.out.println(dao.selectSearchList(squadboard_no));
+		//공지사항
+		@RequestMapping(value="NoticeBoardInsert", method = RequestMethod.POST)
+		public String NoticeBoardInsert(NoticeBoardBean bean, Model model, @RequestParam String writer_id) {
+			bean.setNoticeboard_no(dao.getSequence2());
+			//bean.setWriter_id(writer_id);
+			System.out.println(bean);
+			dao.insertNoticeBoard(bean);
+			return "play/noticeboard";
 			
-			model.addAttribute("squadList", dao.selectSearchList(squadboard_no));
-			model.addAttribute("hostList", dao.selectHostNameList(hostname));
-			model.addAttribute("gameGenreList", dao.selectGamegenre_noList(gamegenre_no));
+		}
+		
+		@RequestMapping(value="selectNoticeBoard", method=RequestMethod.GET)
+			public String selectNoticeBoard(Model model) {
+			model.addAttribute("notice", dao.selectNoticeBoard());
+			System.out.println(model);
+			return "play/noticeboard";
+		}		
+		
+		//검색 게시판
+
+//		// 게시물 목록 + 페이징 추가 + 검색
+
+		@RequestMapping(value="listPageSearch", method = RequestMethod.GET)
+		public String searchInfoSelect(squadboardBean bean, Model model,int squadboard_no, String hostname,int gamegenre_no) {
+			//System.out.println(dao.selectSearchList(squadboard_no));
+			
+			model.addAttribute("squadList", playService.selectSearchList(squadboard_no));
+			model.addAttribute("hostList", playService.selectHostNameList(hostname));
+			model.addAttribute("gameGenreList", playService.selectGamegenre_noList(gamegenre_no));
 			return "play/search";
 		
 		}
+//
 
+		
+		
+		
+		
+		
 }

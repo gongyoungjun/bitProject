@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<!DOCTYPE html>
+<html>
+<head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/play/index.css">
+
 <style>
 	.search{
 		/* position: relative; */
@@ -45,9 +49,12 @@
 
 
 </style> 
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
 <script>
 $(function(){
 	var bannerOffset = $('.topFixBanner').offset();
@@ -66,7 +73,8 @@ $(function(){
 			   contentType:'application/x-www-form-urlencoded; charset=UTF-8',
 			   success:function(s){
 				   console.log(s);
-				   location.reload(true);
+				   //location.reload(true);
+				   window.location.replace('/web/play/mainpage.jsp');
 			   },
 			   error:function(e){
 				   console.log('error');
@@ -83,13 +91,10 @@ $(function(){
         }
      });
     $("button#write").click(function(){
-    	window.open("/web/play/new_squad.jsp", "..", "left=300, top=200, width=600, height=800");
+    	window.open("/web/play/new_squad.jsp", "..", "left=200, top=200, width=600, height=850");
     	
     });
-    $("button#search").click(function(){
-    	window.open("/web/play/search.jsp", "..", "left=300, top=200, width=600, height=800");
-    	
-    });
+    
 });
 </script>
 </head>
@@ -154,17 +159,30 @@ $(function(){
 		<span class="my_wallet" id="my_wallet">
 			<button id="my_wallet" onclick="location.href='/web/play/pay.jsp'" class="btn" style="margin:3px; background-color: #141414;">지갑</button>
 		</span>
+		<span class="noticeboard" id="noticeboard">
+			<button id="noticeboard" onclick="location.href='/web/selectNoticeBoard'" class="btn" style="margin:3px; background-color: #141414;">공지사항</button>
+		</span>
+		
+		
 	</div>
 	<div class="banner_right" style="flex-grow:2; float:right; text-align:right;">	
 		<span class="search">
-<!-- 			<input type="text" placeholder="" /> -->
-<!-- 					<i class="fa-solid fa-magnifying-glass" id="search"></i> -->
-				<button id="search" class="fa-solid fa-magnifying-glass" style="margin:3px; inline-block; background-color: #141414;">검색</button>
+		<a href="search.jsp" class="fa-solid fa-magnifying-glass"></a>
 		</span>
 
 		<span class="my_page">
 			<button class="btn" onclick="location.href='/web/play/mypage.jsp'" style="margin:3px; background-color: #141414;">마이페이지</button>
 		</span>
+		
+		<c:choose>
+		<c:when test="${userAuthority == 'Admin_Permissions'}"> <%-- 권한이 있는 경우 --%>
+			<span class="signup">
+				<button class="btn" onclick="location.href='/web/play/adminpage.jsp'" style="margin:3px; background-color: #141414;">관리자페이지</button>
+			</span>
+		</c:when>
+		</c:choose> 
+		
+		
 		<span class="logout">
 				<button id="logout" type="button" class="btn" style="margin:3px; background-color: #141414;">로그아웃</button>
 		</span>
@@ -177,3 +195,8 @@ $(function(){
 <div class ="testContents">
 
 </div>
+
+
+
+</body>
+</html>

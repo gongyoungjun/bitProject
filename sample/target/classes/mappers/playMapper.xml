@@ -96,7 +96,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE nickname=#{value}
 	</select>		
 	
-
+	<!-- 		권한 -->
+	<select id="selectAuthority" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT AUTHORITY FROM MEMBERAUTHORITY
+		WHERE MEMBERS_ID = #{value}
+	</select>
+	
 	<!--  스쿼드게시판--> 
 	
 	<!--  스쿼드게시판 - 상세검색-->
@@ -149,8 +154,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{squadstate}, #{price}, #{payedstate}, #{filename}, #{tags})
 	</insert>
 
+	<!-- 메인페이지 모집중인 스쿼드 -->
+	<select id="squadstate0Select" resultType="com.bit.web.play.vo.squadboardBean">
+		SELECT SB.MEMBERS_ID, SB.HOSTNAME, SB.TITLE, SB.USER_ACCEPTCNT, SB.USER_MAXCNT, SB.PLAYTIME, SB.REGDATE, SB.RESERVEDATE, SB.PRICE, SB.FILENAME,
+		GG.NAME AS GAMEGENRE_NAME, GG.GAME_IMG AS GAMEGENRE_GAME_IMG, SS.STATENAME AS SQUADSTATE_STATENAME
+		FROM SQUADBOARD SB, GAMEGENRE GG, SQUADSTATE SS
+		WHERE SB.GAMEGENRE_NO = GG.GAMEGENRE_NO AND SS.SQUADSTATE_NO = SB.SQUADSTATE ORDER BY SB.SQUADBOARD_NO DESC
+	</select>
+
+	<!-- 메인페이지 인기 스쿼드 팔로워순 -->
+	<select id="squadPopularSelect" resultType="com.bit.web.play.vo.squadboardBean">
+		SELECT SB.MEMBERS_ID, SB.HOSTNAME, SB.TITLE, SB.USER_ACCEPTCNT, SB.USER_MAXCNT, SB.PLAYTIME, SB.REGDATE, SB.RESERVEDATE, SB.PRICE, SB.FILENAME,
+		GG.NAME AS GAMEGENRE_NAME, GG.GAME_IMG AS GAMEGENRE_GAME_IMG, SS.STATENAME AS SQUADSTATE_STATENAME
+		FROM SQUADBOARD SB, GAMEGENRE GG, SQUADSTATE SS, MEMBERS M
+		WHERE SB.GAMEGENRE_NO = GG.GAMEGENRE_NO AND SS.SQUADSTATE_NO = SB.SQUADSTATE AND SS.SQUADSTATE_NO = 0 ORDER BY M.FOLLOW_CNT DESC
+	</select>
+	
+	<!-- 인기게임 리스트 -->
+	<select id="popularGameListSelect" resultType="com.bit.web.play.vo.gamegenreBean">
+		SELECT GAMEGENRE_NO, NAME, GAME_IMG, SQUAD_CNT
+		FROM GAMEGENRE
+		ORDER BY SQUAD_CNT DESC
+	</select>
+	
+	
 	<!-- 검색 구현 -->
-	<select id="selectHostNameList" parameterType="java.lang.String" resultType="squadboard">
+	<select id="selectSearchList" parameterType="java.lang.String" resultType="squadboard">
 		select gamegenre_no, members_id, hostname, title, contents, playtime, regdate
 		from squadboard
 		where hostname like '%'
@@ -158,7 +187,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	
-
+	<!-- 공지사항 -->
+	<select id="getSequence2" resultType="Integer">
+		select
+		noticeboard_seq.nextval from dual
+	</select>
+		
+	<insert id="insertNoticeBoard"
+		parameterType="com.bit.web.play.vo.NoticeBoardBean">
+		INSERT INTO NOTICEBOARD(noticeboard_no, writer_id, title, content, regdate)
+		VALUES(#{noticeboard_no},
+		#{writer_id},
+		#{title}, #{content}, SYSDATE)
+	</insert>
+	
+	<select id="selectNoticeBoard" resultType="com.bit.web.play.vo.NoticeBoardBean">
+		SELECT NOTICEBOARD_NO, WRITER_ID, TITLE, CONTENT, REGDATE FROM
+		NOTICEBOARD ORDER BY NOTICEBOARD_NO
+	</select>
+	
+	
+	
+	
 	
 	
 </mapper>

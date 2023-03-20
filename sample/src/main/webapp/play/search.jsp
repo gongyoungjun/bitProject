@@ -1,74 +1,140 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html>
-<html lang="kr">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>play</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"   
-    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/play/index.css">
- 
-</head>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-	
+<link href="/web/resources/boardFront/css/bootstrap.min.css"
+	rel="stylesheet">
 
+<!-- Custom CSS -->
+<!-- <link href="css/login.css" rel="stylesheet"> -->
+<link href="/web/resources/boardFront/css/clean-blog.css"
+	rel="stylesheet">
+<!-- Custom Fonts -->
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
+	rel='stylesheet' type='text/css'>
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet"
+	href="../resources/css/play/index.css">
+
+
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<head>
+<title>게시물 목록</title>
 
 <script>
-
-
+$(function(){
+	 $("span#search a").click(function(){
+		if($("#query").val().length==0|| $("#data").val().length==0){
+			alert('query or data Check!');
+			$("select#query").prop("selectedIndex",0);
+			$("input#data").val('');
+			return false;
+		}
+		$("form").submit();
+	 }) 
+ });
 </script>
 
 
-
+</head>
 <body>
 
-<!--header  -->
-<jsp:include page="testHeader.jsp"></jsp:include>
-    <!--header  -->
-    
-	<!--�˻�â -->
+	<jsp:include page="testHeader.jsp"></jsp:include>
 
-    <form method="get" name="search-form">
-        <div class="search" style="height: 300px; min-width: 400px; margin-top: 300px" align="center">
 
-           <td> 
-           
-            <select id="searchType" name="searchType" style="height: 60px; width:100px; background-color: #141414; font-style: white;vertical-align: middle; font-size: 0.4cm;">
-            	<option value="all">��ü</option>
-            	<option value="host">ȣ��Ʈ</option>
-            	<option value="category">ī�װ���</option>
-            </select> 
-            <input type="text" class="button" id="data" name="data" style="height: 60px; width:400px; background-color: #141414; font-style: white;  font-size: 0.4cm;">
-			<a href="/web/searchInfoSelect">
-			<button   class="btn btn-info search-btn" style="height: 60px; width:auto; background-color: #141414; font-style: white;
-																		border: 1px; border-color: white">
-				�˻�</button></a>
-			</td>
+	<div align="center" style="margin:200px; color:black; background:#141414;">
+		<select id="query" name="query" >
+		    <option value="all">전체</option>
+	        <option value="host">호스트</option>
+		    <option value="squard">스쿼드</option>
+
+		</select>
+		
+		<input type="text" name="data" id="data" class="inputText" size="30" />
+		
+		<span class="button" id="search"><a href="#">검색</a></span>
+		
+	</div>
+	
+	<form action="listPageSearch" method="post">
+		<table class="bbsWrite mgb35">
+			<caption></caption>
+			<colgroup>
+				<col width="30" />
+				<col width="100" />
+				<col width="100" />
+				<col width="100" />
+				<col width="100" />
+				<col width="100" />		
+			</colgroup>
+		</table><!-- formend -->
+		</form>
+
+		<table class="bbsList">
+			<colgroup>
+				<col width="120" />
+				<col width="120" />
+				<col width="120" />
+				<col width="120" />
+				<col width="120" />
+					
+			</colgroup>
+			<thead>
 			
 
-			
-		</div>
-	</form>
+			<tr>
+				<th scope="col" class="fir">게임</th>   
+				<th scope="col">닉네임</th>
+				<th scope="col">컨텐츠</th>
+				<th scope="col">게임시간</th>
+				<th scope="col">시간</th>
+
+			</tr>
+			</thead>
+
+	<tbody>
+
+		<c:forEach items="${squadList}" var="list">
+			<tr>
+				<td>${squadList.gamegenre_no}</td>
+				<td type="hidden">${squadList.members_id}</td>
+				<td>${squadList.hostname}</td>
+				<td>${squadList.contents}</td>
+				<td>${squadList.playtime}</td>
+				<td>${squadList.regdate}</td>		
+
+			</tr>
+		</c:forEach>
+	</tbody>
+
+</table>
+
+
+
+
+
 	
-	<c:forEach  var="list" >
 	
-	<div class="board-meta" style="font-weight: 400; font-size: 1.2rem; color: #141414;">
-
- <p>
- <i class="glyphicon glyphicon-user"></i>${list.hostname} 
- <i class="glyphicon glyphicon-user"></i>${list.contents}
- <i class="glyphicon glyphicon-user"></i> ${list.playtime}
- <i class="glyphicon glyphicon-user"></i> ${list.regdate}
- </p>
 
 
-</div>
-</c:forEach>
+
+
 </body>
 </html>

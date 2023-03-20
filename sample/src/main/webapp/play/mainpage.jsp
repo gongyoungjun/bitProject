@@ -1,7 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@page isELIgnored="false" %>
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="UTF-8">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
@@ -15,7 +17,7 @@
 	integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet"
-	href="../resources/css/play/index.css">
+	href="${pageContext.request.contextPath}/resources/css/play/index.css">
 
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -26,25 +28,28 @@
  
 
 <script>
-    var index = 0;   //ÀÌ¹ÌÁö¿¡ Á¢±ÙÇÏ´Â ÀÎµ¦½º
+
+    var index = 0;   //ì´ë¯¸ì§€ì— ì ‘ê·¼í•˜ëŠ” ì¸ë±ìŠ¤
     window.onload = function(){
         slideShow();
     }
     
     function slideShow() {
     var i;
-    var x = document.getElementsByClassName("slide1");  //slide1¿¡ ´ëÇÑ dom ÂüÁ¶
+    var x = document.getElementsByClassName("slide1");  //slide1ì— ëŒ€í•œ dom ì°¸ì¡°
     for (i = 0; i < x.length; i++) {
-       x[i].style.display = "none";   //Ã³À½¿¡ ÀüºÎ display¸¦ noneÀ¸·Î ÇÑ´Ù.
+       x[i].style.display = "none";   //ì²˜ìŒì— ì „ë¶€ displayë¥¼ noneìœ¼ë¡œ í•œë‹¤.
     }
     index++;
     if (index > x.length) {
-        index = 1;  //ÀÎµ¦½º°¡ ÃÊ°úµÇ¸é 1·Î º¯°æ
+        index = 1;  //ì¸ë±ìŠ¤ê°€ ì´ˆê³¼ë˜ë©´ 1ë¡œ ë³€ê²½
     }   
-    x[index-1].style.display = "block";  //ÇØ´ç ÀÎµ¦½º´Â blockÀ¸·Î
-    setTimeout(slideShow, 3000);   //ÇÔ¼ö¸¦ 3ÃÊ¸¶´Ù È£Ãâ
+    x[index-1].style.display = "block";  //í•´ë‹¹ ì¸ë±ìŠ¤ëŠ” blockìœ¼ë¡œ
+    setTimeout(slideShow, 3000);   //í•¨ìˆ˜ë¥¼ 3ì´ˆë§ˆë‹¤ í˜¸ì¶œ
  
-}
+	}
+    
+
 </script>
 
 
@@ -54,7 +59,6 @@
 <!--header  -->
 <jsp:include page="testHeader.jsp"></jsp:include>
     <!--header  -->
-
 
 
 
@@ -68,12 +72,11 @@
   
   
 	</div>
-
 	</main>
 	
 	<section>
 		<div class="content-list">
-			<a href="/web/squadBoardInfoSelect?no=1&hostid=blue&job=info"><h1>ÀÎ±â ½ºÄõµå</h1></a>
+			<a href="/web/squadBoardInfoSelect?no=1&hostid=blue&job=info"><h1>ì¸ê¸° ìŠ¤ì¿¼ë“œ</h1></a>
        
 			<div class="prev">
 				<i class="fa-solid fa-angle-right prev-arrow"></i>
@@ -101,31 +104,30 @@
 		
 		
 		<div class="content-list">
-			<h1>¸ğÁı ÁßÀÎ ½ºÄõµå</h1>
+			<h1>ëª¨ì§‘ ì¤‘ì¸ ìŠ¤ì¿¼ë“œ</h1>
        
 			<div class="prev">
 				<i class="fa-solid fa-angle-right prev-arrow"></i>
 			</div>
 			
-			<div class="slider" align="center">
-				<img src="/web/resources/img/play/overwatch2.jpg" style="max-width: 15%; height: auto; "/>
+		<div class="slider" align="center">
+				<!-- <img src="/web/resources/img/play/overwatch2.jpg" style="max-width: 15%; height: auto; "/>
             	<img src="/web/resources/img/play/lol.jpg" style="max-width: 15%; height: auto; "/>
             	<img src="/web/resources/img/play/pubg.jpg" style="max-width: 15%; height: auto; "/>
             	<img src="/web/resources/img/play/lostark.jpg" style="max-width: 15%; height: auto; "/>
 				<img src="/web/resources/img/play/overwatch2.jpg" style="max-width: 15%; height: auto; "/>
             	<img src="/web/resources/img/play/lol.jpg" style="max-width: 15%; height: auto; "/>
             	<img src="/web/resources/img/play/pubg.jpg" style="max-width: 15%; height: auto; "/>
-            	<img src="/web/resources/img/play/lostark.jpg" style="max-width: 15%; height: auto; "/>
-
-
-			</div>
+            	<img src="/web/resources/img/play/lostark.jpg" style="max-width: 15%; height: auto; "/> -->
+		</div>
+			
 			<div class="next">
 				<i class="fa-solid fa-angle-right"></i>
 			</div>
 		</div>
 		
  		<div class="content-list">
-			<h1>ÀÎ±â °ÔÀÓ</h1>
+			<h1>ì¸ê¸° ê²Œì„</h1>
        
 			<div class="prev">
 				<i class="fa-solid fa-angle-right prev-arrow"></i>
@@ -153,10 +155,10 @@
 	<script type="text/javascript">
         const next = document.querySelectorAll('.next');
         const prev = document.querySelectorAll('.prev');
-        const slider = document.querySelectorAll('.slider')
+        const slider = document.querySelectorAll('.slider');
 
         for(let i =0;i<slider.length;i++){
-            getMovies(slider[i],i+1);
+        	getImage(slider[i],i+1);
             makeSlider(slider[i],prev[i],next[i]);
         }
         function makeSlider(element,prev,next){
@@ -169,24 +171,37 @@
                 element.scrollBy(-offsetX,0)
             })
         }
-        function getMovies(element,page){
-            fetch(`https://yts.mx/api/v2/list_movies.json?limit=10&sort_by=rating&page=${page}`)
-                .then(data=>data.json())
-                .then(data=>{
-                    const movies = data.data.movies;
-                    movies.forEach(movie=>{
-                        const div = document.createElement('div');
-                        div.className='item';
-                        div.innerHTML = `<img src="${movie.medium_cover_image}" alt="">`;
-                        element.appendChild(div);
-                    })
-                })
+        
+        function getImage(slider){
+        	$.ajax({
+ 			   url:'/web/squadstate0ListAction',
+ 			   type:'GET',
+ 			   dataType:'json',
+ 			   contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+ 			   success:function(s){
+ 				   console.log(s);
+ 				   for (var j=0; j < s.length; j++){
+ 					   var eachFilename = s[j].filename;
+ 					   var imgSrc = '/web/resources/img/play/upload/'+eachFilename;
+ 					   console.log(eachFilename);
+ 					   var div = document.createElement('div');
+ 					   div.className='item';
+ 					   div.innerHTML = `<img src="/web/resources/img/play/upload/\${eachFilename}">`;
+ 					   slider.appendChild(div);
+ 				   }
+ 				  
+ 			   },
+ 			   error:function(e){
+ 				   console.log('error');
+ 			   }
+ 		});
         }
+      
     </script>
 
 
-</body>
 <footer>
 	<jsp:include page="footer.jsp"></jsp:include>
 </footer>
+</body>
 </html>

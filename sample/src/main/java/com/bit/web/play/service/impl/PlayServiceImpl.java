@@ -4,6 +4,7 @@ import com.bit.web.play.dao.playDao;
 import com.bit.web.play.service.PlayService;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
+import com.bit.web.play.vo.page;
 import com.bit.web.play.vo.squadboardBean;
 
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,4 +45,6 @@ public class PlayServiceImpl implements PlayService {
 	public List<squadboardBean> selectGamegenre_noList(int gamegenre_no) {
 		return dao.selectGamegenre_noList(gamegenre_no);
 	}
+
+	
 }

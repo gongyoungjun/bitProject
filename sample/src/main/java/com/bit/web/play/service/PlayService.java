@@ -3,6 +3,8 @@ package com.bit.web.play.service;
 import java.util.List;
 
 import com.bit.web.play.vo.membersBean;
+import com.bit.web.play.vo.page;
+import com.bit.web.play.vo.searchType;
 import com.bit.web.play.vo.squadboardBean;
 
 
@@ -19,5 +21,8 @@ public interface PlayService {
     public List<squadboardBean> selectHostNameList(String hostname);
     
     List<squadboardBean> selectGamegenre_noList(int gamegenre_no);
+    
+
+
     
 }
