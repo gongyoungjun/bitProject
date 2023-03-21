@@ -13,12 +13,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.bit.web.play.vo.NoticeBoardBean;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -206,55 +214,30 @@ public class playController {
 	}
 
 	    
-	    //프로필 내용 수정하는 페이지
- 
-	    @GetMapping("update/profileForm")
-	    public String profileForm() {
-	    	return "update/profileForm";
+
+	    
+	    //프로필 
+	    // 프로필 가져오기
+	    @RequestMapping(value = "/play/viewProfile", method = RequestMethod.GET)
+	    public String getView(String id ,Model model) throws Exception {
+	    	
+	    	membersBean vo = playService.getViewProfile(id);
+	    	
+	    	model.addAttribute("view", vo);
+	    	System.out.println(vo);
+	    	return "play/profile";
+	    }
+	    //프로필 수정
+	    @RequestMapping(value = "/play/updateProfile", method = RequestMethod.POST)
+	    public String postView(membersBean bean ,RedirectAttributes rttr)  {
+	    	
+	    	playService.postViewProfile(bean);
+	    	rttr.addFlashAttribute("result", "modify success");
+	    	 
+	    	System.out.println(bean);
+	    	return "redirect:play/mypage";
 	    }
 	    
-	    //프로필 수정
-	    
-		@RequestMapping(value = "profileUpdate")
-		public String profileUpdate(membersBean bean,
-				@RequestParam(value = "id", required = false)String checkId,
-				@RequestParam(value = "file", required = false, defaultValue = "noImage.jpg") MultipartFile file) {
-	       
-			String loc = "C:\\Users\\BIT\\git\\bitProject\\sample\\src\\main\\webapp\\resources\\img\\play\\upload\\";
-			FileOutputStream fos = null;
-			String orginFile = file.getOriginalFilename();
-			if (orginFile.length() > 0) {
-				try {
-					fos = new FileOutputStream(loc + orginFile);
-					fos.write(file.getBytes());
-					bean.setProfile_img(orginFile);;
-				} catch (Exception e) {
-					// TODO: handle exception
-					e.printStackTrace();
-				}
-
-			}
-			String loginCheck = dao.loginCheck(checkId);
-			
-			if(loginCheck.equals("checkId")) {
-				
-				HashMap<String, Object>map=new HashMap<String, Object>();
-				map.put("ninkname", bean.getNickname());
-				map.put("tel", bean.getTel());
-				map.put("email", bean.getEmail());
-				map.put("genre1", bean.getGenre1());
-				map.put("genre2", bean.getGenre2());
-				map.put("aboutme", bean.getAboutme());
-				dao.updateReply(map);
-				
-			}else {
-				
-				return "redirect:/play/login.jsp";
-				
-			}
-			return "redirect: newMember";
-
-		}
 
 		//스쿼드 게시판
 		//스쿼드 게시판 - 검색
@@ -287,25 +270,26 @@ public class playController {
 			return "play/noticeboard";
 		}		
 		
-		//검색 게시판
-
-//		// 게시물 목록 + 페이징 추가 + 검색
-
-		@RequestMapping(value="listPageSearch", method = RequestMethod.GET)
-		public String searchInfoSelect(squadboardBean bean, Model model,int squadboard_no, String hostname,String title) {
-			//System.out.println(dao.selectSearchList(squadboard_no));
-			
-			model.addAttribute("squadList", playService.selectSearchList(squadboard_no));
-			model.addAttribute("hostList", playService.selectHostNameList(hostname));
-			model.addAttribute("titleList", playService.selectTitleList(title));
+		//검색
+		
+		@RequestMapping(value="/play/listPageSearch")
+		public String selectBoardList(ModelMap model, HttpServletRequest request) {
+			//검색 맵 생성
+			HashMap<String, Object>map  = new HashMap<String, Object>();
+			map.put("query", request.getParameter("query"));
+			map.put("data", request.getParameter("data"));
+//			//페이징 맵 생성
+//			PageBean pageBean = pageAction.paging(request, map);
+//			map.put("start",  pageBean.getStart());
+//			map.put("end",  pageBean.getEnd());
+			//모델 생성
+//			model.addAttribute("pageBean", pageBean);
+			model.addAttribute("list", playService.selectBoardList(map));
+			//System.out.println(playService.selectBoardList(map));
+			System.out.println(map);
 			return "play/search";
-		
 		}
-//
 
-		
-		
-		
 		
 		
 }

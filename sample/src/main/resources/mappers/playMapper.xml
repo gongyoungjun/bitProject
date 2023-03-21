@@ -30,7 +30,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 프로필 수정 -->
 	
-	<update id="updateReply" parameterType="com.bit.web.play.vo.membersBean">
+	<select id="getViewProfile" resultType="com.bit.web.play.vo.membersBean" parameterType="String">
+        select *
+        from members
+	
+		where members_id = #{vaule}
+	
+	</select>
+
+	<update id="postViewProfile" parameterType="com.bit.web.play.vo.membersBean">
 		UPDATE MEMBERS
 		SET 
 		nickname = #{nickname},
@@ -59,10 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	
-<!-- 	파일을 null처리 -->
-<!-- 	<choose> -->
-<!-- 	 <when test="filename_img !=null"></when> -->
-<!-- 	</choose> -->
+
 	
 	
 	<!-- 	아이디찾는거 -->
@@ -179,34 +184,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<!-- 검색 구현 -->
-<!-- 	<select id="selectSearchList" parameterType="java.lang.String" resultType="com.bit.web.play.vo.squadboardBean"> -->
-<!-- 		select gamegenre_no, members_id, hostname, title, contents, playtime, regdate -->
-<!-- 		from squadboard -->
-<!-- 		where hostname like '%' -->
-<!-- 		order by regdate desc -->
-<!-- 	</select> -->
 
-		<select id="listPageSearch" parameterType="hashMap" resultType="com.bit.web.play.vo.squadboardBean">
-		select SQUADBOARD_NO, gamegenre_no, members_id, hostname, title, contents, playtime, regdate
-		from squadboard
-		
-		<if test='query.equals("all")'>
-			WHERE hostname LIKE '%'||#{hostname}||'%'
-				or  title LIKE '%'||#{title}||'%'
-		</if>
-		
-		<if test='query.equals("host")'>
-			WHERE hostname LIKE '%'||#{hostname}||'%'
-		</if>
-		
-		<if test='query.equals("squard")'>
-			WHERE title LIKE '%'||#{title}||'%'
-		</if>
+<resultMap type="squadboard" id="selectBoardID">
+
+    	<result property="gamegenre_no" column="gamegenre_no"/>
+    	<result property="members_id" column="members_id"/>
+    	<result property="hostname" column="hostname"/>
+    	<result property="title" column="title"/>
+    	<result property="contents" column="contents"/>
+    	<result property="password" column="password"/>
+    	<result property="playtime" column="playtime"/>
+    	<result property="regdate" column="reg"/>
+    	
+    </resultMap>
 
 
+	<select id="selectBoardList" resultType="com.bit.web.play.vo.squadboardBean" resultMap="selectBoardID" parameterType="HashMap">
+	select gamegenre_no, members_id, hostname, title, contents, playtime, regdate 
+		from squadboard 
+
+		<if test="query != null and data != null">
+		    where ${query} LIKE '%'||#{data}||'%'
+		</if> 
 	</select>
 
-	
+
+
 	<!-- 공지사항 -->
 	<select id="getSequence2" resultType="Integer">
 		select

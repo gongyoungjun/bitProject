@@ -9,6 +9,7 @@ import com.bit.web.play.vo.squadboardBean;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -29,22 +30,32 @@ public class PlayServiceImpl implements PlayService {
     public void insertSeqNumber(membersBean bean) {
         dao.insertSeqNumber(bean);
     }
+	
+//	@Override
+//	public List<squadboardBean> selectHostNameList(String hostname){
+//		return dao.selectHostNameList(hostname);
+//	}
+//	
 
-
+    // 검색
 	@Override
-	public Object selectSearchList(int squadboard_no) {
-		return dao.selectSearchList(squadboard_no);
+	public List<squadboardBean> selectBoardList(HashMap<String, Object>map) {
+		return dao.selectBoardList(map);
 	}
-    
+	
+	//프로필 업데이트
+
 	@Override
-	public List<squadboardBean> selectHostNameList(String hostname){
-		return dao.selectHostNameList(hostname);
+	public membersBean getViewProfile(String members_id) throws Exception {
+
+	 return dao.getViewProfile(members_id);
 	}
 	
 	@Override
-	public List<squadboardBean> selectTitleList(String title) {
-		return dao.selectTitleList(title);
-	}
+	public void postViewProfile(membersBean bean) {
 
+		dao.postViewProfile(bean);
+	}
+	
 	
 }

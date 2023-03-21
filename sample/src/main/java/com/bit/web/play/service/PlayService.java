@@ -1,5 +1,6 @@
 package com.bit.web.play.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.bit.web.play.vo.membersBean;
@@ -15,14 +16,19 @@ public interface PlayService {
     String find_user_id(String email);
 
     void insertSeqNumber(membersBean bean); 
-
-    Object selectSearchList(int squadboard_no);
-
-    public List<squadboardBean> selectHostNameList(String hostname);
     
-    public List<squadboardBean> selectTitleList(String title);
+    List<squadboardBean> selectBoardList(HashMap<String, Object>map);
+
+//    List<membersBean> memberModifyGET(HashMap<String, Object>map);
+    
+    
     
 
-
+    // 회원 프로필 불러오기
+    
+    membersBean getViewProfile(String members_id) throws Exception;
+    
+    void postViewProfile(membersBean bean);
+    
     
 }

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -92,24 +94,15 @@ public class playDao extends SqlSessionDaoSupport{
 	}
 	
 	//프로필수정
-	//이미지
-	public void updateImg(membersBean bean) {
-		this.getSqlSession().update("updateImg", bean);
+	 
+	public membersBean getViewProfile(String members_id) {
+		    return this.getSqlSession().selectOne("getViewProfile", members_id);
 	}
-	//아이디 가져오기
-	public String loginCheck(String checkId) {
-		return this.getSqlSession().selectOne("loginCheck", checkId);
+	 
+	public void postViewProfile(membersBean bean) {
+		this.getSqlSession().update("PostViewProfile", bean);
 	}
-	
-	public void updateReply(HashMap<String, Object>map) {
-		this.getSqlSession().update("updateReply",map);
-	}	
-
-//	public String getTotalRow(HashMap<String, Object>map) {
-//		// TODO Auto-generated method stub
-//		return this.getSqlSession().selectOne("getTotalRow",map);
-//	}
-
+	 
 
 	
 	//스쿼드게시판 
@@ -130,19 +123,13 @@ public class playDao extends SqlSessionDaoSupport{
 	
 	//검색
 	
-	public Object selectSearchList(int squadboard_no){
-		return this.getSqlSession().selectList("selectSearchList", squadboard_no);
+	public List<squadboardBean>selectBoardList(HashMap<String, Object>map){
+		return this.getSqlSession().selectList("selectBoardList", map);
 	}
-	
-	// 호스트 닉네임 기준
-	public List<squadboardBean> selectHostNameList(String hostname) {
-		return this.getSqlSession().selectList("selectHostNameList",hostname);
-	}
-	// 타이틀 기준
 
-	public List<squadboardBean> selectTitleList(String title) {
-		return this.getSqlSession().selectList("selectTitleList",title);
-	}
+    
+	
+	
 	
 	
 	// 모집중인 스쿼드 리스트

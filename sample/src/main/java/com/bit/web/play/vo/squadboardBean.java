@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Alias("squadboard")
 public class squadboardBean {
-	private int squadboard_no;
+	private int  squadboard_no;
 	private int gamegenre_no;
 	private String members_id;
 	private String hostname;

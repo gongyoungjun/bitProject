@@ -1,3 +1,4 @@
+<%@page import="com.bit.web.play.vo.membersBean"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
@@ -103,12 +104,16 @@
 				</span>
 
 			</div>-->
-			<div class="buttons">
+			<div  class="buttons">
 				<!--<button class="btn" style="background-color: #141414"><a href="profile.jsp"></a>
 					<i class="fa-sharp fa-solid fa-gear"></i><span>프로필 수정</span>
 					
 				</button>-->
-				<a class="button" href="profile.jsp">프로필 수정</a>
+				
+
+    
+				
+				<button type="button" onclick="location.href='viewProfile?id=${userId}'">회원정보 수정</button>
 
 				<button class="btn" style="background-color: #141414;">
 					<i class="fa-solid fa-person"></i><span>팔로우</span>

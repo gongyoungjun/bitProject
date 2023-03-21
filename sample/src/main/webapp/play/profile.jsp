@@ -1,54 +1,74 @@
 <%@page import="com.bit.web.play.vo.membersBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+
+<!-- 줄바꿈 -->
+<%@ taglib prefix="fn" uri= "http://java.sun.com/jsp/jstl/functions" %>
+<%
+	pageContext.setAttribute("br", "<br/>");
+	pageContext.setAttribute("cn", "\n");
+%>
+<!-- 줄바꿈 -->
+
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>play</title>
-    <jsp:include page="/header/default.jsp"></jsp:include>
-<!-- <script>
-//파일 업로드
-function fn_submit(){
-        
-        var form = new FormData();
-        form.append("profile_img", $("#profile_img")[0].files[0] );
-        
-         jQuery.ajax({
-             url : "${pageContext.request.contextPath}/result"
-           , type : "POST"
-           , processData : false
-           , contentType : false
-           , data : form
-           , success:function(response) {
-               alert("성공하였습니다.");
-               console.log(response);
-           }
-           ,error: function (jqXHR) 
-           { 
-               alert(jqXHR.responseText); 
-           }
-       });
-}
-</script>	-->
+	<html lang="UTF-8">
+	<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>TogetherSquad</title>
+	
+	<!-- Bootstrap Core CSS -->
+	
+	<link href="/web/resources/boardFront/css/bootstrap.min.css"
+		rel="stylesheet">
+	
+	<!-- Custom CSS -->
+	<!-- <link href="css/login.css" rel="stylesheet"> -->
+	<link href="/web/resources/boardFront/css/clean-blog.css"
+		rel="stylesheet">
+	
+	<!-- Custom Fonts -->
+	<link
+		href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
+		rel="stylesheet" type="text/css">
+	<link
+		href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
+		rel='stylesheet' type='text/css'>
+	<link
+		href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+		rel='stylesheet' type='text/css'>
+	
+	<link rel="stylesheet"
+		href="${pageContext.request.contextPath}/resources/css/play/index.css">
+	
+	</head>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript"></script>
+
 <script type="text/javascript">
+
+
     //이미지 미리보기
     $(document).ready(function () {
         $("#profile_img").on("change", handleImgFileSelect);
 
-        //포로필 업데이트
-        $("#sendButton").click(function () {
-            if ($("input[name='nickname']").val().length != 0
-                || $("input#genre1").val().length != 0
-                || $("input#genre2").val().length != 0
-                || $("input#tel").val().length != 0
-                || $("input#email").val().length != 0
-                || $("input#aboutme").val().length != 0
-            ) {
-                return false;
+//         //포로필 업데이트
+//         $("#sendButton").click(function () {
+//             if ($("input[name='nickname']").val().length != 0
+//                 || $("input#genre1").val().length != 0
+//                 || $("input#genre2").val().length != 0
+//                 || $("input#tel").val().length != 0
+//                 || $("input#email").val().length != 0
+//                 || $("input#aboutme").val().length != 0
+//             ) {
+//                 return false;
 
 // 		{if($("[type='password']").val().length==0|| $("textarea").val().length==0){
 // 			 alert('password or textarea Check!');
@@ -59,7 +79,7 @@ function fn_submit(){
 
             $("form").submit();
         });
-    });
+
 
     function handleImgFileSelect(e) {
         let files = e.target.files;
@@ -85,11 +105,12 @@ function fn_submit(){
 </head>
 <body>
 <jsp:include page="testHeader.jsp"></jsp:include>
-<form name="profileUpdate" method="post">
+
+<form name="/play/updateProfile" method="post" enctype="multipart/form-data">
     <%--     <input type="hidden" name="id" value="${user_id}"/> --%>
     <main>
         <div class="profile1" align="center">
-            <img id="img" src="${profile_img}" style="max-width: 12%; height: auto; margin-top:70px; background-color: #141414;"/>
+            <img id="img" src="" style="max-width: 12%; height: auto; margin-top:70px; background-color: #141414;"/>
             <div>
                 <!--             <div class="card"></div> -->
                 <label for="profile_img"></label>
@@ -103,45 +124,116 @@ function fn_submit(){
         </div>
     </main>
 
-    <section>
         <div class="profile" style="font-style: white; border:1; border-color=white">
             <p>
                 <br>
             <div class="form-group" align="center">
-                <input type="text" value="${nickname}" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
+                <input type="text" value="${view.nickname}" readonly="readonly" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
                        id="nickname" name="nickname"/>
             </div>
 
 
             <div class="form-group" align="center">
-                <input type="text" value="${tel}" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
+                <input type="text" value="${view.tel}" readonly="readonly" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
                        name="tel" id="tel" placeholder="  휴대전화"/>
             </div>
 
             <div class="form-group" align="center">
-                <input type="email" value="${email}" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
+                <input type="email" value="${view.email}" readonly="readonly" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
                        name="email" id="email" placeholder="  이메일"/>
             </div>
             <div class="form-group" align="center" style="font-style: white;">
                 <select id="genre1" name="genre1"
                         style="background-color: #141414; margin-top: 10px; width: 300px; height: 50px; font-style: white;vertical-align: middle; font-size: 0.4cm;">
-                    <option value="${genre1}" style="font-style: white;"/>
-                    <option value="롤">리그오브레전드</option>
-                    <option value="배그">배틀그라운드</option>
-                    <option value="카트">카트라이더</option>
-                    <option value="옵치">오버워치</option>
+                    <option selected="selected">&nbsp;선택해주세요 </option>
+                    <option value="">----------------------</option>
+                    <c:choose>
+						<c:when test="${view.genre1 eq '롤'}">
+							<option value="롤" selected>ㆍ리그오브레전드</option>
+						</c:when>
+						<c:otherwise>
+							<option value="롤">ㆍ리그오브레전드</option>
+						</c:otherwise>
+					</c:choose>
+                    <c:choose>
+						<c:when test="${view.genre1 eq '배그' }">
+							<option value="배그" selected>ㆍ배틀그라운드</option>
+						</c:when>
+						<c:otherwise>
+							<option value="배그" >ㆍ배틀그라운드</option>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${view.genre1 eq '카트라이더' }">
+							<option value="카트라이더" selected>ㆍ카트라이더</option>
+						</c:when>
+						<c:otherwise>
+							<option value="카트라이더" >ㆍ카트라이더</option>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${view.genre1 eq '오버워치' }">
+							<option value="오버워치" selected>ㆍ오버워치</option>
+						</c:when>
+						<c:otherwise>
+							<option value="오버워치" >ㆍ오버워치</option>
+						</c:otherwise>
+					</c:choose>
                 </select>
-            </div>
-            <div class="form-group" align="center">
+             </div>   
+                
+            <div class="form-group" align="center" style="font-style: white;">
                 <select id="genre2" name="genre2"
                         style="background-color: #141414; margin-top: 10px; width: 300px; height: 50px; font-style: white;vertical-align: middle; font-size: 0.4cm;">
-                    <option value="${genre2}" style="font-color: white;"/>
-                    <option value="롤">리그오브레전드</option>
-                    <option value="배그">배틀그라운드</option>
-                    <option value="카트">카트라이더</option>
-                    <option value="옵치">오버워치</option>
+                    <option selected="selected">&nbsp;선택해주세요 </option>
+                    <option value="">----------------------</option>
+                    <c:choose>
+						<c:when test="${view.genre2 eq '롤'}">
+							<option value="롤" selected>ㆍ리그오브레전드</option>
+						</c:when>
+						<c:otherwise>
+							<option value="롤">ㆍ리그오브레전드</option>
+						</c:otherwise>
+					</c:choose>
+                    <c:choose>
+						<c:when test="${view.genre2 eq '배그' }">
+							<option value="배그" selected>ㆍ배틀그라운드</option>
+						</c:when>
+						<c:otherwise>
+							<option value="배그" >ㆍ배틀그라운드</option>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${view.genre2 eq '카트라이더' }">
+							<option value="카트라이더" selected>ㆍ카트라이더</option>
+						</c:when>
+						<c:otherwise>
+							<option value="카트라이더" >ㆍ카트라이더</option>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${view.genre2 eq '오버워치' }">
+							<option value="오버워치" selected>ㆍ오버워치</option>
+						</c:when>
+						<c:otherwise>
+							<option value="오버워치" >ㆍ오버워치</option>
+						</c:otherwise>
+					</c:choose>
                 </select>
-            </div>
+                
+              </div>  
+                
+                <div class="form-group" align="center">
+                
+      
+				<textarea  style="background-color: #141414; margin-top:10px; width:300px; height: 400px" 
+				id="aboutme" name="aboutme" placeholder="   자기소개">
+				
+				</textarea> 
+                
+                </div>
+                
+                
             <div class="form-group" align="center">
                 <input type="password" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
                        id="password1" name="password1" placeholder="  비밀번호"/>
@@ -156,7 +248,6 @@ function fn_submit(){
             </div>
         </div>
 
-    </section>
 </form>
 
 </body>
