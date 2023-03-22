@@ -225,7 +225,7 @@ public class playController {
 	    	
 	    	model.addAttribute("view", vo);
 	    	
-	    	bean.setMembers_id(id);
+//	    	bean.setMembers_id(id);
 	    	
 	    	System.out.println(vo);
 	    	return "play/profile";
