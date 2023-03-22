@@ -100,9 +100,11 @@ public class playDao extends SqlSessionDaoSupport{
 	}
 	 
 	public void postViewProfile(membersBean bean) {
-		this.getSqlSession().update("PostViewProfile", bean);
+		this.getSqlSession().update("postViewProfile", bean);
 	}
-	 
+//	public void postViewProfile(membersBean bean) {
+//		this.getSqlSession().update("PostViewProfile", bean);
+//	}
 
 	
 	//스쿼드게시판 

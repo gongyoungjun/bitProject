@@ -44,11 +44,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		nickname = #{nickname},
 		tel = #{tel},
 		email = #{email},
-		password = #{password},		
+
 		genre1 = #{genre1},
 		genre2 = #{genre2},
 		aboutme = #{aboutme}
-	<!-- 조건문 -->
+<!-- 		조건문 -->
 		<choose> 
 	   		<when test="profile_img !=null">
 	   		,profile_img=#{profile_img}

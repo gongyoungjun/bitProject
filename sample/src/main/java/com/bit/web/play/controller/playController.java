@@ -219,24 +219,56 @@ public class playController {
 	    //프로필 
 	    // 프로필 가져오기
 	    @RequestMapping(value = "/play/viewProfile", method = RequestMethod.GET)
-	    public String getView(String id ,Model model) throws Exception {
+	    public String getView(membersBean bean, String id ,Model model) throws Exception {
 	    	
 	    	membersBean vo = playService.getViewProfile(id);
 	    	
 	    	model.addAttribute("view", vo);
+	    	
+	    	bean.setMembers_id(id);
+	    	
 	    	System.out.println(vo);
 	    	return "play/profile";
 	    }
 	    //프로필 수정
-	    @RequestMapping(value = "/play/updateProfile", method = RequestMethod.POST)
-	    public String postView(membersBean bean ,RedirectAttributes rttr)  {
-	    	
-	    	playService.postViewProfile(bean);
-	    	rttr.addFlashAttribute("result", "modify success");
+//	    @RequestMapping(value = "/play/updateProfile", method = RequestMethod.POST)
+//	    public String postView(membersBean bean)  {
+//	    	
+//	    	playService.postViewProfile(bean);
+//	    	 
+//	    	System.out.println(bean);
+//	    	return "play/mypage";
+//	    }
+	    
+		@RequestMapping(value = "/play/updateProfile", method = RequestMethod.POST )
+		public String updateProfile(membersBean bean,
+				@RequestParam(value = "profileimg", required = false, defaultValue = "profileimg") MultipartFile file) {
+	       
+			String loc = "C:\\Users\\BIT\\git\\bitProject\\sample\\src\\main\\webapp\\resources\\img\\play\\upload\\";
+			
+			FileOutputStream fos = null;
+			String orginFile = file.getOriginalFilename();
+			if (orginFile.length() > 0) {
+				try {
+					fos = new FileOutputStream(loc + orginFile);
+					fos.write(file.getBytes());
+					bean.setProfile_img(orginFile);
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+
+			}
+			playService.postViewProfile(bean);
 	    	 
 	    	System.out.println(bean);
-	    	return "redirect:play/mypage";
-	    }
+	    	return "play/mypage";
+			
+			}
+
+	
+	    
+	    
 	    
 
 		//스쿼드 게시판

@@ -75,9 +75,9 @@
 // 			 $("[type='password']").val('');
 // 			 $("textarea").val('');
 // 			 return false;
-            }
+//             }
 
-            $("form").submit();
+//             $("form").submit();
         });
 
 
@@ -102,34 +102,61 @@
     }
 </script>
 
+
+
+<script type="text/javascript">
+$(function () {
+
+	//포로필 업데이트
+	$("a#sendButton").click(function() {
+		if($("input#nickname").val().length == 0
+		
+        ) {
+            alert('닉네임을 입력해주세요');
+            return false;
+        }
+        $("form").submit();
+	});
+});
+
+
+</script>
+
+
+
 </head>
 <body>
 <jsp:include page="testHeader.jsp"></jsp:include>
 
-<form name="/play/updateProfile" method="post" enctype="multipart/form-data">
-    <%--     <input type="hidden" name="id" value="${user_id}"/> --%>
+<form action="updateProfile" method="post" enctype="multipart/form-data">
+	
+	
     <main>
         <div class="profile1" align="center">
-            <img id="img" src="" style="max-width: 12%; height: auto; margin-top:70px; background-color: #141414;"/>
+            <img name="profile_img" style="max-width: 12%; height: auto; margin-top:70px; background-color: #141414;"/>
             <div>
-                <!--             <div class="card"></div> -->
                 <label for="profile_img"></label>
-                <input type="file" name="profile_img" id="profile_img" size="50"/>
+                <input type="hidden" name="profile_img" id="profile_img" value="${view.profile_img}" />
+                <input type="file" name="profileimg" id="profileimg" size="50"/>
 
+			</div>            
             </div>
-            <a id="btn_submit" class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem; width:300px; height: 30px;"
-               onclick="javascript:fn_submit()">사진 업데이트</a>
-            <div>
-            </div>
-        </div>
     </main>
-
+    
+<%--     ${view } --%>
+ 
         <div class="profile" style="font-style: white; border:1; border-color=white">
+        
+        <div>
+		<input type="hidden" value="${view.members_id}"  name="members_id" id="members_id" />
+		</div>
+        
             <p>
                 <br>
             <div class="form-group" align="center">
-                <input type="text" value="${view.nickname}" readonly="readonly" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
+                <input type="text" value="${view.nickname}"  style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
                        id="nickname" name="nickname"/>
+			<!-- readonly="readonly" //값 변경 못하게 -->
             </div>
 
 
@@ -139,7 +166,7 @@
             </div>
 
             <div class="form-group" align="center">
-                <input type="email" value="${view.email}" readonly="readonly" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
+                <input type="email" value='<c:out value="${view.email}"/>'  style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
                        name="email" id="email" placeholder="  이메일"/>
             </div>
             <div class="form-group" align="center" style="font-style: white;">
@@ -241,7 +268,7 @@
             <div class="content-list" align="center">
                 <input type="password" style="background-color: #141414; margin-top:10px; width:300px; height: 50px"
                        id="password2" name="password2" placeholder="  비밀번호 변경"/>
-                <input type="hidden" name="password" id="password" class="form-control"/>
+                <input type="hidden" name="password" id="password" value="" class="form-control"/>
             </div>
             <div class="form-group" align="center">
                 <a id="sendButton" href="#" class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem; width:300px; height: 30px">확인</a>
