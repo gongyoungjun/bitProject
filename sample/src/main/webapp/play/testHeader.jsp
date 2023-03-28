@@ -28,6 +28,8 @@
 		justify-content:space-between;
 		
 		align-items:center;
+		
+		z-index:1;
       }
       .topFixBannerFixed {
 
@@ -91,7 +93,11 @@ $(function(){
         }
      });
     $("button#write").click(function(){
-    	window.open("/web/play/new_squad.jsp", "..", "left=200, top=200, width=600, height=850");
+    	var puw = 600;
+    	var puh = screen.height*4/5;
+    	var pul = (screen.width/2)-(puw/2);
+    	var put = (screen.height/2)-(puh/2);
+    	window.open('/web/newsquadLoadingAction', '..', 'width='+puw+', height='+puh+', top='+put+', left='+pul+', resizable=no');
     	
     });
     
@@ -120,13 +126,9 @@ $(function(){
 		
 	<div class="banner_right" style="flex-grow:2; float:right; text-align:right;">	
 		<span class="search">
-			<input type="text" style="height:40px;width:200px; background-color: #141414; border:1; border-color:white;" placeholder="" />
-					
-					<a type="button" onclick="location.href='/web/play/search.jsp'"> 
+				<a type="button"  style="margin:3px;" onclick="location.href='/web/play/search.jsp'"> 
 						<i class="fa-solid fa-magnifying-glass"></i>
-					</a>
-					
-	
+					</a>	
 		</span>
 
 		<span class="login">	
@@ -166,12 +168,14 @@ $(function(){
 		
 	</div>
 	<div class="banner_right" style="flex-grow:2; float:right; text-align:right;">	
-		<span class="search">
-		<a onclick="location.href='/web/play/search.jsp'" class="fa-solid fa-magnifying-glass"></a>
+		<span class="btn">
+				<a type="button"  style="margin:3px;" onclick="location.href='/web/play/search.jsp'"> 
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</a>
 		</span>
 
 		<span class="my_page">
-			<button class="btn" onclick="location.href='/web/play/mypage.jsp'" style="margin:3px; background-color: #141414;">마이페이지</button>
+			<button class="btn" onclick="location.href='/web/GuestReviewSelect?id=${userId}'" style="margin:3px; background-color: #141414;">마이페이지</button>
 		</span>
 		
 		<c:choose>

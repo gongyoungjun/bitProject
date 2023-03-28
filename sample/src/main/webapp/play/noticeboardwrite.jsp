@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <!DOCTYPE html PUBLIC >
 <html>
 
@@ -14,19 +14,23 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
-	$(function(){
-		$("button#submitPost").click(function(){
-			$("form").submit();
-		});
+$(function(){
+	$("button#submitPost").click(function(){
+		$("form").submit();
 	});
+});
+	
+});
 </script>
 <title>Start Simple Web</title>
 
 <!-- Bootstrap Core CSS -->
-<link href="/web/resources/boardFront/css/bootstrap.min.css" rel="stylesheet">
+<link href="/web/resources/boardFront/css/bootstrap.min.css"
+	rel="stylesheet">
 
 <!-- Custom CSS -->
-<link href="/web/resources/boardFront/css/clean-blog.css" rel="stylesheet">
+<link href="/web/resources/boardFront/css/clean-blog.css"
+	rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link
@@ -307,8 +311,7 @@ p {
 
 	<!-- Page Header -->
 	<!-- Set your background image for this header on the line below. -->
-	<header class="intro-header"
-		style="background-color: #141414">
+	<header class="intro-header" style="background-color: #141414">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -322,15 +325,15 @@ p {
 		</div>
 	</header>
 	<!--<form action="/web/NoticeBoardInsert?job=${param.job}&writer_id=${param.writer_id}" method="post">-->
-	<form action="/web/NoticeBoardInsert" name='notice_write_frm' method="post">
-	<div id="write-field">
-		<div class="col-md-3">
-			
-		</div>
-		<div class="col-md-6">
-		<input type="hidden" id="writer_id" name="writer_id" value="${param.user_id}"/>
-			<table>
-				<!--<tr>
+	<form action="/web/NoticeBoardInsert" name='notice_write_frm'
+		method="post">
+		<div id="write-field">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<input type="hidden" id="writer_id" name="writer_id"
+					value="${param.user_id}" />
+				<table>
+					<!--<tr>
 					<td class="td1">카테고리</td>
 					<td class="td2"><select name="category" id="category" class="form-control"
 						style="display: inline-block; background-color:#141414">
@@ -341,34 +344,38 @@ p {
 					</select></td>
 				</tr>-->
 
-				<tr>
-					<td class="td1">제목</td>
-					<td class="td2" valign="middle"><input type="text"
-						name="title" id="title" value=""
-						class="form-control input-sm bskr-font subject" style="background-color:#141414" /></td>
-				</tr>
-
-
-			</table>
-			<div class="form-group">
-				<table>
 					<tr>
-						<td class="td1">글 내용</td>
-						<td calss="td2"><textarea class="form-control col-sm-5"
-								name="content" id="content" rows="20" style="background-color:#141414"></textarea></td>
+						<td class="td1">제목</td>
+						<td class="td2" valign="middle"><input type="text"
+							name="title" id="title" value=""
+							class="form-control input-sm bskr-font subject"
+							style="background-color: #141414" /></td>
 					</tr>
-				</table>
-			</div>
 
-			<div class="bottombox">
-				<input type="button" value="취소" class="btn btn-default btn-sm"
-					onclick="history.back();" style="background-color:#B40404; color:white;"/>&nbsp;
-				<button id="submitPost" type="button" class="btn btn-primary btn-sm">
-					<i class="glyphicon glyphicon-ok">확인</i> 
-				</button>
+
+				</table>
+				<div class="form-group">
+					<table>
+						<tr>
+							<td class="td1">글 내용</td>
+							<td calss="td2"><textarea class="form-control col-sm-5"
+									name="content" id="content" rows="20"
+									style="background-color: #141414"></textarea></td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="bottombox">
+					<input type="button" value="취소" class="btn btn-default btn-sm"
+						onclick="history.back();"
+						style="background-color: #B40404; color: white;" />&nbsp;
+					<button id="submitPost" type="button"
+						class="btn btn-primary btn-sm">
+						<i class="glyphicon glyphicon-ok">확인</i>
+					</button>
+				</div>
 			</div>
 		</div>
-	</div>
 	</form>
 	<!-- Footer -->
 	<!-- <footer>

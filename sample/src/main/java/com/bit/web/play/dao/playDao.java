@@ -23,11 +23,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bit.web.play.vo.GuestReviewBean;
 import com.bit.web.play.vo.NoticeBoardBean;
+import com.bit.web.play.vo.acceptwaittingBean;
 import com.bit.web.play.vo.gamegenreBean;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
 import com.bit.web.play.vo.squadboardBean;
+import com.bit.web.play.vo.squadhistoryBean;
 
 @Repository
 public class playDao extends SqlSessionDaoSupport{
@@ -108,20 +111,56 @@ public class playDao extends SqlSessionDaoSupport{
 
 	
 	//스쿼드게시판 
-
-	//스쿼드게시판 - 상세검색
-	public Object selectSquadBoardInfo(int no) {
-		return this.getSqlSession().selectOne("selectSquadBoardInfo", no);
-	}
 	
-	//스쿼드게시판 - 호스트기준 스쿼드 정보 검색
-	public List<squadboardBean>selectSquadBoardHost(String id){
-		return this.getSqlSession().selectList("selectSquadBoardHost", id);
-	}
-	//호스트리뷰 검색 - 호스트기준
-	public List<hostreviewBean>selectHostReviewHost(String id){
-		return this.getSqlSession().selectList("selectHostReviewHost", id);
-	}
+		//스쿼드게시판 - 상세검색
+		public Object selectSquadBoardInfo(int squadboardno) {
+			return this.getSqlSession().selectOne("selectSquadBoardInfo", squadboardno);
+		}
+		
+		//스쿼드게시판 - 호스트기준 스쿼드 정보 검색
+		public List<squadboardBean>selectSquadBoardHost(String hostId){
+			return this.getSqlSession().selectList("selectSquadBoardHost", hostId);
+		}
+		//호스트리뷰 검색 - 호스트기준
+		public List<hostreviewBean>selectHostReviewHost(String hostId){
+			return this.getSqlSession().selectList("selectHostReviewHost", hostId);
+		}	
+		
+		//스쿼드 참가
+		//스쿼드 참가 - 참가기록
+		public void insertSquadHistory(squadhistoryBean bean) {
+			this.getSqlSession().insert("insertSquadHistory", bean);
+		}
+		//스쿼드 참가 - 수락대기
+		public void insertAcceptWaitting(acceptwaittingBean bean) {
+			this.getSqlSession().insert("insertAcceptWaitting", bean);
+		}
+		//참가기록 부모키 생성
+		public Integer getSequence_SquadHistory() {
+			return this.getSqlSession().selectOne("getSequence_SquadHistory");
+		}
+		//수락대기 부모키 생성
+		public Integer getSequence_AcceptWaitting() {
+			return this.getSqlSession().selectOne("getSequence_AcceptWaitting");
+		}
+		
+		//스쿼드게시판 - 참가자 수 증가
+		public void updateSB_acceptcnt_increase(int squadboardno) {
+			this.getSqlSession().update("updateSB_acceptcnt_increase", squadboardno);
+		}
+		//스쿼드게시판 - 참가자 수 감소
+		public void updateSB_acceptcnt_decrease(int squadboardno) {
+			this.getSqlSession().update("updateSB_acceptcnt_decrease", squadboardno);
+		}
+
+		//스쿼드게시판 - 참가나 신청 중인지 여부 확인(참가기록 테이블)
+		public String selectIdSquadHistory(HashMap<String, Object>map) {
+			return this.getSqlSession().selectOne("selectIdSquadHistory", map);
+		}
+		//스쿼드게시판 - 참가나 신청 중인지 여부 확인(신청여부 테이블)
+		public String selectIdAcceptWaitting(HashMap<String, Object>map) {
+			return this.getSqlSession().selectOne("selectIdAcceptWaitting", map);
+		}
 	
 	//검색
 	
@@ -129,11 +168,6 @@ public class playDao extends SqlSessionDaoSupport{
 		return this.getSqlSession().selectList("selectBoardList", map);
 	}
 
-    
-	
-	
-	
-	
 	// 모집중인 스쿼드 리스트
 	public List<squadboardBean> squadstate0Select(){
 		return this.getSqlSession().selectList("squadstate0Select");
@@ -146,7 +180,10 @@ public class playDao extends SqlSessionDaoSupport{
 	public List<squadboardBean> squadPopularSelect(){
 		return this.getSqlSession().selectList("squadPopularSelect");
 	}
-	
+	// 게임 이미지 호출
+	public String gameImgSrcSelect(int no) {
+		return this.getSqlSession().selectOne("gameImgSrcSelect", no);
+	}
 	//공지사항NO
 	public Integer getSequence2() {
 		return this.getSqlSession().selectOne("getSequence2");
@@ -159,8 +196,26 @@ public class playDao extends SqlSessionDaoSupport{
 	public List<NoticeBoardBean> selectNoticeBoard(){
 		return this.getSqlSession().selectList("selectNoticeBoard");
 	}
+	//게스트 후기 NO	
+	public Integer getGuestReviewSequence() {
+		return this.getSqlSession().selectOne("getGuestReviewSequence");		
+	}
 	
-
+	//게스트 후기 insert
+	public String insertGuestReview(GuestReviewBean bean) {
+		return this.getSqlSession().selectOne("insertGuestReview", bean);
+	}
+	
+	//게스트 후기 select
+	public List<GuestReviewBean> selectGuestReview1(String id){
+		return this.getSqlSession().selectList("selectGuestReview1", id);
+	}	
+   //사용자 정보 select
+   public List<membersBean> selectMyInfo(String id) {
+      return this.getSqlSession().selectList("selectMyInfo", id);
+   }
+   
+	
 	
 	
 	

@@ -107,10 +107,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE MEMBERS_ID = #{value}
 	</select>
 	
-	<!--  스쿼드게시판--> 
+<!--  스쿼드게시판--> 
 	
 	<!--  스쿼드게시판 - 상세검색-->
-	<select id="selectSquadBoardInfo" parameterType="int" resultType="squadboard">
+	<select id="selectSquadBoardInfo" parameterType="java.lang.Integer" resultType="com.bit.web.play.vo.squadboardBean">
 		SELECT squadboard_no, gamegenre_no, members_id, hostname, title, contents, 
 			user_acceptcnt, user_maxcnt, recruitoption, playtime,
 			regdate, TO_CHAR(reservedate, 'YYYY/MM/DD') reservedate,
@@ -118,23 +118,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM squadboard
 		WHERE squadboard_no=#{VALUE}
 	</select>
-	
-
-	
+		
 	<!--  스쿼드게시판 - 호스트기준 스쿼드 정보 검색-->
-	<select id="selectSquadBoardHost" parameterType="String" resultType="squadboard">
-		select gg.game_img as gamegenre_game_img, sb.title as title, gg.name as gamegenre_name, sb.reservedate as reservedate, ss.statename as squadstate_statename
+	<select id="selectSquadBoardHost" parameterType="java.lang.String" resultType="com.bit.web.play.vo.squadboardBean">
+		select gg.game_img as gamegenre_game_img, sb.squadboard_no as squadboard_no, sb.title as title, gg.name as gamegenre_name, sb.members_id as members_id , sb.reservedate as reservedate, ss.statename as squadstate_statename
 		from gamegenre gg,  squadstate ss, squadboard sb 
 		where sb.gamegenre_no = gg.gamegenre_no and sb.squadstate = ss.squadstate_no and sb.members_id = #{VALUE}
 		order by sb.reservedate desc
 	</select>
 	
 	<!--  호스트리뷰 검색 - 호스트기준-->
-	<select id="selectHostReviewHost" parameterType="String" resultType="hostreview">
+	<select id="selectHostReviewHost" parameterType="java.lang.String" resultType="com.bit.web.play.vo.hostreviewBean">
 		select  m.profile_img as profile_img , hr.name as name, hr.regdate as regdate, hr.contents as contents, hr.score as score
 		from members m, hostreview hr
 		where m.members_id = hr.writer_id and hr.host_id = #{VALUE}
 	</select>
+	
+	<!-- 스쿼드 참가 - 참가기록 -->
+	<insert id="insertSquadHistory" parameterType="com.bit.web.play.vo.squadhistoryBean">
+		insert into 
+		squadhistory(squadhistory_no, squadboard_no, members_id, regdate)
+		values(#{squadhistory_no}, #{squadboard_no}, #{members_id}, SYSDATE)
+	</insert>
+	<!-- 스쿼드 참가 - 수락대기 -->
+	<insert id="insertAcceptWaitting" parameterType="com.bit.web.play.vo.acceptwaittingBean">
+		insert into 
+		acceptwaitting(acceptwaitting_no, squadboard_no, members_id, regdate)
+		values(#{acceptwaitting_no}, #{squadboard_no}, #{members_id}, SYSDATE)
+	</insert>
+	
+	<select id="getSequence_SquadHistory" resultType="java.lang.Integer">
+		select SquadHistory_seq.nextval from dual
+	</select>
+	<select id="getSequence_AcceptWaitting" resultType="java.lang.Integer">
+		select AcceptWaitting_seq.nextval from dual
+	</select>
+	<!-- 스쿼드게시판 - 참가자 수 증가 -->
+	<update id="updateSB_acceptcnt_increase" parameterType="java.lang.Integer" >
+		update squadboard
+		set user_acceptcnt = user_acceptcnt + 1
+		where squadboard_no=#{value}
+	</update>
+	<!-- 스쿼드게시판 - 참가자 수 감소 -->
+	<update id="updateSB_acceptcnt_decrease" parameterType="java.lang.Integer" >
+		update squadboard
+		set user_acceptcnt = user_acceptcnt - 1
+		where squadboard_no=#{value}
+	</update>
+  	
+	<!-- 스쿼드게시판 - 참가나 신청 중인지 여부 확인(참가기록 테이블) -->
+	<select id="selectIdSquadHistory" parameterType="HashMap" resultType="java.lang.String">
+		select nvl(min('Y'), 'N') as attendCheck
+		from dual
+		where exists (select *
+	    	from squadhistory
+	   		where squadboard_no=#{squadboard_no} and members_id=#{members_id})
+	</select>
+	
+	<!-- 스쿼드게시판 - 참가나 신청 중인지 여부 확인(신청여부 테이블) -->
+	<select id="selectIdAcceptWaitting" parameterType="HashMap" resultType="java.lang.String">
+		select nvl(min('Y'), 'N') as attendCheck
+		from dual
+		where exists (select *
+	    	from acceptwaitting
+	   		where squadboard_no=#{squadboard_no} and members_id=#{members_id})
+	</select>
+	
+
+<!--  -->	
 
 
 	<!-- 스쿼드게시판 PK select -->
@@ -161,10 +212,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 메인페이지 모집중인 스쿼드 -->
 	<select id="squadstate0Select" resultType="com.bit.web.play.vo.squadboardBean">
-		SELECT SB.MEMBERS_ID, SB.HOSTNAME, SB.TITLE, SB.USER_ACCEPTCNT, SB.USER_MAXCNT, SB.PLAYTIME, SB.REGDATE, SB.RESERVEDATE, SB.PRICE, SB.FILENAME,
+		SELECT SB.SQUADBOARD_NO, SB.MEMBERS_ID, SB.HOSTNAME, SB.TITLE, SB.USER_ACCEPTCNT, SB.USER_MAXCNT, SB.PLAYTIME, SB.REGDATE, SB.RESERVEDATE, SB.PRICE, SB.FILENAME,
 		GG.NAME AS GAMEGENRE_NAME, GG.GAME_IMG AS GAMEGENRE_GAME_IMG, SS.STATENAME AS SQUADSTATE_STATENAME
 		FROM SQUADBOARD SB, GAMEGENRE GG, SQUADSTATE SS
-		WHERE SB.GAMEGENRE_NO = GG.GAMEGENRE_NO AND SS.SQUADSTATE_NO = SB.SQUADSTATE ORDER BY SB.SQUADBOARD_NO DESC
+		WHERE SB.GAMEGENRE_NO = GG.GAMEGENRE_NO AND SS.SQUADSTATE_NO = SB.SQUADSTATE AND SS.SQUADSTATE_NO = 0 ORDER BY SB.SQUADBOARD_NO DESC
 	</select>
 
 	<!-- 메인페이지 인기 스쿼드 팔로워순 -->
@@ -181,7 +232,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM GAMEGENRE
 		ORDER BY SQUAD_CNT DESC
 	</select>
-	
+<!-- 	게임이미지 -->
+	<select id="gameImgSrcSelect" parameterType="java.lang.Integer" resultType="java.lang.String">
+SELECT GAME_IMG FROM GAMEGENRE WHERE GAMEGENRE_NO = #{value}
+</select>
 	
 	<!-- 검색 구현 -->
 
@@ -195,16 +249,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	<result property="password" column="password"/>
     	<result property="playtime" column="playtime"/>
     	<result property="regdate" column="reg"/>
-    	
+    	<result property="reservedate" column="reservedate"/>
     </resultMap>
 
 
 	<select id="selectBoardList" resultType="com.bit.web.play.vo.squadboardBean" resultMap="selectBoardID" parameterType="HashMap">
-	select gamegenre_no, members_id, hostname, title, contents, playtime, regdate 
-		from squadboard 
+	select  (gg.name) gamegenre_name, sb.members_id, sb.hostname, sb.title, sb.contents, sb.playtime, to_char(sb.regdate, 'YY/MM/DD') reservedateT
+		from squadboard sb, gamegenre gg
+		where sb.gamegenre_no = gg.gamegenre_no
 
 		<if test="query != null and data != null">
-		    where ${query} LIKE '%'||#{data}||'%'
+		    and ${query} LIKE '%'||#{data}||'%'
 		</if> 
 	</select>
 
@@ -229,9 +284,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		NOTICEBOARD ORDER BY NOTICEBOARD_NO
 	</select>
 	
+	<!-- 게스트 후기 -->
+	<select id="getGuestReviewSequence" resultType="Integer">
+		select
+		hostreview_seq.nextval from dual
+	</select>
 	
+	<!-- 게스트 후기 insert -->
+	<insert id="insertGuestReview" 
+		parameterType="com.bit.web.play.vo.GuestReviewBean">
+		INSERT INTO HOSTREVIEW(hostreview_no, host_id, writer_id, name,
+		contents, score, regdate, good_cnt, ref, pnum, lev, step)
+		VALUES(#{hostreview_no}, #{host_id}, #{writer_id}, #{name}, #{contents},
+		#{score}, SYSDATE, #{good_cnt}, #{ref}, #{pnum}, #{lev}, #{step})
+	</insert>
 	
+	<!-- 게스트 후기 select(호스트리뷰 작성자 기준 검색) -->
+	<select id="selectGuestReview1" parameterType="String"
+		resultType="com.bit.web.play.vo.GuestReviewBean">
+		select hr.name as name, hr.regdate as regdate, hr.contents as contents, hr.score as score 
+		from hostreview hr
+		where hr.writer_id = #{VALUE}
+	</select>	
 	
+   <select id="selectMyInfo" 
+      resultType="com.bit.web.play.vo.membersBean">
+      select m.nickname as nickname, m.profile_img as profile_img, m.grade as grade, 
+      m.follow_cnt as follow_cnt from members m
+      where m.members_id = #{VALUE}
+         
+   </select>	
 	
 	
 </mapper>

@@ -1,170 +1,189 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>play</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"   
-    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/play/index.css">
- 
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>ê²°ì œí•˜ê¸°</title>
+<link rel="stylesheet"
+	href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+	integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/play/index.css">
+
 </head>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript"
+	src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <script type="text/javascript">
-        const next = document.querySelectorAll('.next');
-        const prev = document.querySelectorAll('.prev');
-        const slider = document.querySelectorAll('.slider')
+$(function(){
+	$("input#creditcard").onchange = function(){
+	if($("input#creditcard").is(":checked") == true){
+		$("input#yes1").is(":checked");
+		$("input#yes2").is(":checked");
+		$("input#yes3").is(":checked");
+		$("input#yes4").is(":checked");
+	}else if(document.getElementById("creditcard").is(":unchecked" == false)){
+		document.getElementById("yes1").is(":unchecked") == false;
+		document.getElementById("yes2").is(":unchecked") == false;
+		document.getElementById("yes3").is(":unchecked") == false;
+		document.getElementById("yes4").is(":unchecked") == false;
+	}
+};
+});
+function showPopup() {
+	/*if($("input#yes1").is(":checked") == true){		
+		window.open("payprocess.jsp", "a", "width=400, height=400, left=200, top=100"); 
+	}*/
+	if($("input#creditcard").is(":checked") == true && $("input#yes1").is(":checked") == true && $("input#yes2").is(":checked") == true && $("input#yes3").is(":checked") == true && $("input#yes4").is(":checked") == true){
+		window.open("payprocess.jsp", "a", "width=400, height=400, left=200, top=100"); 
+	}else{
+		return false;
+	}
+}
 
-        for(let i =0;i<slider.length;i++){
-            getMovies(slider[i],i+1);
-            makeSlider(slider[i],prev[i],next[i]);
-        }
-        function makeSlider(element,prev,next){
-            next.addEventListener('click',()=>{
-                const offsetX = element.offsetWidth;
-                element.scrollBy(offsetX,0)
-            })
-            prev.addEventListener('click',()=>{
-                const offsetX = element.offsetWidth;
-                element.scrollBy(-offsetX,0)
-            })
-        }
-        function getMovies(element,page){
-            fetch(`https://yts.mx/api/v2/list_movies.json?limit=20&sort_by=rating&page=${page}`)
-                .then(data=>data.json())
-                .then(data=>{
-                    const movies = data.data.movies;
-                    movies.forEach(movie=>{
-                        const div = document.createElement('div');
-                        div.className='item';
-                        div.innerHTML = `<img src="${movie.medium_cover_image}" alt="">`;
-                        element.appendChild(div);
-                    })
-                })
-        }
-    </script>
 
+
+</script>
 
 
 <body>
 
-<!--header  -->
-<jsp:include page="testHeader.jsp"></jsp:include>
-    <!--header  -->
- 
+	<!--header  -->
+	<jsp:include page="testHeader.jsp"></jsp:include>
+	<!--header  -->
 
-	
-	
-	<div style=" margin-top:150px; margin-left:400px; font-size: 1cm;">
-	ÄÚÀÎ ÃæÀüÇÏ±â<br>
-	<a style="font-size: 0.3cm;">
-	ÄÚÀÎÀº À¯·á ½ºÄõµå ½ÅÃ»¿¡ ÇÊ¿äÇÑ PR1 ³» ÀçÈ­ÀÔ´Ï´Ù.
-	</a>
+
+
+	<div style="margin-top: 150px; margin-left: 400px; font-size: 1cm;">
+		ì½”ì¸ ì¶©ì „í•˜ê¸°<br> <a style="font-size: 0.3cm;"> ì½”ì¸ì€ ìœ ë£Œ ìŠ¤ì¿¼ë“œ ì‹ ì²­ì— í•„ìš”í•œ
+			Togethersquad ë‚´ ì¬í™”ì…ë‹ˆë‹¤. </a>
 	</div>
 
-<table border= "1" bordercolor="white" width ="1200" height="300" style="margin-left:350px; border-left: none; border-right:none; border-bottom:none" >
-    <tr align ="center">  
-    
-		<!--·Î±×ÀÎÇÑ °èÁ¤ ÀÌ¹ÌÁö -->
-		
-		<td style="color:white; border: none; width: 150px; height:150px;">
-			<img src="/web/resources/img/play/basicProfile.jpg" style="max-width: 80%; height: auto; margin-top:15px; margin-left:0px;"/>
-		</td>
-		
-		<!-- ¼¼·ÎÁÙ -->
-		<td rowspan=12 style="color:white; border-top: none; border-right:none; border-bottom: none; width:5px;">
-<!-- 			<a style="color:white; border-top: none; border-right:none; border-bottom: none; "></a> -->
-		</td>
-		
-		<!-- ¾çÂÊ È­»ìÇ¥ -->
-		<td rowspan=5 style="border:none;">
-			<img align="left" src="/web/resources/img/play/left.jpg" style="max-width: 40px;margin-left:40px;"/>
-		</td>
-		
-		<td rowspan=5 style="border:none;">
-			<img align="right" src="/web/resources/img/play/left.jpg" style="max-width: 40px;margin-right:40px;"/>
-		</td>
-		
-		
-<!-- 		<td rowspan=5 style="color:white; border-top: none; border-right:none; border-bottom: none; "> -->
-<!-- 			<a style="border:1; width:100px; height:1200px"></a> -->
-<!-- 		</td> -->
-		
-    </tr>
-		<!--ÀÇ¹Ì¾ø´Â Ä­ ¸¸µç°Å -->
-    <tr>
-		<td style="border:none; width:50px; height:50px;"></td>
-    </tr>
-    
-    <tr align="center">
-		<td style="border:none; font-size: 0.5cm">ÃæÀü °èÁ¤ ÀÌ¸ŞÀÏ</td>
-    </tr>
-    
-    <!--ÀÇ¹Ì¾ø´Â Ä­ ¸¸µç°Å -->
-    <tr>
-		<td style="border:none; height:15px;"></td>
-    </tr>
-    
-		<!--³»°¡ °¡ÀÔÇÑ ÀÌ¸ŞÀÏ -->
-    <tr align="center">
-		<td style="border:none; width:150px;  font-size: 0.4cm;">
-			bitcom@naver.com
-<!-- <a style="border:1 width:0px; height:1200px"></a> -->
-		</td>
-	
-	<!--ÀÇ¹Ì¾ø´Â Ä­ ¸¸µç°Å -->
-   	 <tr>
-		<td style="border:none; height:8px;"></td>
-    </tr>	
+	<table border="1" bordercolor="white" width="1200" height="300"
+		style="margin-left: 350px; border-left: none; border-right: none; border-bottom: none">
+		<tr align="center">
+
+			<!--ë¡œê·¸ì¸í•œ ê³„ì • ì´ë¯¸ì§€ -->
+
+			<td style="color: white; border: none; width: 150px; height: 150px;">
+				<img src="/web/resources/img/play/coin.jpg"
+				style="max-width: 80%; height: auto; margin-top: 15px; margin-left: 0px;" />
+			</td>
+
+			<!-- ì„¸ë¡œì¤„ -->
+			<td rowspan=12
+				style="color: white; border-top: none; border-right: none; border-bottom: none; width: 5px;">
+				<!-- 			<a style="color:white; border-top: none; border-right:none; border-bottom: none; "></a> -->
+			</td>
+
+			<!-- ì–‘ìª½ í™”ì‚´í‘œ -->
+			<td rowspan=5 style="border: none;">
+				<img align="left" src="/web/resources/img/play/coin.jpg" style="max-width: 80%; height: auto; margin-top: 15px; margin-left: 0px;" />
+				<input type="radio" name="coinoption" value="10coin" id="10coin" style="margin-left: 40px; transform: scale(1.4)"> 10 ì½”ì¸ <br> <br> 
+				<!--<img align="center-left" src="/web/resources/img/play/coin.jpg" style="max-width: 80%; height: auto; margin-top: 15px; margin-left: 0px;" />-->
+				<input type="radio" name="coinoption" value="50coin" id="50coin" style="margin-left: 40px; transform: scale(1.4)"> 50 ì½”ì¸ <br> <br>
+				<!--<img align="center-left" src="/web/resources/img/play/coin.jpg" style="max-width: 80%; height: auto; margin-top: 15px; margin-left: 0px;" />-->
+				<input type="radio" name="coinoption" value="100coin" id="100coin" style="margin-left: 40px; transform: scale(1.4)"> 100 ì½”ì¸ <br> <br>
+			</td>
+				
+
+
+			<!-- 		<td rowspan=5 style="color:white; border-top: none; border-right:none; border-bottom: none; "> -->
+			<!-- 			<a style="border:1; width:100px; height:1200px"></a> -->
+			<!-- 		</td> -->
+
+		</tr>
+		<!--ì˜ë¯¸ì—†ëŠ” ì¹¸ ë§Œë“ ê±° -->
+		<tr>
+			<td style="border: none; width: 50px; height: 50px;"></td>
+		</tr>
+
+		<tr align="center">
+			<td style="border: none; font-size: 0.5cm">ì¶©ì „ ê³„ì • ì´ë©”ì¼</td>
+		</tr>
+
+		<!--ì˜ë¯¸ì—†ëŠ” ì¹¸ ë§Œë“ ê±° -->
+		<tr>
+			<td style="border: none; height: 15px;"></td>
+		</tr>
+
+		<!--ë‚´ê°€ ê°€ì…í•œ ì´ë©”ì¼ -->
+		<tr align="center">
+			<td style="border: none; width: 150px; font-size: 0.4cm;">
+				bitcom@naver.com <!-- <a style="border:1 width:0px; height:1200px"></a> -->
+			</td>
+
+			<!--ì˜ë¯¸ì—†ëŠ” ì¹¸ ë§Œë“ ê±° -->
+		<tr>
+			<td style="border: none; height: 8px;"></td>
+		</tr>
+
+
+		<!--ê°€ë¡œì¤„ -->
+		<tr>
+			<td
+				style="border-left: none; border-right: none; border-bottom: none; width: 150px;"></td>
+		</tr>
+
+		<!--ì˜ë¯¸ì—†ëŠ” ì¹¸ ë§Œë“ ê±° -->
+		<tr>
+			<td style="border: none; height: 15px;"></td>
+
+			<td colspan=2
+				style="color: white; width: 1200px; border-left: none; border-right: none; border-bottom: none;">
+			</td>
+		</tr>
+
+		<tr>
+			<td style="border: none; font-size: 0.5cm"></td>
+
+
+
+			<td style="border: none; font-size: 0.5cm">ê²°ì œìˆ˜ë‹¨
+			<!--<select name="category" id="category" class="form-control" style="background-color: #141414">
+					<option value="${paymentmethod}">&nbsp;+ ìˆ˜ë‹¨ ì„ íƒ</option>
+					<option value="creditcard">ì‹ ìš©ì¹´ë“œ</option>
+			</select>-->
+				<input type="checkbox" name="paymethod" value="creditcard" id="creditcard" style="margin-left: 40px; transform: scale(1.4)"> ì‹ ìš©ì¹´ë“œ <br> <br>
+			</td>
+		<tr>
+		</tr>
+
+
+		<tr style="border: none; height: 250px">
+			<td style="border: none;"></td>
+			
+			<!-- ê²°ì œ ì²´í¬ë°•ìŠ¤ -->
+			<td style="border: none; font-size: 0.35cm;">
+			
+				<input type="checkbox" name="agreecheck" value="yes1" id="yes1" style="margin-left: 40px; transform: scale(1.4)"> ì „ì²´ í•­ëª©ì— ë™ì˜í•©ë‹ˆë‹¤. <br> <br> 
+				<input type="checkbox" name="agreecheck" value="yes2" id="yes2" style="margin-left: 40px; transform: scale(1.4)"> ê²°ì œë¥¼ ì§„í–‰í•˜ëŠ” ë³¸ì¸ì˜ ëª…ì˜ë¡œ ê²°ì œí•©ë‹ˆë‹¤. <br> <br> 
+				<input type="checkbox" name="agreecheck" value="yes3" id="yes3" style="margin-left: 40px; transform: scale(1.4)"> ì´ìš©ì•½ê´€ ë° í™˜ë¶ˆì •ì±…ì— ë™ì˜í•©ë‹ˆë‹¤. <br> <br> 
+				<input type="checkbox" name="agreecheck" value="yes4" id="yes4" style="margin-left: 40px; transform: scale(1.4)"> ê²°ì œëŒ€í–‰ì‚¬ ê²°ì œì •ë³´ìœ„íƒì— ë™ì˜í•©ë‹ˆë‹¤. <br> <br>
+				<br>
+				
+				
+			</td>
+		</tr>
 		
 
-    	<!--°¡·ÎÁÙ -->
-    <tr>
-		<td style="border-left: none; border-right:none; border-bottom: none; width:150px;"></td>
-    </tr>
-    
-    <!--ÀÇ¹Ì¾ø´Â Ä­ ¸¸µç°Å -->
-    <tr>
-		<td style="border:none; height:15px;"></td>
-		
-		<td colspan=2 style="color:white; width:1200px; border-left: none; border-right:none; border-bottom: none; ">
-		</td>
-    </tr>
-    
-    <tr>
-		<td style="border:none; font-size: 0.5cm">ÃæÀü »óÇ°</td>
-		
-		<td style="border:none; font-size: 0.5cm">°áÁ¦¼ö´Ü</td>
-    </tr>
-
-    <tr style="border:none; height: 250px">
-		<td style="border:none; "></td>
-		
-		<!-- °áÁ¦ Ã¼Å©¹Ú½º -->
-		<td style="border:none; font-size: 0.35cm;">
-			<input type="checkbox" style="margin-left:40px; transform : scale(1.4)"> ÀüÃ¼ Ç×¸ñ¿¡ µ¿ÀÇÇÕ´Ï´Ù. <br><br>
-			<input type="checkbox" style="margin-left:40px; transform : scale(1.4)"> °áÁ¦¸¦ ÁøÇàÇÏ´Â º»ÀÎÀÇ ¸íÀÇ·Î °áÁ¦ÇÕ´Ï´Ù. <br><br>
-			<input type="checkbox" style="margin-left:40px; transform : scale(1.4)"> ÀÌ¿ë¾à°ü ¹× È¯ºÒÁ¤Ã¥¿¡ µ¿ÀÇÇÕ´Ï´Ù. <br><br>
-			<input type="checkbox" style="margin-left:40px; transform : scale(1.4)"> °áÁ¦´ëÇà»ç °áÁ¦Á¤º¸ À§Å¹¿¡ µ¿ÀÇÇÕ´Ï´Ù. <br><br>
-		</td>
-    </tr>
-    
-	<tr style="border:none;">
-		<td style="border:none;"></td>
-		
-		<td align="center" colspan=4 style="border:none;">
-			<a  href="#" style="font-size: 1.2rem">°áÁ¦ÇÏ±â</a>
-		</td>
-	</tr>
-	
-
-</table>
-
+		<tr style="border: none;">
+			<td style="border: none;"></td>
+			<td align="center" colspan=4 style="border: none;"><a
+				href="#" id="payment"
+				class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem" onclick="showPopup();">ê²°ì œí•˜ê¸°</a></td>
+		</tr>
+	</table>
 </body>
 </html>

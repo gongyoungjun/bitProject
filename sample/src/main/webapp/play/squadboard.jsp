@@ -23,7 +23,6 @@
 	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
 	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
 	crossorigin="anonymous">
-
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -33,15 +32,64 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	
+<style type="text/css"></style>
+
+
 <script type="text/javascript">
-        
+$(function() {
+	
+	if(($("input#attendSH").val() == 'Y') || ($("input#attendAW").val() == 'Y')){
+		const fieldset = document.getElementById('btnRequest');
+		fieldset.disabled = true;
+	}
+
+	
+	var squadstate = $("input#squadstate").val();
+	// 1분마다 새로고침
+	
+	// 스쿼드상태에 따른 버튼 
+	switch (squadstate)
+	{
+	case 0:     
+	
+    break;
+	case 1:     
+		
+	break;    
+
+	case 2:     
+		
+	break;    
+
+	case 3:     
+		
+	break;    
+
+	case 4:     
+		
+	break;    
+   
+    default :  
+      
+
+	}
+	
+	//신청버튼
+	$("button#btnRequest1").click(function(){
+		window.open("/web/squadRequsetSelect?no=${squad.squadboard_no}&id=${userId}" , "..", "left=300, top=200, width=500, height=600");
+	})
+	$("button#btnRequest2").click(function(){
+		
+		window.open("/web/squadRequsetSelect?no=${squad.squadboard_no}&id=${userId}" , "..", "left=300, top=200, width=500, height=600");
+	})
+	
+});
 </script>
 
 
 
 <body>
-
-
 	<!--header  -->
 	<jsp:include page="testHeader.jsp"></jsp:include>
 	<!--header  -->
@@ -49,13 +97,19 @@
 	<main>
 		<div class="center"
 			style="height: 300px; min-width: 400px; margin-left: 200px; margin-bottom: 100px">
+			<div id="hiddenData">
+				<input type="hidden" name="hostId" id="hostId" value="${squad.members_id}"/>
+				<input type="hidden" name="userId" id="userId" value="${userId}"/>
+				<input type="hidden" name="squadstate" id="squadstate" value="${squad.squadstate}"/>
+				<input type="hidden" name="attendSH" id="attendSH" value="${attendSH}"/>
+				<input type="hidden" name="attendAW" id="attendAW" value="${attendAW}"/>
+			</div>
 			<h2>${squad.title}</h2>
-			<img src="/web/resources/img/play/${squad.filename}"
+			<img src="/web/resources/img/play/upload/${squad.filename}"
 				style="width: 250px; height: 200px; margin-top: 30px;" />
-			
+				
 			<div class="text">
 				<h3 style="margin-left: 1000px; margin-top: 10px">${squad.hostname}</h3>
-				<input type="hidden" name="members_id" value="${squad.members_id}"/>
 				<h3 style="margin-left: 1000px; margin-top: 10px">평점 0 / 5.0(댓글수)</h3>
 				<h3 style="margin-left: 1000px; margin-top: 10px">스쿼드수 0</h3>
 				<div class="buttons"style="margin-left: 1000px; margin-top: 10">
@@ -69,24 +123,56 @@
 				<h3 style="margin-left: 1000px; margin-top: 10px">예상진행시간 ${squad.playtime}분</h3>
 				<h3 style="margin-left: 1000px; margin-top: 10px">신청 인원 ${squad.user_acceptcnt}명/${squad.user_maxcnt}명</h3>
 				<div class="buttons" style="margin-left: 1000px; margin-top: 10">				
-
-					<button class="btn" style="background-color: #141414;">
-						<i class="fa-solid fa-edit"></i><span>수정</span>
-					</button>
-					<button class="btn" style="background-color: #141414;">
-						<i class="fa-solid fa-times"></i><span>삭제</span>
-					</button>
-					<button class="btn" style="background-color: green;">
-						<span>스쿼드 참가</span>
-					</button>
+				
+					<!-- btnActive / btnDisabled-->
+					<c:choose>
+						<c:when test="${userId == null}">
+							<button type="button" class="btn" id="btnOffer" style="background-color: gray;" onclick="btnDisabled()">
+								<span id="spanOffer">로그인해주세여</span>
+							</button>
+						</c:when>
+						<c:otherwise>
+							<c:choose>
+								<c:when test="${squad.members_id==userId}">
+									<button type="button" class="btn" id="btnEdit" style="background-color: green;" onclick="btnActive()">
+										<span id="spanEdit">수정</span>
+									</button>
+								</c:when>
+								<c:otherwise>
+									<fieldset id="btnRequest">
+									<c:choose>
+										<c:when test="${squad.recruitoption==0 && squad.payedstate==0}">
+											<button type="button" class="btn" id="btnRequest1" style="background-color: green;" onclick="btnActive()">
+												<span id="spanRequest">무료 참가</span>
+											</button>
+										</c:when>
+										<c:when test="${squad.recruitoption==1 && squad.payedstate==0}">
+											<button type="button" class="btn" id="btnRequest1" style="background-color: green;" onclick="btnActive()">
+												<span id="spanRequest">무료 지원</span>
+											</button>
+										</c:when>
+										<c:when test="${squad.recruitoption==0 && squad.payedstate==1}">
+											<button type="button" class="btn" id="btnRequest2" style="background-color: green;" onclick="btnActive()">
+												<span id="spanRequest">${squad.price} 유료 참가</span>
+											</button>
+										</c:when>
+										<c:when test="${squad.recruitoption==1 && squad.payedstate==1}">
+											<button type="button" class="btn" id="btnRequest2" style="background-color: green;" onclick="btnActive()">
+												<span id="spanRequest">${squad.price} 유료 지원</span>
+											</button>					
+										</c:when>
+									</c:choose>
+									</fieldset>
+								</c:otherwise>
+							
+							</c:choose>					
+							
+						</c:otherwise>
+					</c:choose>
+															
 				</div>
 			</div>
-
-			<!--             <div class= "text"> -->
-			<!--             	<h1 style="margin-left: 400px; margin-top:0">별명*</h1> -->
-			<!--             </div> -->
 		</div>
-
 	</main>
 
 	<section>
@@ -96,71 +182,50 @@
 		</div>
 		<div class="content-list" style="height: 300px; min-width: 1200px;">
 			<h5>호스트의 다른 스쿼드</h5>
-			<c:forEach var="i" items="${squadList}" varStatus="cnt">
+			<c:forEach var="j" items="${squadList}" varStatus="cnt">
 
-				
 					<div class="title">
-						<a href="/web/squadBoardInfoSelect?no=1&hostid=blue&job=info">
-						<img src="/web/resources/img/play/gamegenre/${i.gamegenre_game_img}" width="140" height="80" style="background-color: #141414;"/> 
-							${i.title}
+						<a href="/web/squadBoardInfoSelect?no=${j.squadboard_no}&hostid=${j.members_id}">
+						<img src="/web/resources/img/play/${j.gamegenre_game_img}"
+							style="width: 140px; height: 80px; margin-top: 30px;" /> 
+							${j.title} 
 						</a>
 					</div>
 					
 					<div class="board-meta" style="font-weight: 400; font-size: 1.2rem; color: #141414;">
 						<p>
-							<i class="glyphicon glyphicon-user"></i> ${i.gamegenre_name}
-							<i class="glyphicon glyphicon-time"></i> ${i.reservedate}
-							<i class="glyphicon glyphicon-eye-open"></i> ${i.squadstate_statename}
+							<i class="glyphicon glyphicon-user"></i> ${j.gamegenre_name}
+							<i class="glyphicon glyphicon-time"></i> ${j.reservedate}
+							<i class="glyphicon glyphicon-eye-open"></i> ${j.squadstate_statename}
 						</p>
 					</div>
 				
 
 			</c:forEach>
-			<div align="center"></div>
-		</div>
-
-		<div class="content-list" style="height: 200px; min-width: 1200px;">
-			<h5>주로하는 게임</h5>
-			<div class="slider">
-				<a href="gamepage.jsp"> <img
-					src="/web/resources/img/play/overwatch2.jpg"
-					style="width: 250px; height: 200px;" />
-				</a> <a href="gamepage1.jsp"> <img
-					src="/web/resources/img/play/lol.jpg"
-					style="width: 250px; height: 200px;" />
-				</a> <a href="gamepage2.jsp"> <img
-					src="/web/resources/img/play/battleground.jpg"
-					style="width: 250px; height: 200px;" />
-				</a> <a href="gamepage3.jsp"> <img
-					src="/web/resources/img/play/lostark.jpg"
-					style="width: 250px; height: 200px;" />
-				</a>
-			</div>
-		</div>
-		
-		<div class="contents-list" style="height: 200px; min-width: 1200px;">
+			
 			<h5>게스트 후기</h5>
 			<div class="list_cmt">
 				<div class="cmt_head"></div>
 				<div class="cmt_body">
-					<c:forEach var="i" items="${reviewList}" varStatus="cnt">
-						<img src="/web/resources/img/play/host.jpg" class="rounded-circle"
-							alt="host" width="50" height="30">
-						<span class="info_append"> <span class="txt_name">${i.name}</span>
-							<span class="txt_bar">|</span> <span class="txt_time">${i.score}</span>
-							<span class="txt_bar">|</span> <span class="txt_time">${i.regdate}</span>
+					<c:forEach var="r" items="${reviewList}" varStatus="cnt">
+						<img src="/web/resources/img/play/${r.profile_img}" class="rounded-circle"
+							style="width: 50px; height: 30px; margin-top: 30px;" /> 
+							<span class="info_append"> <span class="txt_name">${r.name}</span>
+							<span class="txt_bar">|</span> <span class="txt_time">${r.score}</span>
+							<span class="txt_bar">|</span> <span class="txt_time">${r.regdate}</span>
 							<span class="txt_bar">|</span> <span class="txt_time">좋아요 버튼 / 좋아요수</span>
 						</span>
-						<p class="txt_desc">${i.contents} <a href="#none">신고</a></p>
-						
+						<p class="txt_desc">${r.contents} <a href="#none">신고</a></p>
 					</c:forEach>
 				</div>
-				<div class="cmt_foot">
-				</div>
 			</div>
+						
 		</div>
 		
-		
 	</section>
+	
+<footer>
+	<jsp:include page="footer.jsp"></jsp:include>
+</footer>
 </body>
 </html>

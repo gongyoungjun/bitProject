@@ -18,10 +18,6 @@ public interface PlayService {
     void insertSeqNumber(membersBean bean); 
     
     List<squadboardBean> selectBoardList(HashMap<String, Object>map);
-
-//    List<membersBean> memberModifyGET(HashMap<String, Object>map);
-    
-    
     
 
     // 회원 프로필 불러오기

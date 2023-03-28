@@ -20,26 +20,12 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>TogetherSquad</title>
 	
-	<!-- Bootstrap Core CSS -->
-	
-	<link href="/web/resources/boardFront/css/bootstrap.min.css"
-		rel="stylesheet">
-	
-	<!-- Custom CSS -->
-	<!-- <link href="css/login.css" rel="stylesheet"> -->
-	<link href="/web/resources/boardFront/css/clean-blog.css"
-		rel="stylesheet">
-	
-	<!-- Custom Fonts -->
-	<link
-		href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
-		rel="stylesheet" type="text/css">
-	<link
-		href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic'
-		rel='stylesheet' type='text/css'>
-	<link
-		href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-		rel='stylesheet' type='text/css'>
+	<link rel="stylesheet"
+		href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
 	
 	<link rel="stylesheet"
 		href="${pageContext.request.contextPath}/resources/css/play/index.css">
@@ -57,27 +43,8 @@
 
     //이미지 미리보기
     $(document).ready(function () {
-        $("#profile_img").on("change", handleImgFileSelect);
+        $("#profileimg").on("change", handleImgFileSelect);
 
-//         //포로필 업데이트
-//         $("#sendButton").click(function () {
-//             if ($("input[name='nickname']").val().length != 0
-//                 || $("input#genre1").val().length != 0
-//                 || $("input#genre2").val().length != 0
-//                 || $("input#tel").val().length != 0
-//                 || $("input#email").val().length != 0
-//                 || $("input#aboutme").val().length != 0
-//             ) {
-//                 return false;
-
-// 		{if($("[type='password']").val().length==0|| $("textarea").val().length==0){
-// 			 alert('password or textarea Check!');
-// 			 $("[type='password']").val('');
-// 			 $("textarea").val('');
-// 			 return false;
-//             }
-
-//             $("form").submit();
         });
 
 
@@ -132,12 +99,13 @@ $(function () {
 	
 	
     <main>
-        <div class="profile1" align="center">
-            <img name="profile_img" style="max-width: 12%; height: auto; margin-top:70px; background-color: #141414;"/>
+        <div class="profileimg" align="center">
+            <img src="/web/resources/img/play/upload/profile/${view.profile_img}" style="width:300px; height::auto"/>
             <div>
                 <label for="profile_img"></label>
-                <input type="hidden" name="profile_img" id="profile_img" value="${view.profile_img}" />
+<%--                 <input type="hidden" name="profile_img" id="profile_img" value="${view.profile_img}" /> --%>
                 <input type="file" name="profileimg" id="profileimg" size="50"/>
+               
 
 			</div>            
             </div>
@@ -254,7 +222,8 @@ $(function () {
                 
       
 				<textarea  style="background-color: #141414; margin-top:10px; width:300px; height: 400px" 
-				id="aboutme" name="aboutme" placeholder="   자기소개">
+				id="aboutme" name="aboutme"  placeholder="   자기소개">${view.aboutme}
+	
 				
 				</textarea> 
                 
@@ -270,8 +239,8 @@ $(function () {
                        id="password2" name="password2" placeholder="  비밀번호 변경"/>
                 <input type="hidden" name="password" id="password" value="" class="form-control"/>
             </div>
-            <div class="form-group" align="center">
-                <a id="sendButton" href="#" class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem; width:300px; height: 30px">확인</a>
+            <div class="form-group" align="center" style="magin-top:40px">
+                <a id="sendButton" href="#" class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem; width:300px; height: 20px">확인</a>
             </div>
         </div>
 
