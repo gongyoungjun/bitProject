@@ -38,35 +38,23 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript"></script>
 
-<script type="text/javascript">
+<script>
 
+function previewImage() {
+	  const preview = document.getElementById('preview');
+	  const file = document.getElementById('profileimg').files[0];
+	  const reader = new FileReader();
 
-    //이미지 미리보기
-    $(document).ready(function () {
-        $("#profileimg").on("change", handleImgFileSelect);
+	  reader.onloadend = function() {
+	    preview.src = reader.result;
+	  }
 
-        });
-
-
-    function handleImgFileSelect(e) {
-        let files = e.target.files;
-        let filesArr = Array.prototype.slice.call(files);
-
-        let reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
-
-        filesArr.forEach(function (f) {
-            if (!f.type.match(reg)) {
-                alert("확장자는 이미지 확장자만 가능합니다.");
-                return;
-            }
-
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                $("#img").attr("src", e.target.result);
-            }
-            reader.readAsDataURL(f);
-        });
-    }
+	  if (file) {
+	    reader.readAsDataURL(file);
+	  } else {
+	    preview.src = "";
+	  }
+	}
 </script>
 
 
@@ -75,7 +63,7 @@
 $(function () {
 
 	//포로필 업데이트
-	$("a#sendButton").click(function() {
+	$("button#sendButton").click(function() {
 		if($("input#nickname").val().length == 0
 		
         ) {
@@ -95,24 +83,38 @@ $(function () {
 <body>
 <jsp:include page="testHeader.jsp"></jsp:include>
 
-<form action="updateProfile" method="post" enctype="multipart/form-data">
+<form action="/web/updateProfile" method="POST" enctype="multipart/form-data">
 	
-	
-    <main>
-        <div class="profileimg" align="center">
-            <img src="/web/resources/img/play/upload/profile/${view.profile_img}" style="width:300px; height::auto"/>
-            <div>
-                <label for="profile_img"></label>
-<%--                 <input type="hidden" name="profile_img" id="profile_img" value="${view.profile_img}" /> --%>
-                <input type="file" name="profileimg" id="profileimg" size="50"/>
-               
-
-			</div>            
-            </div>
-    </main>
+	<div align="center">
+    <table>
+        <tr>
+        <th width="150">변경 전</th>
+        <th width="150">변경 후</th>
+        </tr>
     
-<%--     ${view } --%>
- 
+    	<tr>    
+         <th><img src="/web/resources/img/play/upload/profile/${view.profile_img}" style="width:300px; height::150px"/></th>
+         
+         <th>
+         <img id="preview" src="" style="width:300px; height::auto">
+         <br><img id="preview" src="" style="width:300px; height::auto">
+         </tr>        	          
+        
+        <tr>
+        <th></th>
+        
+        <th align="center">
+        <input type="file" name="profileimg" id="profileimg"  onchange="previewImage()" style="width:300px; height::150px"/>
+        </th>
+        </tr>    
+            
+    </table>
+   </div> 
+
+<!--   <input type="file" id="imageFile" name="imageFile" onchange="previewImage()"> -->
+<!--   <img id="preview" src="" alt="Preview Image"> -->
+
+
         <div class="profile" style="font-style: white; border:1; border-color=white">
         
         <div>
@@ -240,7 +242,7 @@ $(function () {
                 <input type="hidden" name="password" id="password" value="" class="form-control"/>
             </div>
             <div class="form-group" align="center" style="magin-top:40px">
-                <a id="sendButton" href="#" class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem; width:300px; height: 20px">확인</a>
+                <button id="sendButton" type="button" class="btn btn-sm btn-info btn-block" style="font-size: 1.2rem; width:300px; height: 20px">확인</button>
             </div>
         </div>
 

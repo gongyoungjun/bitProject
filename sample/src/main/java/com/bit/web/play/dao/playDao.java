@@ -215,7 +215,10 @@ public class playDao extends SqlSessionDaoSupport{
       return this.getSqlSession().selectList("selectMyInfo", id);
    }
    
-	
+// 사용자 정보 insert
+   public String insertMyInfo(membersBean bean) {
+      return this.getSqlSession().selectOne("insertMyInfo", bean);
+   }
 	
 	
 	
