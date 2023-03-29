@@ -31,5 +31,9 @@ public class squadboardBean {
 	private String gamegenre_game_img;
 	private String squadstate_statename;
 	
+	private String members_profile_img;
+	private String members_grade;
+	private String members_review_cnt;
+	
 	private String reservedateT;
 }

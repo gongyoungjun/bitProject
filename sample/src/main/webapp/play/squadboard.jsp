@@ -1,8 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@page isELIgnored="false" %>
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="UTF-8">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
@@ -26,63 +27,168 @@
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	
-<style type="text/css"></style>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<style type="text/css">
+a{
+  text-decoration:none; color:inherit; cursor: pointer;
+}
+ .right_area .icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100vw * (45 / 1920));
+    height: calc(100vw * (45 / 1920));
+
+    border-radius: 50%;
+    border: none;
+    background-color: #141414;
+}
+
+.icon.heart img{
+    width: calc(100vw * (24 / 1920));
+    height: calc(100vw * (24 / 1920));
+
+}
+
+.icon.heart.fas{
+  color:red
+}
+.heart{
+    transform-origin: center;
+}
+.heart.active img{
+    animation: animateHeart .3s linear forwards;
+}
+
+</style>
 
 
 <script type="text/javascript">
 $(function() {
 	
-	if(($("input#attendSH").val() == 'Y') || ($("input#attendAW").val() == 'Y')){
-		const fieldset = document.getElementById('btnRequest');
-		fieldset.disabled = true;
+	
+	window.onload=checkTime();
+		function checkTime() {
+		var state = $("input#squadstate").val();
+		if(state == 0 || state == 1){
+			var intervalId = setInterval(function(){
+				
+				var sysdate = new Date();
+				var newSquadboardNo = $("input#newSquadboardNo").val();
+				console.log(newSquadboardNo);
+				console.log(typeof(newSquadboardNo));
+				$.ajax({
+		 			   url:'/web/squadBoardAjaxSelect',
+		 			   type:'GET',
+		 			   data: {newSquadboardNo: newSquadboardNo},
+		 			   dataType:'text',
+		 			   contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+		 			   success:function(s){
+		 				   //var reservedate = new Date(s[])
+		 				   console.log(s);
+		 				   var reservedate = new Date(s);
+		 				   if (reservedate < sysdate){	 					   
+		 					 //console.log(reservedate < sysdate);
+		 					 
+		 					 clearInterval(intervalId);
+		 					 $("button#squadstateB").click();
+		 				   }
+		 			   },
+		 			   error:function(e){
+		 				   console.log('error');
+		 				   }
+		 			   });
+			},3000);
+		}
+	
+	};
+	window.onload=chagneButtonStateFunction();
+	function chagneButtonStateFunction() {
+		var state = $("input#squadstate").val();
+		console.log(state);
+		const buttonSS= document.getElementById('btnSquadState');
+		const spanSS= document.getElementById('spanSquadState');
+		// ìŠ¤ì¿¼ë“œìƒíƒœì— ë”°ë¥¸ ë²„íŠ¼ 
+		switch (state)
+		{
+		case "0"://ëª¨ì§‘ì¤‘
+			if(($("input#attendSH").val() == 'Y') || ($("input#attendAW").val() == 'Y')){
+				const fieldset = document.getElementById('btnRequest');
+				console.log('btnRequest disabled');
+				fieldset.disabled = true;
+			}else{
+			console.log('btn ready');	
+			//ì‹ ì²­ë²„íŠ¼
+			$("button#btnRequest1").click(function(){
+				window.open("/web/squadRequsetSelect?no=${squad.squadboard_no}&id=${userId}" , "..", "left=300, top=200, width=500, height=600");
+			})
+			$("button#btnRequest2").click(function(){
+				
+				window.open("/web/squadRequsetSelect?no=${squad.squadboard_no}&id=${userId}" , "..", "left=300, top=200, width=500, height=600");
+			})
+			break;    
+			}
+		case "1"://ëª¨ì§‘ì™„ë£Œ ë²„íŠ¼ë¹„í™œì„±í™”
+			spanSS.textContent="ëª¨ì§‘ì™„ë£Œ";
+			break;    
+	
+		case "2"://ì§„í–‰ì¤‘ ë²„íŠ¼ë¹„í™œì„±í™”
+			spanSS.textContent="ì§„í–‰ì¤‘";
+			buttonSS.style.backgroundColor = 'orange';
+			break;    
+
+		case "3"://ì¢…ë£Œ ë²„íŠ¼ë¹„í™œì„±í™”    
+			spanSS.textContent="ì¢…ë£Œ";
+			buttonSS.style.backgroundColor = 'red';
+			break;    
+
+		case "4"://ì·¨ì†Œ ë²„íŠ¼ë¹„í™œì„±í™”     
+			spanSS.textContent="ì·¨ì†Œ";
+			buttonSS.style.backgroundColor = 'red';
+			break;    
+	   
+	    default :  
+	    	spanSS.textContent="ì˜¤ë¥˜";
+	    	buttonSS.style.backgroundColor = 'gray';
+	    	break;
+		}
+	}
+		
+		
+	//heart ì¢‹ì•„ìš” í´ë¦­ì‹œ! í•˜íŠ¸ ë¿…
+	window.onload=likeBtnEffect();
+	function likeBtnEffect(){
+	    var $likeBtn =$('.icon.heart');
+
+	        $likeBtn.click(function(){
+	        $likeBtn.toggleClass('active');
+
+	        if($likeBtn.hasClass('active')){          
+	           $(this).find('img').attr({
+	        	   'src': '/web/resources/img/play/heartFull.png',
+	        	   'alt': 'ì¢‹ì•„ìš” ì™„ë£Œ'
+	                });
+	          
+	          
+	         }else{
+	            $(this).find('i').removeClass('fas').addClass('far')
+	           $(this).find('img').attr({
+	        	   'src': '/web/resources/img/play/heartBlank.png',
+	        	   'alt': 'ì¢‹ì•„ìš”'
+	           });
+	         }
+	        
+	        var reviewId = $(this).closest('table').data('review-id'); // í›„ê¸° ID
+	        var url = '/like/' + reviewId; // ì¢‹ì•„ìš” ìš”ì²­ URL
+
+	        
+	        
+	     });
 	}
 
-	
-	var squadstate = $("input#squadstate").val();
-	// 1ºĞ¸¶´Ù »õ·Î°íÄ§
-	
-	// ½ºÄõµå»óÅÂ¿¡ µû¸¥ ¹öÆ° 
-	switch (squadstate)
-	{
-	case 0:     
-	
-    break;
-	case 1:     
-		
-	break;    
-
-	case 2:     
-		
-	break;    
-
-	case 3:     
-		
-	break;    
-
-	case 4:     
-		
-	break;    
-   
-    default :  
-      
-
-	}
-	
-	//½ÅÃ»¹öÆ°
-	$("button#btnRequest1").click(function(){
-		window.open("/web/squadRequsetSelect?no=${squad.squadboard_no}&id=${userId}" , "..", "left=300, top=200, width=500, height=600");
-	})
-	$("button#btnRequest2").click(function(){
-		
-		window.open("/web/squadRequsetSelect?no=${squad.squadboard_no}&id=${userId}" , "..", "left=300, top=200, width=500, height=600");
-	})
 	
 });
 </script>
@@ -93,76 +199,96 @@ $(function() {
 	<!--header  -->
 	<jsp:include page="testHeader.jsp"></jsp:include>
 	<!--header  -->
-
-	<main>
-		<div class="center"
-			style="height: 300px; min-width: 400px; margin-left: 200px; margin-bottom: 100px">
-			<div id="hiddenData">
+	<div id="hiddenData">
 				<input type="hidden" name="hostId" id="hostId" value="${squad.members_id}"/>
 				<input type="hidden" name="userId" id="userId" value="${userId}"/>
 				<input type="hidden" name="squadstate" id="squadstate" value="${squad.squadstate}"/>
 				<input type="hidden" name="attendSH" id="attendSH" value="${attendSH}"/>
 				<input type="hidden" name="attendAW" id="attendAW" value="${attendAW}"/>
-			</div>
-			<h2>${squad.title}</h2>
-			<img src="/web/resources/img/play/upload/${squad.filename}"
-				style="width: 250px; height: 200px; margin-top: 30px;" />
-				
-			<div class="text">
-				<h3 style="margin-left: 1000px; margin-top: 10px">${squad.hostname}</h3>
-				<h3 style="margin-left: 1000px; margin-top: 10px">ÆòÁ¡ 0 / 5.0(´ñ±Û¼ö)</h3>
-				<h3 style="margin-left: 1000px; margin-top: 10px">½ºÄõµå¼ö 0</h3>
-				<div class="buttons"style="margin-left: 1000px; margin-top: 10">
-					<a class="button" href="profile.jsp">È£½ºÆÃ Á¤º¸</a>
-				</div>
-			</div>
-			
-			<div class="text">
-				
-				<h3 style="margin-left: 1000px; margin-top: 10px">½ÃÀÛ½Ã°£ ${squad.reservedate}</h3>
-				<h3 style="margin-left: 1000px; margin-top: 10px">¿¹»óÁøÇà½Ã°£ ${squad.playtime}ºĞ</h3>
-				<h3 style="margin-left: 1000px; margin-top: 10px">½ÅÃ» ÀÎ¿ø ${squad.user_acceptcnt}¸í/${squad.user_maxcnt}¸í</h3>
-				<div class="buttons" style="margin-left: 1000px; margin-top: 10">				
+				<input type="hidden" name="newSquadboardNo" id="newSquadboardNo" value="${squad.squadboard_no }"/>
+				<input type="hidden" name="squadstateI" id="squadstateI" value="${squad.squadboard_no }"/>
+				<button type="button" name ="squadstateB" id="squadstateB" onclick="location.href='/web/SquadStateUpdate?no=${squad.squadboard_no}&hostId=${squad.members_id}' " style="display: none;">ìƒíƒœ ìˆ˜ì • ë²„íŠ¼</button>
+	</div><br>
+	<table border="1" bordercolor="white" width="90%" height="900px"  style="margin-left:5px margin-right:5px border-left: none; border-right: none; border-bottom: none">
+		<thead></thead>
+		<tbody>
+		<tr><td colspan="3" ><h2>${squad.title}</h2></td></tr>
+		<tr><td rowspan="5" height="610px"><img src="/web/resources/img/play/upload/${squad.filename}" style="width: 1000px; height: 600px; margin-top: 10px; margin-left: 10px;" /></td></tr>
+		<tr>
+		<td><img src="/web/resources/img/play/upload/profile/${squad.members_profile_img}" style="width: 255px; height: 255px; margin-top: 30px;" /></td>
+		<td>
+		<h3 style="margin-left: 10px; margin-top: 10px">${squad.hostname}</h3><br>
+		<h3 style="margin-left: 10px; margin-top: 5px">í‰ì  ${squad.members_grade} / 5.0(${squad.members_review_cnt})</h3><br>
+		<h3 style="margin-left: 10px; margin-top: 5px">ìŠ¤ì¿¼ë“œìˆ˜ ${squadCnt}</h3><br>
+		</td>
+		
+		</tr>
+		<tr>
+		<td>
+		<h3 style="margin-left: 10px; margin-top: 10px">ì‹œì‘ì‹œê°„</h3><h3 style="margin-left: 10px; margin-top: 5px">${squad.reservedate}</h3>
+		</td>
+		<td>
+		<h3 style="margin-left: 10px; margin-top: 10px">ì˜ˆìƒì§„í–‰ì‹œê°„</h3><h3 style="margin-left: 10px; margin-top: 5px">${squad.playtime}ë¶„</h3>
+		</td>
+		</tr>
+		<tr>
+		<td colspan="2">
+		<h3 style="margin-left: 10px; margin-top: 10px">ì‹ ì²­ ì¸ì› ${squad.user_acceptcnt}ëª…/${squad.user_maxcnt}ëª…</h3>
+		</td>
+		</tr>
+		<tr>
+		<td colspan="2">
+		<div class="buttons" style="margin-left: 10px; margin-top: 10px;">				
 				
 					<!-- btnActive / btnDisabled-->
 					<c:choose>
 						<c:when test="${userId == null}">
-							<button type="button" class="btn" id="btnOffer" style="background-color: gray;" onclick="btnDisabled()">
-								<span id="spanOffer">·Î±×ÀÎÇØÁÖ¼¼¿©</span>
+							<button type="button" class="btn" id="btnOffer" disabled='disabled' style="background-color: gray;margin: auto;" >
+								<span id="spanOffer">ë¡œê·¸ì¸í•´ì£¼ì„¸ì—¬</span>
 							</button>
 						</c:when>
 						<c:otherwise>
 							<c:choose>
 								<c:when test="${squad.members_id==userId}">
-									<button type="button" class="btn" id="btnEdit" style="background-color: green;" onclick="btnActive()">
-										<span id="spanEdit">¼öÁ¤</span>
+									<button type="button" class="btn" id="btnEdit" disabled='disabled' style="background-color: green;" >
+										<span id="spanEdit">ìˆ˜ì •</span>
 									</button>
 								</c:when>
 								<c:otherwise>
-									<fieldset id="btnRequest">
 									<c:choose>
-										<c:when test="${squad.recruitoption==0 && squad.payedstate==0}">
-											<button type="button" class="btn" id="btnRequest1" style="background-color: green;" onclick="btnActive()">
-												<span id="spanRequest">¹«·á Âü°¡</span>
+										<c:when test="${squad.squadstate==0}">
+											<fieldset id="btnRequest">
+											<c:choose>
+												<c:when test="${squad.recruitoption==0 && squad.payedstate==0}">
+													<button type="button" class="btn" id="btnRequest1" style="background-color: green;" >
+														<span id="spanRequest">ë¬´ë£Œ ì°¸ê°€</span>
+													</button>
+												</c:when>
+												<c:when test="${squad.recruitoption==1 && squad.payedstate==0}">
+													<button type="button" class="btn" id="btnRequest1" style="background-color: green;" >
+														<span id="spanRequest">ë¬´ë£Œ ì§€ì›</span>
+													</button>
+												</c:when>
+												<c:when test="${squad.recruitoption==0 && squad.payedstate==1}">
+													<button type="button" class="btn" id="btnRequest2" style="background-color: green;" >
+														<span id="spanRequest">${squad.price} ìœ ë£Œ ì°¸ê°€</span>
+													</button>
+												</c:when>
+												<c:when test="${squad.recruitoption==1 && squad.payedstate==1}">
+													<button type="button" class="btn" id="btnRequest2" style="background-color: green;" >
+														<span id="spanRequest">${squad.price} ìœ ë£Œ ì§€ì›</span>
+													</button>					
+												</c:when>
+											</c:choose>
+											</fieldset>
+										</c:when>
+										<c:otherwise>
+											<button type="button" class="btn" id="btnSquadState" disabled='disabled' style="color: white; background-color: green;" >
+												<span id="spanSquadState"></span>
 											</button>
-										</c:when>
-										<c:when test="${squad.recruitoption==1 && squad.payedstate==0}">
-											<button type="button" class="btn" id="btnRequest1" style="background-color: green;" onclick="btnActive()">
-												<span id="spanRequest">¹«·á Áö¿ø</span>
-											</button>
-										</c:when>
-										<c:when test="${squad.recruitoption==0 && squad.payedstate==1}">
-											<button type="button" class="btn" id="btnRequest2" style="background-color: green;" onclick="btnActive()">
-												<span id="spanRequest">${squad.price} À¯·á Âü°¡</span>
-											</button>
-										</c:when>
-										<c:when test="${squad.recruitoption==1 && squad.payedstate==1}">
-											<button type="button" class="btn" id="btnRequest2" style="background-color: green;" onclick="btnActive()">
-												<span id="spanRequest">${squad.price} À¯·á Áö¿ø</span>
-											</button>					
-										</c:when>
+										</c:otherwise>
 									</c:choose>
-									</fieldset>
+									
 								</c:otherwise>
 							
 							</c:choose>					
@@ -171,60 +297,97 @@ $(function() {
 					</c:choose>
 															
 				</div>
-			</div>
-		</div>
-	</main>
-
-	<section>
-		<div class="left" style="margin-bottom: 200px; margin-left:200px">
-			<h3>½ºÄõµå ¼³¸í</h3>
-			<h4>${squad.contents}</h4>
-		</div>
-		<div class="content-list" style="height: 300px; min-width: 1200px;">
-			<h5>È£½ºÆ®ÀÇ ´Ù¸¥ ½ºÄõµå</h5>
-			<c:forEach var="j" items="${squadList}" varStatus="cnt">
-
-					<div class="title">
-						<a href="/web/squadBoardInfoSelect?no=${j.squadboard_no}&hostid=${j.members_id}">
-						<img src="/web/resources/img/play/${j.gamegenre_game_img}"
-							style="width: 140px; height: 80px; margin-top: 30px;" /> 
-							${j.title} 
-						</a>
-					</div>
-					
-					<div class="board-meta" style="font-weight: 400; font-size: 1.2rem; color: #141414;">
-						<p>
-							<i class="glyphicon glyphicon-user"></i> ${j.gamegenre_name}
-							<i class="glyphicon glyphicon-time"></i> ${j.reservedate}
-							<i class="glyphicon glyphicon-eye-open"></i> ${j.squadstate_statename}
-						</p>
-					</div>
-				
-
-			</c:forEach>
+		</td>
+		</tr>
+		<tr><td colspan="3" height="9">
+		<h3 style="margin-left: 10px; margin-top: 10px">ìŠ¤ì¿¼ë“œ ì„¤ëª…</h3><br>
+		<h4>${squad.contents}</h4>
+		</td></tr>
+		</tbody>
+	</table><br><br>
+	<div class="content-list">
+		<h3>í˜¸ìŠ¤íŠ¸ì˜ ë‹¤ë¥¸ ìŠ¤ì¿¼ë“œ</h3>
+		<c:forEach var="j" items="${squadList}" varStatus="cnt">
 			
-			<h5>°Ô½ºÆ® ÈÄ±â</h5>
-			<div class="list_cmt">
-				<div class="cmt_head"></div>
-				<div class="cmt_body">
-					<c:forEach var="r" items="${reviewList}" varStatus="cnt">
-						<img src="/web/resources/img/play/${r.profile_img}" class="rounded-circle"
-							style="width: 50px; height: 30px; margin-top: 30px;" /> 
-							<span class="info_append"> <span class="txt_name">${r.name}</span>
-							<span class="txt_bar">|</span> <span class="txt_time">${r.score}</span>
-							<span class="txt_bar">|</span> <span class="txt_time">${r.regdate}</span>
-							<span class="txt_bar">|</span> <span class="txt_time">ÁÁ¾Æ¿ä ¹öÆ° / ÁÁ¾Æ¿ä¼ö</span>
-						</span>
-						<p class="txt_desc">${r.contents} <a href="#none">½Å°í</a></p>
-					</c:forEach>
-				</div>
-			</div>
-						
-		</div>
-		
-	</section>
-	
-<footer>
+			<c:choose>
+			<c:when test="${cnt.index % 4 == 0}">
+			<table>
+				<tr>
+			</c:when>
+			</c:choose>
+			<td>
+				<table border="1" bordercolor="white">
+					<tbody>
+						<tr>
+							<td rowspan="5">
+							<a href="/web/squadBoardInfoSelect?no=${j.squadboard_no}&hostId=${j.members_id}">
+									<img src="/web/resources/img/play/${j.gamegenre_game_img}" style="width: 200px; height: 120px;" />
+							</a></td>
+						</tr>
+						<tr>
+							<td>${j.title}</td>
+						</tr>
+						<tr>
+							<td>${j.gamegenre_name}</td>
+						</tr>
+						<tr>
+							<td>${j.reservedate}</td>
+						</tr>
+						<tr>
+							<td>${j.squadstate_statename}</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+			<c:choose>
+				<c:when test="${cnt.index % 4 == 3 || cnt.last}">
+					</tr>
+				</table>
+				</c:when>
+			</c:choose>
+		</c:forEach>
+
+		<h4>ê²ŒìŠ¤íŠ¸ í›„ê¸°</h4>
+		<c:forEach var="r" items="${reviewList}" varStatus="cnt">
+			<table border="1" bordercolor="white">
+				<tbody>
+					<tr>
+						<td rowspan="3"><img
+							src="/web/resources/img/play/upload/profile/${r.profile_img}"
+							class="rounded-circle" style="width: 50px; height: 50px;" /></td>
+					</tr>
+					<tr>
+						<td colspan="2">${r.name}</td>
+
+						<td>
+						<c:choose>
+						<c:when test="${userId != null}">
+						<a href="javascript:;" class="icon heart"> 
+						<img src="/web/resources/img/play/heartBlank.png" alt="ì¢‹ì•„ìš”">
+						</a>
+						</c:when>
+						</c:choose>
+						 
+						${r.good_cnt}
+						</td>
+					</tr>
+					<tr>
+						<td>í‰ì  ${r.score}</td>
+						<td>${r.regdate}</td>
+					</tr>
+					<tr>
+						<td colspan="3">${r.contents}</td>
+						<td><a href="#none">ì‹ ê³ </a></td>
+					</tr>
+				</tbody>
+			</table>
+		</c:forEach>
+
+
+	</div>
+
+
+	<footer>
 	<jsp:include page="footer.jsp"></jsp:include>
 </footer>
 </body>
