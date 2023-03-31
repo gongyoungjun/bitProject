@@ -1,14 +1,18 @@
 package com.bit.web.play.controller;
 
+import com.bit.web.play.action.PagingAction;
 import com.bit.web.play.email.MailUtil;
 import com.bit.web.play.service.PlayService;
 import com.bit.web.play.vo.hostreviewBean;
 import com.bit.web.play.vo.membersBean;
+import com.bit.web.play.vo.pageBean;
 import com.bit.web.play.vo.squadboardBean;
 import com.bit.web.play.vo.squadhistoryBean;
 import com.bit.web.play.vo.gamegenreBean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -35,7 +39,9 @@ import java.util.List;
 @Slf4j
 public class playController {
 
-
+	@Autowired	
+	private PagingAction pageAction;	
+	
 	private final PlayService playService;
 	
     /* 
@@ -399,12 +405,12 @@ public class playController {
 		HashMap<String, Object>map  = new HashMap<String, Object>();
 		map.put("query", request.getParameter("query"));
 		map.put("data", request.getParameter("data"));
-//			//其捞隆 甘 积己
-//			PageBean pageBean = pageAction.paging(request, map);
-//			map.put("start",  pageBean.getStart());
-//			map.put("end",  pageBean.getEnd());
+		//其捞隆 甘 积己
+		pageBean pageBean = pageAction.paging(request, map);
+		map.put("start",  pageBean.getStart());
+		map.put("end",  pageBean.getEnd());
 		//葛胆 积己
-//			model.addAttribute("pageBean", pageBean);
+		model.addAttribute("pageBean", pageBean);
 		model.addAttribute("list", playService.selectBoardList(map));
 		//System.out.println(playService.selectBoardList(map));
 		System.out.println(map);

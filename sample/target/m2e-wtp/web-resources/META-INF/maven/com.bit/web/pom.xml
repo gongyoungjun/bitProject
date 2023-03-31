@@ -68,6 +68,14 @@
 		</dependency>
 		<!-- 5.2.5.RELEASE -->
 
+		<!-- @resource 사용 -->
+		<dependency>
+		    <groupId>javax.annotation</groupId>
+		    <artifactId>javax.annotation-api</artifactId>
+		    <version>1.3.2</version>
+		</dependency>
+		<!-- @resource 사용 -->
+
 
 		<dependency>
 			<groupId>com.oracle</groupId>

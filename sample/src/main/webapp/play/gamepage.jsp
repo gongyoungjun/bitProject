@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -24,7 +24,7 @@
  
 </head>
 <script type="text/javascript">
-    //ÀÌ¹ÌÁö ¹Ì¸®º¸±â
+    //ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½
     var sel_file;
  
     $(document).ready(function() {
@@ -39,7 +39,7 @@
  
         filesArr.forEach(function(f) {
             if (!f.type.match(reg)) {
-                alert("È®ÀåÀÚ´Â ÀÌ¹ÌÁö È®ÀåÀÚ¸¸ °¡´ÉÇÕ´Ï´Ù.");
+                alert("È®ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
                 return;
             }
  
@@ -55,7 +55,7 @@
 </script>
 
 <script>
-//ÆÄÀÏ ¾÷·Îµå
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 function fn_submit(){
         
         var form = new FormData();
@@ -68,7 +68,7 @@ function fn_submit(){
            , contentType : false
            , data : form
            , success:function(response) {
-               alert("¼º°øÇÏ¿´½À´Ï´Ù.");
+               alert("ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
                console.log(response);
            }
            ,error: function (jqXHR) 
@@ -95,7 +95,7 @@ function fn_submit(){
 		<div class="row">
 			<div class="main" style="background-color: #141414">
 				<h3>
-					<a>°ÔÀÓÀå¸£</a>
+					<a>ï¿½ï¿½ï¿½ï¿½ï¿½å¸£</a>
 				</h3>
 			<form name="game" action="/web/newMember" enctype="multi/formhipdata" method="post"> 
 	
@@ -107,7 +107,7 @@ function fn_submit(){
 	            
 	
 	                <span class="button">
-	         		<a type="file" style="font-size: 1rem ">»çÁø ¼öÁ¤</a><br>
+	         		<a type="file" style="font-size: 1rem ">ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</a><br>
 	                <input type="file" name="game_img" id="game_img" class="inputText" size="50"/>
 					</span>
 				</div>
@@ -120,7 +120,7 @@ function fn_submit(){
 					<div class="form-group" align="center">
 						<input type="password"
 							style="background-color: #141414; margin-top: 10px; width: 300px; height: 50px"
-							placeholder="ºñ¹Ð¹øÈ£" class="form-control"
+							placeholder="ï¿½ï¿½Ð¹ï¿½È£" class="form-control"
 							id="password1" name="password1" />
 
 					</div>
@@ -129,7 +129,7 @@ function fn_submit(){
 						<!--<a class="pull-right" href="#">Esqueci a senha</a>-->
 						<input type="password"
 							style="background-color: #141414; margin-top: 10px; width: 300px; height: 50px"
-							placeholder="ºñ¹Ð¹øÈ£ È®ÀÎ" class="form-control" 
+							placeholder="ï¿½ï¿½Ð¹ï¿½È£ È®ï¿½ï¿½" class="form-control" 
 							id="name" name="name" />
 						<input type="hidden" name="password" id="password" class="form-control" />
 					</div>

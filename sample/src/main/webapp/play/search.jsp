@@ -49,6 +49,7 @@ $(function(){
 			$("input#data").val('');
 			return false;
 		}
+			
 		$("form").submit();
 	 }) 
  });
@@ -63,10 +64,10 @@ $(function(){
 <form action="listPageSearch" method="get">
 	<div align="center" style="margin:100px; color:black; ">
 		<select id="query" name="query" style="background:#141414;">
-		    <option selected="selected" value="empty">선택하세요</option>
+		    <option selected="selected" value="empty" disabled >선택하세요</option>  <!-- disabled option에서 값 고정 -->
 		   
 	        <option value="hostname">호스트</option>
-		    <option value="title">컨텐츠</option>
+		    <option value="name">게임</option>
 
 		</select>
 		
@@ -85,15 +86,17 @@ $(function(){
 				<col width="150" />
 				<col width="150" />
 				<col width="150" />
+				<col width="150" />
 					
 			</colgroup>
 			<thead>
 			
 
 			<tr>
+				<th scope="col">이미지</th>
+				<th scope="col">Title</th>
 				<th scope="col" class="fir">게임</th>   
 				<th scope="col">닉네임</th>
-				<th scope="col">컨텐츠</th>
 				<th scope="col">게임시간</th>
 				<th scope="col">시간</th>
 
@@ -104,9 +107,14 @@ $(function(){
 
 		<c:forEach items="${list}" var="list">
 			<tr>
+				<td>
+					<a href="/web/squadBoardInfoSelect?no=${list.squadboard_no}&hostId=${list.HostId}">
+					<img src="/web/resources/img/play/upload/board/${list.filename}" style="width:100px; height::auto;"/>
+				</a>
+				</td>
+				<td>${list.title}</td>
 				<td>${list.gamegenre_name}</td>
 				<td>${list.hostname}</td>
-				<td>${list.contents}</td>
 				<td>${list.playtime}</td>
 				<td>${list.reservedateT}</td>		
 			</tr>
@@ -116,12 +124,63 @@ $(function(){
 	</tbody>
 
 </table>
-</div>
 
 
 
 
-	
+					<div class="paging">
+						<a href="listPageSearch?page=1"><img src="/web/resources/img/play/button/btn_first.gif" alt="처음페이지" /></a>
+						<c:choose>
+						     <c:when test="${pageBean.currentBlock > 1 }">
+						     <a href="listPageSearch?page=${pageBean.startPage-1 }"><img src="/web/resources/img/play/button/btn_prev.gif" alt="이전" /></a>
+						     </c:when>
+						     <c:otherwise>
+						     <a href="#"><img src="/web/resources/img/play/button/btn_prev.gif" alt="이전" /></a>
+						     </c:otherwise>
+						</c:choose>
+						<c:choose>
+						   <c:when test="${pageBean.currentPage>1 }">
+						      <a href="listPageSearch?page=${pageBean.currentPage-1 }"> [Before]</a>
+						   </c:when>
+						   <c:otherwise>
+						   [Before]	
+						   </c:otherwise>
+						</c:choose>						
+											
+						<span>
+						    <c:forEach var="i" begin="${pageBean.startPage}" end="${pageBean.endPage }">
+						      <c:choose>
+						        <c:when test="${pageBean.currentPage == i }">
+						        	<a href="#"><font size="5" color="red">[${i}]</font></a>
+						        </c:when>
+						        <c:otherwise>
+						         <a href="listPageSearch?page=${i}">[${i}]</a>
+						        </c:otherwise>
+						      </c:choose>						
+							</c:forEach>
+						</span>
+						<c:choose>
+						   <c:when test="${pageBean.currentPage< pageBean.totalPage }">
+						      <a href="listPageSearch?page=${pageBean.currentPage+1 }"> [Next]</a>
+						   </c:when>
+						   <c:otherwise>
+						   [Next]	
+						   </c:otherwise>
+						</c:choose>	
+						<c:choose>
+						   <c:when test="${pageBean.totalPage > pageBean.endPage }">
+						   <a href="listPageSearch?page=${pageBean.endPage+1}"><img src="/web/resources/img/play/button/btn_next.gif" alt="다음" /></a>
+						   </c:when>
+						   <c:otherwise>
+						   <a href="#"><img src="/web/resources/img/button/btn_next.gif" alt="다음" /></a>
+						   </c:otherwise>
+						</c:choose> 						
+						 <a href="listPageSearch?page=${pageBean.totalPage}"><img src="/web/resources/img/play/button/btn_last.gif" alt="마지막페이지" /></a>
+
+					</div>
+
+
+	</div>
 	
 
 

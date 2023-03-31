@@ -320,11 +320,15 @@ WHERE SB.GAMEGENRE_NO = GG.GAMEGENRE_NO AND SS.SQUADSTATE_NO = SB.SQUADSTATE AND
     	<result property="playtime" column="playtime"/>
     	<result property="regdate" column="reg"/>
     	<result property="reservedate" column="reservedate"/>
+    	<result property="gamegenre_name" column="gamegenre_name"/>
+    	<result property="name" column="name"/>
+    	<result property="filename" column="filename"/>
+    	<result property="Squadboard_No" column="Squadboard_No"/>
     </resultMap>
 
 
 	<select id="selectBoardList" resultType="com.bit.web.play.vo.squadboardBean" resultMap="selectBoardID" parameterType="HashMap">
-	select  (gg.name) gamegenre_name, sb.members_id, sb.hostname, sb.title, sb.contents, sb.playtime, to_char(sb.regdate, 'YY/MM/DD') reservedateT
+	select  (gg.name)gamegenre_name, sb.members_id, sb.filename, sb.hostname, sb.title, sb.contents, sb.playtime, to_char(sb.regdate, 'YYYY/MM/DD HH:SS') reservedateT
 		from squadboard sb, gamegenre gg
 		where sb.gamegenre_no = gg.gamegenre_no
 
@@ -332,5 +336,21 @@ WHERE SB.GAMEGENRE_NO = GG.GAMEGENRE_NO AND SS.SQUADSTATE_NO = SB.SQUADSTATE AND
 		    and ${query} LIKE '%'||#{data}||'%'
 		</if> 
 	</select>	
+	
+	<select id="getTotalRow" resultType="java.lang.Integer"	parameterType="java.util.HashMap">
+	SELECT COUNT(*) 
+	FROM squadboard sb 
+	INNER JOIN gamegenre gg 
+	ON sb.gamegenre_no = gg.gamegenre_no
+        
+		<if test="query !=null and data !=null">
+				and ${query} LIKE '%'||#{data}||'%'
+		</if>
+	</select>
+	
+	
+	
+	
+	
 	
 </mapper>

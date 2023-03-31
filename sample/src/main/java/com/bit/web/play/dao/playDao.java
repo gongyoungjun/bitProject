@@ -262,6 +262,13 @@ public class playDao extends SqlSessionDaoSupport{
 	}
 
 	
+	
+	//게시물
+	public int getTotalRow(HashMap<String, Object>map) {
+		// TODO Auto-generated method stub
+		return this.getSqlSession().selectOne("getTotalRow",map);
+	}
+	
 	// 기타?
 	// 유저 아이디로 회원번호 return
 	public int getUserNo(String writerId) {
