@@ -61,6 +61,9 @@ $(function(){
 
 	<jsp:include page="testHeader.jsp"></jsp:include>
 
+
+
+
 <form action="listPageSearch" method="get">
 	<div align="center" style="margin:100px; color:black; ">
 		<select id="query" name="query" style="background:#141414;">
@@ -93,8 +96,8 @@ $(function(){
 			
 
 			<tr>
-				<th scope="col">이미지</th>
-				<th scope="col">Title</th>
+				<th scope="col"></th>
+				<th scope="col">제목</th>
 				<th scope="col" class="fir">게임</th>   
 				<th scope="col">닉네임</th>
 				<th scope="col">게임시간</th>
@@ -107,8 +110,9 @@ $(function(){
 
 		<c:forEach items="${list}" var="list">
 			<tr>
+			
 				<td>
-					<a href="/web/squadBoardInfoSelect?no=${list.squadboard_no}&hostId=${list.HostId}">
+				<a href="/web/squadBoardInfoSelect?no=${list.squadboard_no}&hostId=${list.members_id}">
 					<img src="/web/resources/img/play/upload/board/${list.filename}" style="width:100px; height::auto;"/>
 				</a>
 				</td>

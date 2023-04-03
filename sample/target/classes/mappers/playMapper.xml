@@ -323,12 +323,12 @@ WHERE SB.GAMEGENRE_NO = GG.GAMEGENRE_NO AND SS.SQUADSTATE_NO = SB.SQUADSTATE AND
     	<result property="gamegenre_name" column="gamegenre_name"/>
     	<result property="name" column="name"/>
     	<result property="filename" column="filename"/>
-    	<result property="Squadboard_No" column="Squadboard_No"/>
+    	<result property="squadboard_no" column="squadboard_no"/>
     </resultMap>
 
 
 	<select id="selectBoardList" resultType="com.bit.web.play.vo.squadboardBean" resultMap="selectBoardID" parameterType="HashMap">
-	select  (gg.name)gamegenre_name, sb.members_id, sb.filename, sb.hostname, sb.title, sb.contents, sb.playtime, to_char(sb.regdate, 'YYYY/MM/DD HH:SS') reservedateT
+	select  (gg.name)gamegenre_name, sb.squadboard_no, sb.members_id, sb.filename, sb.hostname, sb.title, sb.contents, sb.playtime, to_char(sb.regdate, 'YYYY/MM/DD HH:SS') reservedateT
 		from squadboard sb, gamegenre gg
 		where sb.gamegenre_no = gg.gamegenre_no
 
