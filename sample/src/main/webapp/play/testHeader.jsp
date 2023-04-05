@@ -126,7 +126,7 @@ $(function(){
 		
 	<div class="banner_right" style="flex-grow:2; float:right; text-align:right;">	
 		<span class="search">
-			<input type="text" style="height:40px;width:200px; background-color: #141414; border:1; border-color:white;" placeholder="" />
+
 					
 					<a type="button" href="search.jsp"> 
 						<i class="fa-solid fa-magnifying-glass"></i>
@@ -173,8 +173,13 @@ $(function(){
 	</div>
 	<div class="banner_right" style="flex-grow:2; float:right; text-align:right;">	
 		<span class="search">
-			<input type="text" placeholder="" />
-					<i class="fa-solid fa-magnifying-glass"></i>
+
+					
+					<a type="button" href="/web/play/search.jsp"> 
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</a>
+					
+	
 		</span>
 
 		<span class="my_page">

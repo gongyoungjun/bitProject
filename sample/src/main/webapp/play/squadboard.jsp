@@ -5,32 +5,29 @@
 <!DOCTYPE html>
 <html lang="UTF-8">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>SquadBoard</title>
-<link rel="stylesheet"
-	href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-	integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/play/index.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-	crossorigin="anonymous">
-</head>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>TogetherSquad</title>
+	
+	<link rel="stylesheet"
+		href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
+	<link rel="stylesheet"
+		href="${pageContext.request.contextPath}/resources/css/play/index.css">
+	
+	</head>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript"></script>
 <style type="text/css">
 a{
   text-decoration:none; color:inherit; cursor: pointer;
@@ -209,11 +206,11 @@ $(function() {
 				<input type="hidden" name="squadstateI" id="squadstateI" value="${squad.squadboard_no }"/>
 				<button type="button" name ="squadstateB" id="squadstateB" onclick="location.href='/web/SquadStateUpdate?no=${squad.squadboard_no}&hostId=${squad.members_id}' " style="display: none;">상태 수정 버튼</button>
 	</div><br>
-	<table border="1" bordercolor="white" width="90%" height="900px"  style="margin-left:5px margin-right:5px border-left: none; border-right: none; border-bottom: none">
-		<thead></thead>
-		<tbody>
-		<tr><td colspan="3" ><h2>${squad.title}</h2></td></tr>
-		<tr><td rowspan="5" height="610px"><img src="/web/resources/img/play/upload/${squad.filename}" style="width: 1000px; height: 600px; margin-top: 10px; margin-left: 10px;" /></td></tr>
+	<table  border="1" bordercolor="white" width="90%" height="900px"   style="margin-left:auto;  margin-right:auto; border-left: none; border-right: none; border-bottom: none">
+<!-- 		<thead></thead> -->
+		<tbody align="center">
+		<tr><td colspan="3" align="center"><h2>${squad.title}</h2></td></tr>
+		<tr><td rowspan="5" height="610px" ><img src="/web/resources/img/play/upload/${squad.filename}" style="width: 1000px; height: 600px; margin-top: 10px; margin-left: 10px;" /></td></tr>
 		<tr>
 		<td><img src="/web/resources/img/play/upload/profile/${squad.members_profile_img}" style="width: 255px; height: 255px; margin-top: 30px;" /></td>
 		<td>
@@ -228,7 +225,7 @@ $(function() {
 		<h3 style="margin-left: 10px; margin-top: 10px">시작시간</h3><h3 style="margin-left: 10px; margin-top: 5px">${squad.reservedate}</h3>
 		</td>
 		<td>
-		<h3 style="margin-left: 10px; margin-top: 10px">예상진행시간</h3><h3 style="margin-left: 10px; margin-top: 5px">${squad.playtime}분</h3>
+		<h3  style="margin-left: 10px; margin-top: 10px">예상진행시간</h3><h3 style="margin-left: 10px; margin-top: 5px">${squad.playtime}분</h3>
 		</td>
 		</tr>
 		<tr>

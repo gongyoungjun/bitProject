@@ -24,7 +24,7 @@
  
 </head>
 <script type="text/javascript">
-    //�̹��� �̸�����
+    //이미지 미리보기
     var sel_file;
  
     $(document).ready(function() {
@@ -39,7 +39,7 @@
  
         filesArr.forEach(function(f) {
             if (!f.type.match(reg)) {
-                alert("Ȯ���ڴ� �̹��� Ȯ���ڸ� �����մϴ�.");
+                alert("확장자는 이미지 확장자만 가능합니다.");
                 return;
             }
  
@@ -55,7 +55,7 @@
 </script>
 
 <script>
-//���� ���ε�
+//파일 업로드
 function fn_submit(){
         
         var form = new FormData();
@@ -68,7 +68,7 @@ function fn_submit(){
            , contentType : false
            , data : form
            , success:function(response) {
-               alert("�����Ͽ����ϴ�.");
+               alert("성공하였습니다.");
                console.log(response);
            }
            ,error: function (jqXHR) 
@@ -95,7 +95,7 @@ function fn_submit(){
 		<div class="row">
 			<div class="main" style="background-color: #141414">
 				<h3>
-					<a>�����帣</a>
+					<a>게임장르</a>
 				</h3>
 			<form name="game" action="/web/newMember" enctype="multi/formhipdata" method="post"> 
 	
@@ -107,7 +107,7 @@ function fn_submit(){
 	            
 	
 	                <span class="button">
-	         		<a type="file" style="font-size: 1rem ">���� ����</a><br>
+	         		<a type="file" style="font-size: 1rem ">사진 수정</a><br>
 	                <input type="file" name="game_img" id="game_img" class="inputText" size="50"/>
 					</span>
 				</div>
@@ -120,7 +120,7 @@ function fn_submit(){
 					<div class="form-group" align="center">
 						<input type="password"
 							style="background-color: #141414; margin-top: 10px; width: 300px; height: 50px"
-							placeholder="��й�ȣ" class="form-control"
+							placeholder="비밀번호" class="form-control"
 							id="password1" name="password1" />
 
 					</div>
@@ -129,7 +129,7 @@ function fn_submit(){
 						<!--<a class="pull-right" href="#">Esqueci a senha</a>-->
 						<input type="password"
 							style="background-color: #141414; margin-top: 10px; width: 300px; height: 50px"
-							placeholder="��й�ȣ Ȯ��" class="form-control" 
+							placeholder="비밀번호 확인" class="form-control" 
 							id="name" name="name" />
 						<input type="hidden" name="password" id="password" class="form-control" />
 					</div>
@@ -149,7 +149,6 @@ function fn_submit(){
         const next = document.querySelectorAll('.next');
         const prev = document.querySelectorAll('.prev');
         const slider = document.querySelectorAll('.slider')
-
         for(let i =0;i<slider.length;i++){
             getMovies(slider[i],i+1);
             makeSlider(slider[i],prev[i],next[i]);

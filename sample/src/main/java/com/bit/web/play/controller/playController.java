@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,24 +40,23 @@ import java.util.List;
 @Slf4j
 public class playController {
 
-	@Autowired	
-	private PagingAction pageAction;	
-	
+	@Autowired   
+	private PagingAction pageAction;  
 	private final PlayService playService;
-	
-    /* 
-     * ·Î±×ÀÎ ÆäÀÌÁö > ·Î±×ÀÎ > ¾ÆÀÌµğÃ£±â 
-     */
+
+	/* 
+	 * ë¡œê·¸ì¸ í˜ì´ì§€ > ë¡œê·¸ì¸ > ì•„ì´ë””ì°¾ê¸° 
+	 */
 	@RequestMapping(value = "idSearch", method = RequestMethod.GET)
 	@ResponseBody
 	public String sendId(@RequestParam(value ="email", required = false)String email) {
 		String checkedId = playService.find_user_id(email);
-		MailUtil.naverMailSend(email, "PlaySquad IDÀÔ´Ï´Ù.", checkedId);
+		MailUtil.naverMailSend(email, "PlaySquad IDì…ë‹ˆë‹¤.", checkedId);
 		return "success";
 	};
-    /*
-     * ·Î±×ÀÎ ÆäÀÌÁö > ·Î±×ÀÎ > ºñ¹Ğ¹øÈ£ Ã£±â
-     */
+	/*
+	 * ë¡œê·¸ì¸ í˜ì´ì§€ > ë¡œê·¸ì¸ > ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°
+	 */
 	@RequestMapping(value="pwSearch", method=RequestMethod.GET)
 	@ResponseBody
 	public String pwSearch(@RequestParam(value="user_id", required = false)String userId, @RequestParam(value="pw_find_email", required=false)String pw_find_email) {
@@ -65,32 +65,32 @@ public class playController {
 		map.put("pw_find_email", pw_find_email);
 		return playService.find_user_pw(map);
 	};
-    /*
-     * ·Î±×ÀÎ Ã¼Å©
-     */
+	/*
+	 * ë¡œê·¸ì¸ ì²´í¬
+	 */
 	@RequestMapping(value = "playsquadLoginCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public String loginCheck(@RequestParam(value = "id", required = false)String inputId, @RequestParam(value = "password", required = false)String inputPassword,
-							HttpServletRequest req) {
-		
-		 String loginPass = playService.loginPass(inputId);
-		 String authority = playService.selectAuthority(inputId);
-		 System.out.println(inputId);
-		 System.out.println(inputPassword);
-		 System.out.println(loginPass);
-		 if(loginPass.equals(inputPassword)) {
-			 req.getSession().setAttribute("userId", inputId);
-			 req.getSession().setAttribute("userAuthority", authority);
-			 System.out.println(playService.selectAuthority(inputId));
-			 req.getSession().setMaxInactiveInterval(60*60*24);
-			 return "success";
-		 }else { 
-			 return "failed";
-		 }
+			HttpServletRequest req) {
+
+		String loginPass = playService.loginPass(inputId);
+		String authority = playService.selectAuthority(inputId);
+		System.out.println(inputId);
+		System.out.println(inputPassword);
+		System.out.println(loginPass);
+		if(loginPass.equals(inputPassword)) {
+			req.getSession().setAttribute("userId", inputId);
+			req.getSession().setAttribute("userAuthority", authority);
+			System.out.println(playService.selectAuthority(inputId));
+			req.getSession().setMaxInactiveInterval(60*60*24);
+			return "success";
+		}else { 
+			return "failed";
+		}
 	};
-    /*
-     * ·Î±×¾Æ¿ô
-     */
+	/*
+	 * ë¡œê·¸ì•„ì›ƒ
+	 */
 	@RequestMapping(value = "logoutAction")
 	@ResponseBody
 	public String logoutAction(HttpServletRequest req) {
@@ -99,52 +99,52 @@ public class playController {
 		System.out.println("Session Deleted");
 		return "Logout Success";
 	};
-    /*
-     * ·Î±×ÀÎ½Ã mainpage·Î
-     */
+	/*
+	 * ë¡œê·¸ì¸ì‹œ mainpageë¡œ
+	 */
 	@RequestMapping(value = "playsquadListAction", method = RequestMethod.POST)
 	public String playsquadListAction() {
 		System.out.println("List Action In Process..");
-		
+
 		return "play/mainpage";
 	};
-    /*
-     * ½ºÄõµå ¸ğÁı±Û ÀÛ¼ºÀü ·Îµù
-     */
+	/*
+	 * ìŠ¤ì¿¼ë“œ ëª¨ì§‘ê¸€ ì‘ì„±ì „ ë¡œë”©
+	 */
 	@RequestMapping(value = "newsquadLoadingAction")
 	public String newsquadLoadingAction(Model model) {
 		model.addAttribute("games", playService.popularGameListSelect());
 		return "play/new_squad";
 	}
-    /*
-     * ½ºÄõµå ¸ğÁı±Û ÀÛ¼ºÀü ·Îµù, ¼¼¼Ç¿¡¼­ ¾ÆÀÌµğ ÀĞ¾î¿À±â, ÇØ½ÃÅÂ±× ¹Ş¾Æ¼­ db¿¡ ³Ö´Â ±â´É ¹Ì±¸Çö
-     */
+	/*
+	 * ìŠ¤ì¿¼ë“œ ëª¨ì§‘ê¸€ ì‘ì„±ì „ ë¡œë”©, ì„¸ì…˜ì—ì„œ ì•„ì´ë”” ì½ì–´ì˜¤ê¸°, í•´ì‹œíƒœê·¸ ë°›ì•„ì„œ dbì— ë„£ëŠ” ê¸°ëŠ¥ ë¯¸êµ¬í˜„
+	 */
 	@PostMapping(value = "squadBoardInsert")
 	public String squadBoardInsert(squadboardBean bean,
 			@RequestParam(value = "reservedate_input") String reservedate_input
-	 , @RequestParam(value = "userId", required=false)String writerId
-	 , @RequestParam(value = "filename", required=false, defaultValue = "defaultImg.jpg")String filename
-	 , @RequestParam(value = "thumbnail_file", required=false)MultipartFile file) {
+			, @RequestParam(value = "userId", required=false)String writerId
+			, @RequestParam(value = "filename", required=false, defaultValue = "defaultImg.jpg")String filename
+			, @RequestParam(value = "thumbnail_file", required=false)MultipartFile file) {
 		System.out.println("Board Insert In Process..");
-		// Å×½ºÆ®¿ë ÀÛ¼ºÀÚ ¾ÆÀÌµğ blue·Î ÀÓ½Ã ¼³Á¤. ·Î±×ÀÎºÎÅÍ ¿¬°á½Ã parameter¿¡¼­ °¡Á®¿Í¾ß ÇÔ.
-		// ±¸Çö½Ã ¾Æ·¡ ÄÚµå ¼öÁ¤ÇØ¾ß
+		// í…ŒìŠ¤íŠ¸ìš© ì‘ì„±ì ì•„ì´ë”” blueë¡œ ì„ì‹œ ì„¤ì •. ë¡œê·¸ì¸ë¶€í„° ì—°ê²°ì‹œ parameterì—ì„œ ê°€ì ¸ì™€ì•¼ í•¨.
+		// êµ¬í˜„ì‹œ ì•„ë˜ ì½”ë“œ ìˆ˜ì •í•´ì•¼
 		//String writerId = "blue";
 		System.out.println(writerId);
 		// squadboard_no
 		bean.setSquadboard_no(playService.getSquadBoardSequence());
-		// gamegenre_no - view¿¡¼­ °¡Á®¿È
-		// members_no - db¿¡¼­ ÀÛ¼ºÀÚ ¾ÆÀÌµğ·Î °¡Á®¿Â´Ù
+		// gamegenre_no - viewì—ì„œ ê°€ì ¸ì˜´
+		// members_no - dbì—ì„œ ì‘ì„±ì ì•„ì´ë””ë¡œ ê°€ì ¸ì˜¨ë‹¤
 		// bean.setMembers_no(playService.getUserNo(writerId));
 		bean.setMembers_id(writerId);
-		// hostname - db¿¡¼­ ÀÛ¼ºÀÚ ¾ÆÀÌµğ·Î °¡Á®¿Â´Ù
+		// hostname - dbì—ì„œ ì‘ì„±ì ì•„ì´ë””ë¡œ ê°€ì ¸ì˜¨ë‹¤
 		bean.setHostname(playService.getUserName(writerId));
-		// user_acceptcnt - ½Å±Ô ¸ğÁı±Û ÀÛ¼ºÀÌ¹Ç·Î insert½Ã ¹«Á¶°Ç 0
+		// user_acceptcnt - ì‹ ê·œ ëª¨ì§‘ê¸€ ì‘ì„±ì´ë¯€ë¡œ insertì‹œ ë¬´ì¡°ê±´ 0
 		bean.setUser_acceptcnt(0);
-		// user_maxcnt - view¿¡¼­ °¡Á®¿È
-		// recruitoption - view¿¡¼­ °¡Á®¿È
-		// playtime - view¿¡¼­ °¡Á®¿È
-		// regdate - mapper¿¡¼­ sysdate·Î
-		// reservedate - view¿¡¼­ °¡Á®¿ÀÁö¸¸ Çüº¯È¯ ÇÊ¿ä. parsing ÈÄ insert
+		// user_maxcnt - viewì—ì„œ ê°€ì ¸ì˜´
+		// recruitoption - viewì—ì„œ ê°€ì ¸ì˜´
+		// playtime - viewì—ì„œ ê°€ì ¸ì˜´
+		// regdate - mapperì—ì„œ sysdateë¡œ
+		// reservedate - viewì—ì„œ ê°€ì ¸ì˜¤ì§€ë§Œ í˜•ë³€í™˜ í•„ìš”. parsing í›„ insert
 		System.out.println(reservedate_input);
 		String newReservedate = reservedate_input.replace("T", " ");
 		System.out.println(reservedate_input + newReservedate);
@@ -152,19 +152,19 @@ public class playController {
 				DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 		System.out.println(reservedate);
 		bean.setReservedate(reservedate);
-		// squadstate - insert½Ã ¹«Á¶°Ç 0(¸ğÁıÁß)
+		// squadstate - insertì‹œ ë¬´ì¡°ê±´ 0(ëª¨ì§‘ì¤‘)
 		bean.setSquadstate(0);
-		// price - view¿¡¼­ °¡Á®¿È
-		// payedstate - view¿¡¼­ °¡Á®¿È
+		// price - viewì—ì„œ ê°€ì ¸ì˜´
+		// payedstate - viewì—ì„œ ê°€ì ¸ì˜´
 		// filename
-		String uploadLoc = "C://Users//BIT//git//bitfinalproject//playsquad//src//main//webapp//resources//img//play//upload//board//";
+		String uploadLoc = "C://Users//BIT//git//bitProject//sample//src//main//webapp//resources//img//play//upload//board//";
 		FileOutputStream fos = null;
 		String originFileName = file.getOriginalFilename();
 		if(originFileName.length() > 0) {
 			try {
-			fos = new FileOutputStream(uploadLoc + originFileName);
-			fos.write(file.getBytes());
-			bean.setFilename(originFileName);
+				fos = new FileOutputStream(uploadLoc + originFileName);
+				fos.write(file.getBytes());
+				bean.setFilename(originFileName);
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -174,11 +174,11 @@ public class playController {
 		}else {
 			return "redirect:play/insertFailed.jsp";
 		}
-		
-		// tags ¹Ì±¸Çö. ÀÓ½Ã·Î ±âº»ÅÂ±× ¼³Á¤
+
+		// tags ë¯¸êµ¬í˜„. ì„ì‹œë¡œ ê¸°ë³¸íƒœê·¸ ì„¤ì •
 		bean.setTags("defaultHashtag");
 
-		// db¿¡ ³Ö±â Àü ÄÜ¼Ö¿¡ »Ñ·Á¼­ Ã¼Å©
+		// dbì— ë„£ê¸° ì „ ì½˜ì†”ì— ë¿Œë ¤ì„œ ì²´í¬
 		System.out.println(bean);
 		// insert
 		playService.insertSquadBoard(bean);
@@ -186,8 +186,8 @@ public class playController {
 		return "redirect:play/insertSuccess.jsp";
 	}
 	/*
-     * ¸ğÁıÁßÀÎ ½ºÄõµå
-     */		
+	 * ëª¨ì§‘ì¤‘ì¸ ìŠ¤ì¿¼ë“œ
+	 */		
 	@GetMapping(value = "squadstate0ListAction")
 	@ResponseBody
 	public List<squadboardBean> mainPageListAction(Model model) {
@@ -197,8 +197,8 @@ public class playController {
 		return  playService.squadstate0Select();
 	};
 	/*
-     * ÀÎ±â°ÔÀÓ
-     */	
+	 * ì¸ê¸°ê²Œì„
+	 */	
 	@GetMapping(value = "popularGameListAction")
 	@ResponseBody
 	public List<gamegenreBean> popularGameListAction(){
@@ -206,94 +206,94 @@ public class playController {
 		return playService.popularGameListSelect();
 	};
 	/*
-     * ÀÎ±â½ºÄõµå È£½ºÆ® ÆÈ·Î¿ö¼ø
-     */	
+	 * ì¸ê¸°ìŠ¤ì¿¼ë“œ í˜¸ìŠ¤íŠ¸ íŒ”ë¡œì›Œìˆœ
+	 */	
 	@GetMapping(value = "squadPopularSelectAction")
 	@ResponseBody
 	public List<squadboardBean> squadPopularSelectAction(){
 		return playService.squadPopularSelect();
 	};
 	/*
-     * È¸¿ø°¡ÀÔ
-     */	
+	 * íšŒì›ê°€ì…
+	 */	
 	@RequestMapping(value = "newMember")
 	public String newAjaxCrudReplyAction(membersBean bean) {
-		log.debug("È¸¿ø°¡ÀÔ {}", bean);
+		log.debug("íšŒì›ê°€ì… {}", bean);
 		playService.insertSeqNumber(bean); 
 		return "redirect:/play/login.jsp";
 	};
 	/*
-     * È¸¿ø°¡ÀÔ - ¾ÆÀÌµğ Áßº¹Ã¼Å©
-     */	
+	 * íšŒì›ê°€ì… - ì•„ì´ë”” ì¤‘ë³µì²´í¬
+	 */	
 	@PostMapping(value = "ajaxFindID")
 	@ResponseBody
 	public String findId(@RequestParam(value = "id",required = false,defaultValue = "BLUE")String id) {	 
-		   System.out.println(playService);
+		System.out.println(playService);
 		//return "Test";
 		return playService.ajaxGetId(id)!=null?String.valueOf(true):String.valueOf(false);
 	}
 	/*
-     * È¸¿ø°¡ÀÔ - º°¸í Áßº¹ Ã¼Å©
-     */	
+	 * íšŒì›ê°€ì… - ë³„ëª… ì¤‘ë³µ ì²´í¬
+	 */	
 	@PostMapping(value = "ajaxFindNickname")
 	@ResponseBody
 	public String findNickname(@RequestParam(value = "Nickname",required = false,defaultValue = "BLUE")String ninckname) {	 
-		   System.out.println(playService);
+		System.out.println(playService);
 		//return "Test";
 		return playService.ajaxGetNickname(ninckname)!=null?String.valueOf(true):String.valueOf(false);
 	}    
 	/*
-     * ÇÁ·ÎÇÊ - °¡Á®¿À±â
-     */	
-    @RequestMapping(value = "/play/viewProfile", method = RequestMethod.GET)
-    public String getView(membersBean bean, String id ,Model model) throws Exception {
-    		membersBean vo = playService.getViewProfile(id);
-    		model.addAttribute("view", vo);
-//	    	bean.setMembers_id(id);
-    		System.out.println(vo);
-    	return "play/profile";
-	    }
-		/*
-		 * ÇÁ·ÎÇÊ ¼öÁ¤
-		 * 
-		 * @RequestMapping(value = "/play/updateProfile", method = RequestMethod.POST)
-		 * public String postView(membersBean bean) {
-		 * 
-		 * playService.postViewProfile(bean);
-		 * 
-		 * System.out.println(bean); return "play/mypage"; }
-		 */
+	 * í”„ë¡œí•„ - ê°€ì ¸ì˜¤ê¸°
+	 */	
+	@RequestMapping(value = "/play/viewProfile", method = RequestMethod.GET)
+	public String getView(membersBean bean, String id ,Model model) throws Exception {
+		membersBean vo = playService.getViewProfile(id);
+		model.addAttribute("view", vo);
+		//	    	bean.setMembers_id(id);
+		System.out.println(vo);
+		return "play/profile";
+	}
 	/*
-     * ÇÁ·ÎÇÊ - ¼öÁ¤
-     */	
+	 * í”„ë¡œí•„ ìˆ˜ì •
+	 * 
+	 * @RequestMapping(value = "/play/updateProfile", method = RequestMethod.POST)
+	 * public String postView(membersBean bean) {
+	 * 
+	 * playService.postViewProfile(bean);
+	 * 
+	 * System.out.println(bean); return "play/mypage"; }
+	 */
+	/*
+	 * í”„ë¡œí•„ - ìˆ˜ì •
+	 */	
 	@RequestMapping(value = "updateProfile", method = {RequestMethod.POST, RequestMethod.GET})
 	public String updateProfile(membersBean bean,
 			@RequestParam(value = "profileimg", required = false, defaultValue = "profileimg") MultipartFile file, HttpServletRequest req) {
-			HttpSession session = req.getSession();
-			String userId = (String)session.getAttribute("userId");
-			String loc = "C://Users//BIT//git//bitfinalproject//playsquad//src//main//webapp//resources//img//play//upload//profile//";
-			FileOutputStream fos = null;
-			String orginFile = file.getOriginalFilename();
-			System.out.println(orginFile);
-			if (orginFile.length() > 0) {
-				try {
-					fos = new FileOutputStream(loc + orginFile);
-					fos.write(file.getBytes());
-					bean.setProfile_img(orginFile);
-				} catch (Exception e) {
-					// TODO: handle exception
-					e.printStackTrace();
-				}
-
+		HttpSession session = req.getSession();
+		String userId = (String)session.getAttribute("userId");
+		String loc = "C://Users//BIT//git//bitProject//sample//src//main//webapp//resources//img//play//upload//profile//";
+		FileOutputStream fos = null;
+		String orginFile = file.getOriginalFilename();
+		System.out.println(orginFile);
+		if (orginFile.length() > 0) {
+			try {
+				fos = new FileOutputStream(loc + orginFile);
+				fos.write(file.getBytes());
+				bean.setProfile_img(orginFile);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
 			}
-			playService.postViewProfile(bean);
-	    	System.out.println(orginFile);
-	    	System.out.println(bean);
-    	return "redirect:/GuestReviewSelect?id="+userId;
-			
+
+		}
+		playService.postViewProfile(bean);
+		System.out.println(orginFile);
+		System.out.println(bean);
+		return "redirect:/GuestReviewSelect?id="+userId;
+
 	}
 	/*
-     * ½ºÄõµå °Ô½ÃÆÇ - ¸ÅÇÎ
+     * ìŠ¤ì¿¼ë“œ ê²Œì‹œíŒ - ë§¤í•‘
      */		
 	@RequestMapping(value="squadBoardInfoSelect", method = RequestMethod.GET)
 	public String squadboardInfoSelectProcess(HttpServletRequest request,Model model, int no, String hostId) {
@@ -309,14 +309,14 @@ public class playController {
 			HashMap<String, Object>map2 = new HashMap<String, Object>();
 			map2.put("squadboard_no", no);
 			map2.put("members_id", userId);
-			// ½ºÄõµå °Ô½ÃÆÇ »ó¼¼ ³»¿ë
+			// ìŠ¤ì¿¼ë“œ ê²Œì‹œíŒ ìƒì„¸ ë‚´ìš©
 			model.addAttribute("squad", playService.selectSquadBoardInfo(no));
 			model.addAttribute("squadCnt", playService.selectSquadCnt(hostId));
-			// È£½ºÆ®±âÁØ ½ºÄõµå Á¤º¸
+			// í˜¸ìŠ¤íŠ¸ê¸°ì¤€ ìŠ¤ì¿¼ë“œ ì •ë³´
 			model.addAttribute("squadList", playService.selectSquadBoardHost(map1));
-			// È£½ºÆ®±âÁØ È£½ºÆ®¸®ºä
+			// í˜¸ìŠ¤íŠ¸ê¸°ì¤€ í˜¸ìŠ¤íŠ¸ë¦¬ë·°
 			model.addAttribute("reviewList", playService.selectHostReviewHost(hostId));
-			//Âü°¡³ª ½ÅÃ» ÁßÀÎÁö ¿©ºÎ È®ÀÎ
+			//ì°¸ê°€ë‚˜ ì‹ ì²­ ì¤‘ì¸ì§€ ì—¬ë¶€ í™•ì¸
 			if(userId != null) {
 				model.addAttribute("attendSH", playService.selectIdSquadHistory(map2));
 				model.addAttribute("attendAW", playService.selectIdAcceptWaitting(map2));				
@@ -324,7 +324,7 @@ public class playController {
 		return "play/squadboard";
 	}
 	/*
-     * ½ºÄõµå °Ô½ÃÆÇ - Âü°¡ 2Â÷È®ÀÎ Ã¢
+     * ìŠ¤ì¿¼ë“œ ê²Œì‹œíŒ - ì°¸ê°€ 2ì°¨í™•ì¸ ì°½
      */	
 	@RequestMapping("squadRequsetSelect")
 	public String squadRequsetSelectProcess(Model model, int no) {
@@ -332,7 +332,7 @@ public class playController {
 		return "play/squad_request";
 	}
 	/*
-     * ½ºÄõµå °Ô½ÃÆÇ - Âü°¡ 2Â÷È®ÀÎ È®ÀÎ¹öÆ°
+     * ìŠ¤ì¿¼ë“œ ê²Œì‹œíŒ - ì°¸ê°€ 2ì°¨í™•ì¸ í™•ì¸ë²„íŠ¼
      */	
 	@RequestMapping("squadRequsetAccept")
 	public String squadRequsetAcceptProcess(squadhistoryBean shBean,acceptwaittingBean awBean,
@@ -340,12 +340,19 @@ public class playController {
 			@RequestParam(value = "recruitoption", required = false)int recruitoption,
 			@RequestParam(value = "userAcceptcnt", required = false)int userAcceptcnt,
 			@RequestParam(value = "userMaxcnt", required = false)int userMaxcnt) {
+		HashMap<String, Object>map = new HashMap<String, Object>();
+		map.put("squadboard_no", squadboard_no);
+		map.put("squadstate", 1);
 		if(userAcceptcnt < userMaxcnt) {
 			if(recruitoption == 0) {
 				shBean.setSquadhistory_no(playService.getSequence_SquadHistory());
 				playService.insertSquadHistory(shBean);		
 				System.out.println(squadboard_no);
 				playService.updateSB_acceptcnt_increase(squadboard_no);
+				String result = playService.selelctCompareUserCnt(squadboard_no);
+				if(result.equals("fullYes")) {
+					playService.updateSquadState(map);
+				}
 				return "play/squad_request_success";
 			} else if(recruitoption == 1){
 				awBean.setAcceptwaitting_no(playService.getSequence_AcceptWaitting());
@@ -356,7 +363,7 @@ public class playController {
 		return "play/squad_request_fail";
 	}
 	/*
-     * ½ºÄõµå °Ô½ÃÆÇ - AJAX
+     * ìŠ¤ì¿¼ë“œ ê²Œì‹œíŒ - AJAX
      */		
 	@GetMapping(value="squadBoardAjaxSelect")
 	@ResponseBody
@@ -368,18 +375,139 @@ public class playController {
 		return playService.selectReserveDate(Integer.parseInt(newSquadboardNo));
 	}
 	/*
-     * ½ºÄõµå °Ô½ÃÆÇ - »óÅÂ ¼öÁ¤
+     * ìŠ¤ì¿¼ë“œ ê²Œì‹œíŒ - ìƒíƒœ ìˆ˜ì •(ì§„í–‰ì¤‘)
      */	
 	@RequestMapping(value="SquadStateUpdate")
 	public String SquadStateUpdateProcess(int no, String hostId) {
-		
-		playService.updateSquadState(no);
-		
+		HashMap<String, Object>map = new HashMap<String, Object>();
+		map.put("squadboard_no", no);
+		map.put("squadstate", 2);
+		playService.updateSquadState(map);
+		playService.deleteAcceptWaittingSB(no);
 		return "redirect:/squadBoardInfoSelect?no="+no+"&hostId="+hostId;
 	}
+	
 	/*
-     * °øÁö»çÇ×
-     */	
+	 *  ë‚´ ìŠ¤ì¿¼ë“œ í˜ì´ì§€ - ë§¤í•‘
+	 */
+	@RequestMapping(value="mysquadInfoSelect")
+	public String mysquadInfoSelectProcess(Model model, String hostId) {
+		//ê²ŒìŠ¤íŠ¸ ê¸°ì¤€ ì§„í–‰ ì „ ìŠ¤ì¿¼ë“œ ê²€ìƒ‰
+		model.addAttribute("GSquadList", playService.selectParticipationSquad(hostId));
+		//ê²ŒìŠ¤íŠ¸ ê¸°ì¤€ ì°¸ê°€ ê¸°ë¡ 
+		model.addAttribute("GHistoryList", playService.selectGuestHistory(hostId));
+		//í˜¸ìŠ¤íŠ¸ ê¸°ì¤€ ì¢…ë£Œ ì „ ìŠ¤ì¿¼ë“œ ê²€ìƒ‰
+		model.addAttribute("HSquadList", playService.selectHostingSquad(hostId));
+		//í˜¸ìŠ¤íŠ¸ ê¸°ì¤€ í˜¸ìŠ¤íŒ… ê¸°ë¡
+		model.addAttribute("HHistoryList", playService.selectHostingHistory(hostId));
+		
+		return "play/mysquad";
+	}
+	
+	/*
+	 *  ë‚´ ìŠ¤ì¿¼ë“œ í˜ì´ì§€ > ì‚­ì œ ê¸°ëŠ¥
+	 */
+	@RequestMapping("squadDeleteOrCancel")
+	public String squadDeleteProcess(HttpServletRequest request,@RequestParam("no") int no, String job, int rc, String work) {
+		System.out.println(no);
+		HttpSession session = request.getSession();
+		String userId = (String)session.getAttribute("userId");
+		
+		HashMap<String, Object>map = new HashMap<String, Object>();
+		map.put("squadboard_no", no);
+		
+		if(job.equals("host")) {			
+			if(work.equals("delete")) {
+				System.out.println("delete");
+				System.out.println("no :" + no);
+				map.put("squadstate", 4);
+				playService.deleteAcceptWaittingSB(no);
+				playService.deleteSquadHistorySB(no);
+				playService.updateSquadState(map);
+			}else if(work.equals("end")) { 
+				System.out.println("end");
+				map.put("squadstate", 3);
+				playService.deleteAcceptWaittingSB(no);
+				playService.updateSquadState(map);
+			}
+
+		} else if(job.equals("guest")) {
+			map.put("members_id", userId);
+			if(rc == 0) {
+				playService.deleteSquadHistoryGuest(map);
+				playService.updateSB_acceptcnt_decrease(no);
+				String result = playService.selelctCompareUserCnt(no);
+				if(result.equals("fullNo")) {
+					HashMap<String, Object>map2 = new HashMap<String, Object>();
+					map2.put("squadboard_no", no);
+					map2.put("squadstate", 0);
+					playService.updateSquadState(map2);
+				}
+				
+			}else if(rc == 1) {
+				playService.deleteAcceptWaittingGuest(map);
+			}
+		}
+		return "play/squadDeleteSuccess";
+	}
+	
+	/*
+     * í˜¸ìŠ¤íŠ¸ ê´€ë¦¬í˜ì´ì§€ > ë§¤í•‘
+     */
+	@RequestMapping("squadHostingSelect")
+	public String squadHostingSelectProcess(Model model, int no) {
+		model.addAttribute("squadhistory", playService.selectSquadHistoryNo(no));
+		model.addAttribute("acceptwaitting", playService.selectAcceptWaittingNo(no));
+		return "play/squadHosting";
+	}
+	/*
+     * í˜¸ìŠ¤íŠ¸ ê´€ë¦¬í˜ì´ì§€ > ë²„íŠ¼ 
+     */
+	@RequestMapping("squadHostingButtonAC")
+	public String squadHostingButtonProcess(squadhistoryBean shBean, int no, String acId, String ac) {
+		HashMap<String, Object>map = new HashMap<String, Object>();
+		map.put("squadboard_no", no);
+		map.put("members_id", acId);
+		
+		shBean.setSquadhistory_no(playService.getSequence_SquadHistory());
+		shBean.setSquadboard_no(no);
+		shBean.setMembers_id(acId);
+		System.out.println(shBean);
+		if(ac.equals("yes")) {
+			String result = playService.selelctCompareUserCnt(no);
+			playService.deleteAcceptWaittingGuest(map);
+			shBean.setSquadhistory_no(playService.getSequence_SquadHistory());
+			playService.insertSquadHistory(shBean);		
+			playService.updateSB_acceptcnt_increase(no);
+			if(result.equals("fullYes")) {
+				HashMap<String, Object>map2 = new HashMap<String, Object>();
+				map2.put("squadboard_no", no);
+				map2.put("squadstate", 1);
+				playService.updateSquadState(map2);
+				System.out.println("fullYes");
+			}
+			
+		}else if(ac.equals("no")){
+			playService.deleteAcceptWaittingGuest(map);
+		}
+		
+		return "redirect:/squadHostingSelect?no="+no;
+	}
+	
+	@RequestMapping("squadHostingButtonSH")
+	public String squadHostingButtonProcess(int no, String acId) {
+		HashMap<String, Object>map = new HashMap<String, Object>();
+		map.put("squadboard_no", no);
+		map.put("members_id", acId);
+		playService.deleteSquadHistoryGuest(map);
+		playService.updateSB_acceptcnt_decrease(no);
+		
+		return "redirect:/squadHostingSelect?no="+no;
+	}
+
+	/*
+	 * ê³µì§€ì‚¬í•­
+	 */	
 	@RequestMapping(value="NoticeBoardInsert", method = RequestMethod.POST)
 	public String NoticeBoardInsert(NoticeBoardBean bean, Model model, @RequestParam String writer_id) {
 		bean.setNoticeboard_no(playService.getSequence2());
@@ -387,49 +515,69 @@ public class playController {
 		System.out.println(bean);
 		playService.insertNoticeBoard(bean);
 		return "play/noticeboard";
-		
+
 	}
-		
+
 	@RequestMapping(value="selectNoticeBoard", method=RequestMethod.GET)
-		public String selectNoticeBoard(Model model) {
+	public String selectNoticeBoard(Model model) {
 		model.addAttribute("notice", playService.selectNoticeBoard());
 		System.out.println(model);
 		return "play/noticeboard";
 	}		
 	/*
-     * °Ë»ö
-     */		
+	 * ê²€ìƒ‰
+	 */		
 	@RequestMapping(value="/play/listPageSearch")
 	public String selectBoardList(ModelMap model, HttpServletRequest request) {
-		//°Ë»ö ¸Ê »ı¼º
+		//ê²€ìƒ‰ ë§µ ìƒì„±
 		HashMap<String, Object>map  = new HashMap<String, Object>();
 		map.put("query", request.getParameter("query"));
 		map.put("data", request.getParameter("data"));
-		//ÆäÀÌÂ¡ ¸Ê »ı¼º
+		//í˜ì´ì§• ë§µ ìƒì„±
 		pageBean pageBean = pageAction.paging(request, map);
 		map.put("start",  pageBean.getStart());
 		map.put("end",  pageBean.getEnd());
-		//¸ğµ¨ »ı¼º
+		//ëª¨ë¸ ìƒì„±
 		model.addAttribute("pageBean", pageBean);
 		model.addAttribute("list", playService.selectBoardList(map));
 		//System.out.println(playService.selectBoardList(map));
 		System.out.println(map);
 		return "play/search";
 	}
+
 	/*
-     * °Ô½ºÆ® ÈÄ±â insert
-     */	
-	@RequestMapping(value="GuestReviewInsert", method = RequestMethod.POST)
-	public String GuestReviewInsert(GuestReviewBean bean, Model model, @RequestParam String writer_id) {
-		bean.setHostreview_no(playService.getGuestReviewSequence()); // hostreview_no
-		System.out.println(bean); //ÄÜ¼Ö¿¡ »Ñ¸²
-		playService.insertGuestReview(bean); //insert
+	 * ê²ŒìŠ¤íŠ¸ í›„ê¸° insert
+	 */	
+	@RequestMapping(value="GuestReviewInsert")
+	public String GuestReviewInsert(GuestReviewBean bean, Model model, @RequestParam(value="userId", required=false)String writer_id, 
+			@RequestParam(value="gamehostId", required=false)String host_id, 
+			@RequestParam(value="userName", required=false)String name) {
+		System.out.println("Review Insert in process"); // ì •ìƒ ì¶œë ¥
+		System.out.println(writer_id); // ì •ìƒ ì¶œë ¥
+		bean.setHostreview_no(playService.getGuestReviewSequence()); // hostreview_no, ì •ìƒ ì¶œë ¥
+		bean.setWriter_id(writer_id); //writer_id, ì •ìƒ ì¶œë ¥
+		System.out.println(host_id);
+		bean.setHost_id(host_id);
+		System.out.println(name);
+		bean.setName(name);
+		// ì½˜ì†”ì— ë¿Œë ¤ì„œ í™•ì¸
+		System.out.println(bean); 
+		// insert
+		playService.insertGuestReview(bean); 
+		System.out.println("Review Insert Success!");
 		return "play/mypage";
+		//return "redirect:play/reviewInsertSuccess.jsp";
 
 	}
+	//	@RequestMapping(value = "GuestReviewInsert")
+	//	public String GuestReviewInsert(GuestReviewBean bean) {
+	//		log.debug("ê²ŒìŠ¤íŠ¸ í›„ê¸° {}", bean);
+	//		playService.insertGuestReview(bean); 
+	//		return "redirect:play/reviewInsertSuccess.jsp";
+	//	};
 	/*
-     * °Ô½ºÆ® ÈÄ±â select
-     */	
+	 * ê²ŒìŠ¤íŠ¸ í›„ê¸° select
+	 */	
 	@RequestMapping(value="GuestReviewSelect", method=RequestMethod.GET)
 	public String GuestReviewSelect(Model model, String id) {
 		model.addAttribute("review", playService.selectGuestReview1(id));
@@ -438,23 +586,23 @@ public class playController {
 		System.out.println(model);
 		return "play/mypage";
 	}
-		
+
 	@RequestMapping(value="insertMyInfo", method = RequestMethod.POST)
 	public String insertMyInfo(membersBean bean, Model model, @RequestParam String members_id) {
 		bean.setMembers_id(members_id);
-		System.out.println(bean); //ÄÜ¼Ö¿¡ »Ñ¸²
+		System.out.println(bean); //ì½˜ì†”ì— ë¿Œë¦¼
 		playService.insertMyInfo(bean); //insert
 		return "play/mypage";
 	}
 	/*
-     * ¸¶ÀÌÆäÀÌÁö - ÆòÁ¡, ÆÈ·Î¿ö ¼ö 
-     */		
+	 * ë§ˆì´í˜ì´ì§€ - í‰ì , íŒ”ë¡œì›Œ ìˆ˜ 
+	 */		
 	@RequestMapping(value="selectMyInfo", method=RequestMethod.GET)
 	public String selectMyInfo(Model model, String id) {
 		model.addAttribute("info", playService.selectMyInfo(id));
 		System.out.println(model);
 		return "play/mypage";
 	}
-		
-		
+
+
 }

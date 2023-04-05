@@ -28,23 +28,34 @@
    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 <body>
 
+<script>
+function showPopup(){
+	window.open("/web/play/review.jsp", "a", "width=600, height=400, left=200, top=100"); 
+}
+</script>
 
 	<!--header  -->
 	<jsp:include page="testHeader.jsp"></jsp:include>
 	<!--header  -->
 
-	<main>
-		<div class="contents-list"
-			style="height: 300px; min-width: 400px; margin-left: 200px; margin-bottom: 150px">
+	<main style="margin-top: 100px">
+		<div class="contents-list" align="center"
+			style="min-width: 400px; margin-bottom: 50px">
 			<div class="text">
 				<c:forEach var="i" items="${info}" varStatus="cnt">
-				<img src="/web/resources/img/play/upload/profile/${i.profile_img}" style="width: 250px; height: 200px; margin-top: 30px;" /><br>
+				<img src="/web/resources/img/play/upload/profile/${i.profile_img}" style="width: auto; height: 300px; margin-top: 30px;" /><br>
+				<!--<a class="button" href="/web/play/profile.jsp">프로필 수정</a>-->
 				<button type="button" style="background-color: #141414;"
 				onclick="location.href='/web/play/viewProfile?id=${userId}'">
 				회원정보 수정</button>
+				<button class="btn" style="background-color: #141414;" onclick="showPopup();">
+					<i class="fa-sharp fa-solid fa-pen" ></i><span>후기 작성</span>
+				</button>
+				<button class="btn" style="background-color: #141414; margin-bottom: 20px;">
+					<i class="fa-solid fa-people-arrows" ></i><span>팔로우</span>
+				</button>
 				<h3 style="margin-left: 150px; margin-top: 30">${i.nickname}</h3>
 				<h3 style="margin-left: 150px; margin-top: 30">평점: ${i.grade} / 5.0</h3>
 				<h3 style="margin-left: 150px; margin-top: 30">0 Hosted</h3>
@@ -52,22 +63,6 @@
 				</c:forEach>	
 			</div>
 
-			
-			
-			<!--             <div class= "text"> -->
-			<!--             	<h1 style="margin-left: 400px; margin-top:0">별명*</h1> -->
-			<!--             </div> -->
-
-			<!--<div class="buttons">
-				<span class="button"> <a href="profile.jsp"
-					style="font-size: 1.2rem">프로필 수정</a>
-				</span> <br> <span class="button"> <a href="#"
-					style="font-size: 1.2rem">팔로우</a>
-				</span> <br> <span class="button"> <a href="#"
-					style="font-size: 1.2rem">스쿼드 예약</a>
-				</span>
-
-			</div>-->
 			
 		</div>
 	</main>
@@ -78,15 +73,15 @@
 	
 			<div class="slider">
 			<c:forEach var="j" items="${info}" varStatus="cnt">
-				<img src="/web/resources/img/play/upload/img1.jpg"
+				<img src="/web/resources/img/play/upload/board/img1.jpg"
 					style="width: 250px; height: 200px;" /> 
-				<img src="/web/resources/img/play/upload/img2.jpg"
+				<img src="/web/resources/img/play/upload/board/img2.jpg"
 					style="width: 250px; height: 200px;" />
-				<img src="/web/resources/img/play/upload/img3.jpg"
+				<img src="/web/resources/img/play/upload/board/img3.jpg"
 					style="width: 250px; height: 200px;" />
-				<img src="/web/resources/img/play/upload/img4.jpg"
+				<img src="/web/resources/img/play/upload/board/img4.jpg"
 					style="width: 250px; height: 200px;" />
-				<img src="/web/resources/img/play/upload/img5.jpg"
+				<img src="/web/resources/img/play/upload/board/img5.jpg"
 					style="width: 250px; height: 200px;" />
 			</c:forEach>
 			</div>
@@ -101,7 +96,7 @@
 					src="/web/resources/img/play/overwatch2.jpg"
 					style="width: 250px; height: 200px;" />
 				</a> <a href="/web/play/gamepage2.jsp"> <img
-					src="/web/resources/img/play/battleground.jpg"
+					src="/web/resources/img/play/lostark.jpg"
 					style="width: 250px; height: 200px;" />
 				</a>
 			</c:forEach>
@@ -128,27 +123,6 @@
 				<div class="cmt_foot"></div>
 			</div>
 		</div>
-
-		<!--<div class="list-group">
-				
-				<c:forEach items="${review}" var="i" varStatus="cnt">	
-			
-				<div class="title">
-						<a href="/web/GuestReviewSelect?no=${i.hostreview_no}" style="color:white;">
-							${i.title}<span class="badge">New</span>
-						</a>
-					</div>
-					
-					<div class="board-meta" style="font-weight: 400; font-size: 1.2rem; color: #141414;">
-						<p>
-							<i class="glyphicon glyphicon-time"></i>${i.regdate}
-						</p>
-					</div>
-				
-				</c:forEach>
-				
-				
-		</div>-->
 
 
 	</section>
