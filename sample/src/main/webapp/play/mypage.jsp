@@ -30,10 +30,81 @@
    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <body>
 
+<style type="text/css">
+a{
+  text-decoration:none; color:inherit; cursor: pointer;
+}
+ .right_area .icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100vw * (45 / 1920));
+    height: calc(100vw * (45 / 1920));
+
+    border-radius: 50%;
+    border: none;
+    background-color: #141414;
+}
+
+.icon.heart img{
+    width: calc(100vw * (24 / 1920));
+    height: calc(100vw * (24 / 1920));
+
+}
+
+.icon.heart.fas{
+  color:red
+}
+.heart{
+    transform-origin: center;
+}
+.heart.active img{
+    animation: animateHeart .3s linear forwards;
+}
+
+</style>
+
 <script>
 function showPopup(){
-	window.open("/web/play/review.jsp", "a", "width=600, height=400, left=200, top=100"); 
+    var openWin = window.open("/web/play/review.jsp", "a", "width=600, height=400, left=200, top=100");
+    openWin.window.onload = function() {
+        openWin.document.getElementById("host_id").value = document.getElementById("host_id").value;
+    };
 }
+
+	//heart 좋아요 클릭시! 하트 뿅
+	window.onload=likeBtnEffect();
+	function likeBtnEffect(){
+	    var $likeBtn =$('.icon.heart');
+	
+	        $likeBtn.click(function(){
+	        $likeBtn.toggleClass('active');
+	
+	        if($likeBtn.hasClass('active')){          
+	           $(this).find('img').attr({
+	        	   'src': '/web/resources/img/play/heartFull.png',
+	        	   'alt': '좋아요 완료'
+	                });
+	          
+	          
+	         }else{
+	            $(this).find('i').removeClass('fas').addClass('far')
+	           $(this).find('img').attr({
+	        	   'src': '/web/resources/img/play/heartBlank.png',
+	        	   'alt': '좋아요'
+	           });
+	         }
+	        
+	        var reviewId = $(this).closest('table').data('review-id'); // 후기 ID
+	        var url = '/like/' + reviewId; // 좋아요 요청 URL
+	
+	        
+	        
+	     });
+	}
+
+
+
 </script>
 
 	<!--header  -->
@@ -41,20 +112,18 @@ function showPopup(){
 	<!--header  -->
 
 	<main style="margin-top: 100px">
+	
 		<div class="contents-list" align="center"
 			style="min-width: 400px; margin-bottom: 50px">
 			<div class="text">
 				<c:forEach var="i" items="${info}" varStatus="cnt">
-				<img src="/web/resources/img/play/upload/profile/${i.profile_img}" style="width: auto; height: 300px; margin-top: 30px;" /><br>
-				<!--<a class="button" href="/web/play/profile.jsp">프로필 수정</a>-->
+				<input type="hidden" class="hiddenInput" name="host_id" id="host_id" value="${i.members_id}"> 
+				<img src="/web/resources/img/play/upload/profile/${i.profile_img}"  style="width: auto; height: 300px; margin-top: 30px;" /><br>
 				<button type="button" style="background-color: #141414;"
 				onclick="location.href='/web/play/viewProfile?id=${userId}'">
 				회원정보 수정</button>
-				<button class="btn" style="background-color: #141414;" onclick="showPopup();">
-					<i class="fa-sharp fa-solid fa-pen" ></i><span>후기 작성</span>
-				</button>
-				<button class="btn" style="background-color: #141414; margin-bottom: 20px;">
-					<i class="fa-solid fa-people-arrows" ></i><span>팔로우</span>
+					<button class="btn" id="reviewwrite" style="background-color: #141414;" onclick="showPopup();">
+					<i class="fa-sharp fa-solid fa-pen" ></i><span>후기 작성</span>							
 				</button>
 				<h3 style="margin-left: 150px; margin-top: 30">${i.nickname}</h3>
 				<h3 style="margin-left: 150px; margin-top: 30">평점: ${i.grade} / 5.0</h3>
@@ -62,68 +131,239 @@ function showPopup(){
 				<h3 style="margin-left: 150px; margin-top: 30">${i.follow_cnt} Followers</h3>
 				</c:forEach>	
 			</div>
-
+			
 			
 		</div>
 	</main>
-
+<!-- 구현안됨 -->
 	<section>
-		<div class="content-list" style="height: 200px; min-width: 1200px;">
+				<!-- 모집중인 스쿼드 리스트 -->
+		<!-- 모집중인 스쿼드 리스트 -->
+		<div class="content-list">
 			<h1>신청 가능한 스쿼드</h1>
-	
-			<div class="slider">
-			<c:forEach var="j" items="${info}" varStatus="cnt">
-				<img src="/web/resources/img/play/upload/board/img1.jpg"
-					style="width: 250px; height: 200px;" /> 
-				<img src="/web/resources/img/play/upload/board/img2.jpg"
-					style="width: 250px; height: 200px;" />
-				<img src="/web/resources/img/play/upload/board/img3.jpg"
-					style="width: 250px; height: 200px;" />
-				<img src="/web/resources/img/play/upload/board/img4.jpg"
-					style="width: 250px; height: 200px;" />
-				<img src="/web/resources/img/play/upload/board/img5.jpg"
-					style="width: 250px; height: 200px;" />
-			</c:forEach>
+       
+			<div class="prev" id="prevRegister">
+				<i class="fa-solid fa-angle-right prev-arrow"></i>
 			</div>
 			
+		<div class="slider" align="center" id="sliderRegister" style="height:300px;margin-right:1.8%;margin-left:1.8%;">
+				
 		</div>
-
-		<div class="content-list" style="height: 200px; min-width: 1200px;">
-			<h1>주로하는 게임</h1>
-			<div class="slider">
-			<c:forEach var="k" items="${info}" varStatus="cnt">
-				<a href="/web/play/gamepage.jsp"> <img
-					src="/web/resources/img/play/overwatch2.jpg"
-					style="width: 250px; height: 200px;" />
-				</a> <a href="/web/play/gamepage2.jsp"> <img
-					src="/web/resources/img/play/lostark.jpg"
-					style="width: 250px; height: 200px;" />
-				</a>
-			</c:forEach>
+			
+			<div class="next" id="nextRegister">
+				<i class="fa-solid fa-angle-right"></i>
+			</div>
+		</div>
+		<script type="text/javascript">
+        const nextRegister = document.querySelectorAll('.next#nextRegister');
+        const prevRegister = document.querySelectorAll('.prev#prevRegister');
+        const sliderRegister = document.querySelectorAll('.slider#sliderRegister');
+        for(let i =0;i<sliderRegister.length;i++){
+        	getImage(sliderRegister[i],i+1);
+            makeSlider(sliderRegister[i],prevRegister[i],nextRegister[i]);
+        }
+        function makeSlider(sliderRegister,prevRegister,nextRegister){
+        	nextRegister.addEventListener('click',()=>{
+                const offsetX = sliderRegister.offsetWidth;
+                sliderRegister.scrollBy(offsetX,0)
+            })
+            prevRegister.addEventListener('click',()=>{
+                const offsetX = sliderRegister.offsetWidth;
+                sliderRegister.scrollBy(-offsetX,0)
+            })
+        }
+        function getImage(slider){
+        	var userIdInput = document.getElementById('host_id').value;
+        	$.ajax({
+        		url:'/web/registerSquadInfoSelect',
+                type:'GET',
+                data: {
+                	   "userId": userIdInput
+                	},
+                dataType:'json',
+                contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+ 			   success:function(s){
+ 				   console.log(s);
+ 				   for (var j=0; j < s.length; j++){
+ 					   var eachFilename = s[j].filename;
+ 					   var eachSquadboardNo = s[j].squadboard_no;
+					   var eachHostId = s[j].members_id;
+ 					   var ext = eachFilename.slice(-3);
+ 					   var imgSrc = '/web/resources/img/play/upload/'+eachFilename;
+					   var eachProfile = s[j].members_profile_img;
+					   var eachTitle = s[j].title;
+					   var eachWriter = s[j].hostname;
+					   var eachGenre = s[j].gamegenre_name;
+					   var eachMax = s[j].user_maxcnt;
+					   var eachAcp = s[j].user_acceptcnt;
+					   var reservedateString = s[j].reservedate;
+					   var reservedateDate = new Date(reservedateString);
+					   var date = reservedateDate.toLocaleDateString();
+					   var time = reservedateDate.toLocaleTimeString([], { hour12: true, hour: '2-digit', minute: '2-digit' });
+ 					   var div = document.createElement('div');
+ 					   div.className='item';
+ 					   if(ext == 'jpg' || ext == 'png' || ext == 'gif'){
+	 					    div.innerHTML = `<a href="/web/squadBoardInfoSelect?no=\${eachSquadboardNo}&hostId=\${eachHostId}">
+	 					    <img src="/web/resources/img/play/upload/board/\${eachFilename}"></a><br>
+	 					    	<table style="text-align:center; width:250px;">
+	 					    	  <thead>
+	 					    	  </thead>
+	 					    	  <tbody>
+	 					    	  <tr><td rowspan="4"><img src="/web/resources/img/play/upload/profile/\${eachProfile}" style="width:60px; height:60px; border-radius:50%;"></td></tr>
+	 					    	  <tr><td style="text-align:left;"><b>\${eachTitle}</b></td></tr>
+	 					    	  <tr><td style="color:gray;text-align:left;">\${eachWriter}</td></tr>
+	 					    	  <tr><td style="color:gray;text-align:left;">\${eachGenre}</td></tr>
+	 					    	  <tr>
+	 					    	  <td>\${date}<br>\${time}</td>
+	 					    	  <td>모집인원<br>\${eachAcp}/\${eachMax}</td>
+	 					    	  </tr>
+	 					    	  </tbody>`;
+	 					    slider.appendChild(div); 						   
+					    }else{
+					    	div.innerHTML = `<a href="/web/squadBoardInfoSelect?no=\${eachSquadboardNo}&hostId=\${eachHostId}">
+					    	<img src="\${eachFilename}"></a><br>
+	 					    	<table style="text-align:center; width:250px;">
+	 					    	  <thead>
+	 					    	  </thead>
+	 					    	  <tbody>
+	 					    	  <tr><td rowspan="4"><img src="/web/resources/img/play/upload/profile/\${eachProfile}" style="width:60px; height:60px; border-radius:50%;"></td></tr>
+	 					    	  <tr><td style="text-align:left;"><b>\${eachTitle}</b></td></tr>
+	 					    	  <tr><td style="color:gray;text-align:left;">\${eachWriter}</td></tr>
+	 					    	  <tr><td style="color:gray;text-align:left;">\${eachGenre}</td></tr>
+	 					    	  <tr>
+	 					    	  <td>\${date}<br>\${time}</td>
+	 					    	  <td>모집인원<br>\${eachAcp}/\${eachMax}</td>
+	 					    	  </tr>
+	 					    	  </tbody>`;
+	 					    slider.appendChild(div);
+					    }
+ 				   }
+ 			   },
+ 			   error:function(e){
+ 				   console.log('error');
+ 			   }
+ 		});
+        }
+    	</script>
+<!--  -->
+		
+		<div class="content-list">
+			<h1>주로하는 게임</h1>  
+			<div class="prev" id="prevMainGame">
+				<i class="fa-solid fa-angle-right prev-arrow"></i>
 			</div>
 			
+			<div class="slider" align="center" id="sliderMainGame" style="height:180px;margin-right:1.8%;margin-left:1.8%;">
+				
+			</div>
+			<div class="next" id="nextMainGame">
+				<i class="fa-solid fa-angle-right"></i>
+			</div>
 		</div>
+		<script type="text/javascript">
+        const nextMainGame = document.querySelectorAll('.next#nextMainGame');
+        const prevMainGame = document.querySelectorAll('.prev#prevMainGame');
+        const sliderMainGame = document.querySelectorAll('.slider#sliderMainGame');
+        for(let i =0;i<sliderMainGame.length;i++){
+        	getImage(sliderMainGame[i],i+1);
+            makeSlider(sliderMainGame[i],prevMainGame[i],nextMainGame[i]);
+        }
+        function makeSlider(sliderMainGame,prevMainGame,nextMainGame){
+        	nextMainGame.addEventListener('click',()=>{
+                const offsetX = sliderMainGame.offsetWidth;
+                sliderMainGame.scrollBy(offsetX,0)
+            })
+            prevMainGame.addEventListener('click',()=>{
+                const offsetX = element.offsetWidth;
+                sliderMainGame.scrollBy(-offsetX,0)
+            })
+        }
+        function getImage(slider){
+        	$.ajax({
+ 			   url:'/web/popularGameListAction',
+ 			   type:'GET',
+ 			   dataType:'json',
+ 			   contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+ 			   success:function(s){
+ 				   console.log(s);
+ 				   for (var j=0; j < s.length; j++){
+ 					   var eachFilename = s[j].game_img;
+ 					   var eachGameGenreNo = s[j].gamegenre_no;
+ 					   var ext = eachFilename.slice(-3);
+ 					   var imgSrc = '/web/resources/img/play/'+eachFilename;
+ 					   console.log(eachFilename);
+ 					   var div = document.createElement('div');
+ 					   div.className='item';
+	 				   div.innerHTML = `<a href="/web/popularGameInfoSelect?ggno=\${eachGameGenreNo}"> <img src="/web/resources/img/play/\${eachFilename}"><br>
+	 					   	<table><thead></thead><tbody><tr><td><p><b>\${s[j].name}</b></p></td></tr></tbody></table> </a>`;
+	 				   slider.appendChild(div); 						    
+ 				   }
+ 			   },
+ 			   error:function(e){
+ 				   console.log('error');
+ 			   }
+ 		});
+        }      
+    	</script>
+<!--  -->
 
-
-		<div class="content-list" style="height: 200px; min-width: 1200px;">
-			<h1>게스트 후기</h1>
-			<div class="list_cmt">
+		
+			<h1 style="margin-left:50px">게스트 후기</h1>
+			<div class="list_cmt" style="border: 1; font-style: white">
 				<div class="cmt_head"></div>
-				<div class="cmt_body">
-					<c:forEach var="r" items="${review}" varStatus="cnt">
-						<img src="/web/resources/img/play/host.jpg" class="rounded-circle"
-							style="width: 50px; height: 30px; margin-top: 30px;" />
-						<span class="info_append"> <span class="txt_name">${r.name}</span>
-							<span class="txt_bar">|</span> <span class="txt_time">${r.score}</span>
-							<span class="txt_bar">|</span> <span class="txt_time">${r.regdate}</span>
-						</span>
-						<p class="txt_desc">${r.contents}</p>
-					</c:forEach>
+				<div class="cmt_body" style="margin-left: 100px;border: 1; font-style: white">
+					<c:forEach var="r" items="${review}" varStatus="cnt" >
+					<table  style="margin-top:30px">
+
+						<tbody>
+							<tr>
+								<td style="width:130px" rowspan="3" align="center">
+								<img src="/web/resources/img/play/upload/profile/${r.profile_img}"
+									class="rounded-circle" style="width: 50px; height: 50px;" /></td>
+							</tr>
+							<tr>
+								<td style="width:400px" colspan="2">${r.name}</td>
+								<td style="width:30px"></td>
+								<td style="width:20px"></td>
+								<td style="width:30px">
+								<c:choose>
+								<c:when test="${userId != null}">
+								<a href="javascript:;" class="icon heart"> 
+								<img src="/web/resources/img/play/heartBlank.png" alt="좋아요">
+								</a>
+								</c:when>
+								</c:choose> 
+		
+								</td>
+							</tr>
+							<tr>
+								<td>평점
+									<small style="width:150px" class="text-muted ${r.score}" style="font-size:20px;"></small>
+								</td>
+								<td align="right" style="width:180px"> ${r.regdate}</td>
+							</tr>
+							<tr></tr>
+							<tr>
+								<td></td>
+								<td style="width:300px" colspan="3">${r.contents}</td>
+								<td></td>
+								<td style="width:50px;margin-left: 20px"><a href="#none">신고</a></td>
+							</tr>
+						</tbody>
+			</table>
+		</c:forEach>
 				</div>
-				<div class="cmt_foot"></div>
+				<div class="cmt_foot" style="margin-top: 50px"></div>
 			</div>
 		</div>
-
+<!-- 		small을 호출해서, 점수를 받아서 별로 표시 -->
+	<script type="text/javascript">
+		$(".1").html("&#9733; &#9734; &#9734; &#9734; &#9734;");
+		$(".2").html("&#9733; &#9733; &#9734; &#9734; &#9734;");
+		$(".3").html("&#9733; &#9733; &#9733; &#9734; &#9734;");
+		$(".4").html("&#9733; &#9733; &#9733; &#9733; &#9734;");
+		$(".5").html("&#9733; &#9733; &#9733; &#9733; &#9733;"); 
+	</script>
 
 	</section>
 </body>

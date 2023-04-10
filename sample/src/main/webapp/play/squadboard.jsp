@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%@page isELIgnored="false" %>
+   pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <!DOCTYPE html>
-<html lang="UTF-8">
-<head>
+	<html lang="UTF-8">
+	<head>
 	<meta charset="UTF-8">
 	<meta name="viewport"
 		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -28,6 +27,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript"></script>
+
 <style type="text/css">
 a{
   text-decoration:none; color:inherit; cursor: pointer;
@@ -123,7 +123,6 @@ $(function() {
 				window.open("/web/squadRequsetSelect?no=${squad.squadboard_no}&id=${userId}" , "..", "left=300, top=200, width=500, height=600");
 			})
 			$("button#btnRequest2").click(function(){
-				
 				window.open("/web/squadRequsetSelect?no=${squad.squadboard_no}&id=${userId}" , "..", "left=300, top=200, width=500, height=600");
 			})
 			break;    
@@ -206,11 +205,11 @@ $(function() {
 				<input type="hidden" name="squadstateI" id="squadstateI" value="${squad.squadboard_no }"/>
 				<button type="button" name ="squadstateB" id="squadstateB" onclick="location.href='/web/SquadStateUpdate?no=${squad.squadboard_no}&hostId=${squad.members_id}' " style="display: none;">상태 수정 버튼</button>
 	</div><br>
-	<table  border="1" bordercolor="white" width="90%" height="900px"   style="margin-left:auto;  margin-right:auto; border-left: none; border-right: none; border-bottom: none">
-<!-- 		<thead></thead> -->
+	<table border="1" bordercolor="white" width="90%" height="900px"  style="align-content:center; margin-left:auto; margin-right:auto; border-left: none; border-right: none; border-bottom: none">
+		<thead></thead>
 		<tbody align="center">
-		<tr><td colspan="3" align="center"><h2>${squad.title}</h2></td></tr>
-		<tr><td rowspan="5" height="610px" ><img src="/web/resources/img/play/upload/${squad.filename}" style="width: 1000px; height: 600px; margin-top: 10px; margin-left: 10px;" /></td></tr>
+		<tr><td colspan="3" ><h2>${squad.title}</h2></td></tr>
+		<tr><td rowspan="5" height="610px"><img src="/web/resources/img/play/upload/${squad.filename}" style="width: 1000px; height: 600px; margin-top: 10px; margin-left: 10px;" /></td></tr>
 		<tr>
 		<td><img src="/web/resources/img/play/upload/profile/${squad.members_profile_img}" style="width: 255px; height: 255px; margin-top: 30px;" /></td>
 		<td>
@@ -225,7 +224,7 @@ $(function() {
 		<h3 style="margin-left: 10px; margin-top: 10px">시작시간</h3><h3 style="margin-left: 10px; margin-top: 5px">${squad.reservedate}</h3>
 		</td>
 		<td>
-		<h3  style="margin-left: 10px; margin-top: 10px">예상진행시간</h3><h3 style="margin-left: 10px; margin-top: 5px">${squad.playtime}분</h3>
+		<h3 style="margin-left: 10px; margin-top: 10px">예상진행시간</h3><h3 style="margin-left: 10px; margin-top: 5px">${squad.playtime}분</h3>
 		</td>
 		</tr>
 		<tr>
@@ -247,7 +246,7 @@ $(function() {
 						<c:otherwise>
 							<c:choose>
 								<c:when test="${squad.members_id==userId}">
-									<button type="button" class="btn" id="btnEdit" disabled='disabled' style="background-color: green;" >
+									<button type="button" class="btn" id="btnEdit" style="background-color: green;" onclick="location.href='/web/mysquadInfoSelect?hostId=${userId}'">
 										<span id="spanEdit">수정</span>
 									</button>
 								</c:when>
@@ -298,12 +297,12 @@ $(function() {
 		</tr>
 		<tr><td colspan="3" height="9">
 		<h3 style="margin-left: 10px; margin-top: 10px">스쿼드 설명</h3><br>
-		<h4>${squad.contents}</h4>
+		<h4>${squad.contents}</h4><br>
 		</td></tr>
 		</tbody>
 	</table><br><br>
-	<div class="content-list">
-		<h3>호스트의 다른 스쿼드</h3>
+	<div class="content-list" style="margin-left:100px">
+		<h3>호스트의 다른 스쿼드</h3><br>
 		<c:forEach var="j" items="${squadList}" varStatus="cnt">
 			
 			<c:choose>
@@ -313,16 +312,16 @@ $(function() {
 			</c:when>
 			</c:choose>
 			<td>
-				<table border="1" bordercolor="white">
-					<tbody>
+				<table style="margin-left:20px">
+					<tbody align="center">
 						<tr>
 							<td rowspan="5">
 							<a href="/web/squadBoardInfoSelect?no=${j.squadboard_no}&hostId=${j.members_id}">
 									<img src="/web/resources/img/play/${j.gamegenre_game_img}" style="width: 200px; height: 120px;" />
 							</a></td>
 						</tr>
-						<tr>
-							<td>${j.title}</td>
+						<tr >
+							<td style="width:200px;">${j.title}</td>
 						</tr>
 						<tr>
 							<td>${j.gamegenre_name}</td>
@@ -344,37 +343,45 @@ $(function() {
 			</c:choose>
 		</c:forEach>
 
-		<h4>게스트 후기</h4>
+		<h4 style="margin-top:30px;">게스트 후기</h4><br>
 		<c:forEach var="r" items="${reviewList}" varStatus="cnt">
-			<table border="1" bordercolor="white">
+			<table style="margin-top: 50px">
+
+			
 				<tbody>
 					<tr>
-						<td rowspan="3"><img
-							src="/web/resources/img/play/upload/profile/${r.profile_img}"
+						<td style="width:130px"  rowspan="3" align="center">
+						<img src="/web/resources/img/play/upload/profile/${r.profile_img}"
 							class="rounded-circle" style="width: 50px; height: 50px;" /></td>
 					</tr>
 					<tr>
-						<td colspan="2">${r.name}</td>
-
-						<td>
+						<td style="width:400px" colspan="2">${r.name}</td>
+						<td style="width:30px"></td>
+						<td style="width:20px"></td>
+						<td style="width:30px">
 						<c:choose>
 						<c:when test="${userId != null}">
 						<a href="javascript:;" class="icon heart"> 
 						<img src="/web/resources/img/play/heartBlank.png" alt="좋아요">
 						</a>
 						</c:when>
-						</c:choose>
-						 
-						${r.good_cnt}
+						</c:choose> 
+
 						</td>
 					</tr>
 					<tr>
-						<td>평점 ${r.score}</td>
-						<td>${r.regdate}</td>
+						<td>평점
+							<small class="text-muted ${r.score}" style="font-size:20px;margin-left:15px;width:150px;"></small>
+						</td>
+						<td align="right" style="width:180px" > ${r.regdate}</td>
 					</tr>
 					<tr>
-						<td colspan="3">${r.contents}</td>
-						<td><a href="#none">신고</a></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td style="width:300px" colspan="3">${r.contents}</td>
+						<td></td>
+						<td style="width:50px;margin-left: 20px"><a href="#none">신고</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -382,7 +389,14 @@ $(function() {
 
 
 	</div>
-
+	
+	<script type="text/javascript">
+		$(".1").html("&#9733; &#9734; &#9734; &#9734; &#9734;");
+		$(".2").html("&#9733; &#9733; &#9734; &#9734; &#9734;");
+		$(".3").html("&#9733; &#9733; &#9733; &#9734; &#9734;");
+		$(".4").html("&#9733; &#9733; &#9733; &#9733; &#9734;");
+		$(".5").html("&#9733; &#9733; &#9733; &#9733; &#9733;"); 
+	</script>
 
 	<footer>
 	<jsp:include page="footer.jsp"></jsp:include>

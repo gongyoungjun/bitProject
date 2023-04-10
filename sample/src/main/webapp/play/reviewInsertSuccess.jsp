@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert Success</title>
+<title>Review Insert Success</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
 $(function(){
-	alert('게시글 작성 성공!');
+	alert('후기가 성공적으로 작성되었습니다.');
 	window.opener.location.reload();
 	window.close();
 });
