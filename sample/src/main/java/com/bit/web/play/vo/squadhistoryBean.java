@@ -1,10 +1,12 @@
 package com.bit.web.play.vo;
 
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 import java.util.Date;
 
 @Data
+@Alias("squadhistory")
 public class SquadhistoryBean {
 	private int squadhistory_no;
 	private int squadboard_no;

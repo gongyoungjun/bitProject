@@ -1,8 +1,10 @@
 package com.bit.web.play.vo;
 
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 @Data
+@Alias("guestReview")
 public class GuestReviewBean {
 	private int hostreview_no;
 	private String host_id;
