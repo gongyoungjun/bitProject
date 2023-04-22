@@ -28,7 +28,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<beans:bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
 	    <beans:property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-	    <beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+	    <beans:property name="url" value="jdbc:oracle:thin:@14.63.9.178:1521:orcl"/>
 	    <beans:property name="username" value="togethersquad"></beans:property>
 	    <beans:property name="password" value="1234"></beans:property>	  
 	</beans:bean>
@@ -47,7 +47,7 @@
 	<!-- 2.커넥션을 만들어준다. 하지만 연결을맺고, 완료된후 연결을 close하는건 직접 개발자가 해야한다. -->
 	<beans:bean id="ssf" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>
-		<beans:property name="configLocation" value="/WEB-INF/Config.xml"></beans:property>
+		<beans:property name="configLocation" value="/WEB-INF/config.xml"></beans:property>
 
 
 
@@ -93,7 +93,7 @@
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<!-- 실행할 뷰를찾는 역활 -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/" />
+		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 		<beans:property name="order" value="0"></beans:property>
 	</beans:bean>	

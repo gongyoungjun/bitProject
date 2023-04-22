@@ -6,253 +6,253 @@ import java.util.Map;
 
 import com.bit.web.play.vo.GuestReviewBean;
 import com.bit.web.play.vo.NoticeBoardBean;
-import com.bit.web.play.vo.acceptwaittingBean;
-import com.bit.web.play.vo.gamegenreBean;
-import com.bit.web.play.vo.hostreviewBean;
-import com.bit.web.play.vo.membersBean;
-import com.bit.web.play.vo.squadboardBean;
-import com.bit.web.play.vo.squadhistoryBean;
+import com.bit.web.play.vo.AcceptwaittingBean;
+import com.bit.web.play.vo.GamegenreBean;
+import com.bit.web.play.vo.HostreviewBean;
+import com.bit.web.play.vo.MembersBean;
+import com.bit.web.play.vo.SquadboardBean;
+import com.bit.web.play.vo.SquadhistoryBean;
 
 
 
 public interface PlayService {
 
 	/* 
-	 * ·Î±×ÀÎ ÆäÀÌÁö > ·Î±×ÀÎ > ¾ÆÀÌµðÃ£±â 
+	 * ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Î±ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½Ìµï¿½Ã£ï¿½ï¿½ 
 	 */
 	String find_user_id(String email);
 	/*
-	 * ·Î±×ÀÎ ÆäÀÌÁö > ·Î±×ÀÎ > ºñ¹Ð¹øÈ£ Ã£±â
+	 * ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Î±ï¿½ï¿½ï¿½ > ï¿½ï¿½Ð¹ï¿½È£ Ã£ï¿½ï¿½
 	 */
 	String find_user_pw(HashMap<String,Object> map);
 	/*
-	 * ·Î±×ÀÎ ÆäÀÌÁö > ·Î±×ÀÎ > ºñ¹Ð¹øÈ£ ºñ±³
+	 * ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Î±ï¿½ï¿½ï¿½ > ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½
 	 */
 	String loginPass(String inputId);
 	/*
-	 * ±ÇÇÑ
+	 * ï¿½ï¿½ï¿½ï¿½
 	 */
 	public String selectAuthority(String inputId);
 	/* 
-	 * È¸¿ø°¡ÀÔ ÆäÀÌÁö > È¸¿ø°¡ÀÔ > µ¥ÀÌÅÍ ³Ö±â
+	 * È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 	 */
-	void insertSeqNumber(membersBean bean);
+	void insertSeqNumber(MembersBean bean);
 	/* 
-	 * È¸¿ø°¡ÀÔ ÆäÀÌÁö > È¸¿ø°¡ÀÔ > ¾ÆÀÌµð Áßº¹Ã¼Å©
+	 * È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ßºï¿½Ã¼Å©
 	 */ 
 	String ajaxGetId(String id);
 	/* 
-	 * È¸¿ø°¡ÀÔ ÆäÀÌÁö > È¸¿ø°¡ÀÔ > ´Ð³×ÀÓ Áßº¹Ã¼Å© 
+	 * È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ßºï¿½Ã¼Å© 
 	 */   
 	String ajaxGetNickname(String nickname);
 	/* 
-	 * ¸¶ÀÌ ÆäÀÌÁö > ÇÁ·ÎÇÊ ¼öÁ¤ > °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ > ï¿½Ë»ï¿½
 	 */        
-	membersBean getViewProfile(String members_id) throws Exception;
+	MembersBean getViewProfile(String members_id) throws Exception;
 	/*
-	 * ¸¶ÀÌ ÆäÀÌÁö > ÇÁ·ÎÇÊ ¼öÁ¤ > ¼öÁ¤
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½
 	 */
-	void postViewProfile(membersBean bean);
+	void postViewProfile(MembersBean bean);
 	/*
-	 * ¸¶ÀÌ ÆäÀÌÁö > °Ô½ºÆ® ÈÄ±â > ±âº»Å° »ý¼º
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ô½ï¿½Æ® ï¿½Ä±ï¿½ > ï¿½âº»Å° ï¿½ï¿½ï¿½ï¿½
 	 */
 	Integer getGuestReviewSequence();
 	/*
-	 * ¸¶ÀÌ ÆäÀÌÁö > °Ô½ºÆ® ÈÄ±â > µ¥ÀÌÅÍ ³Ö±â
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ô½ï¿½Æ® ï¿½Ä±ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 	 */	
 	void insertGuestReview(GuestReviewBean bean);
 	/*
-	 * ¸¶ÀÌ ÆäÀÌÁö > °Ô½ºÆ® ÈÄ±â > È£½ºÆ®¸®ºä °Ë»ö(ÀÛ¼ºÀÚ ±âÁØ) 
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ô½ï¿½Æ® ï¿½Ä±ï¿½ > È£ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½(ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½) 
 	 */	
 	List<GuestReviewBean> selectGuestReview1(String id);
 	/*
-	 * ¸¶ÀÌ ÆäÀÌÁö > »ç¿ëÀÚ Á¤º¸ insert ÀÓÀÇ·Î
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ insert ï¿½ï¿½ï¿½Ç·ï¿½
 	 */
 
 	//GuestReviewBean getReviewInfo(String host_id);
 
-	String insertMyInfo(membersBean bean);
+	String insertMyInfo(MembersBean bean);
 	/*
-	 * ¸¶ÀÌ ÆäÀÌÁö > »ç¿ëÀÚ Á¤º¸ select 
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ select 
 	 */	
-	List<membersBean> selectMyInfo(String id);
+	List<MembersBean> selectMyInfo(String id);
 	/*
-	 * °Ë»ö ÆäÀÌÁö
+	 * ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
-	List<squadboardBean> selectBoardList(HashMap<String, Object>map);
+	List<SquadboardBean> selectBoardList(HashMap<String, Object>map);
 	/*
-	 * ¸ÞÀÎ ÆäÀÌÁö > ¸ðÁýÁßÀÎ ½ºÄõµå > ¸®½ºÆ® °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ë»ï¿½
 	 */ 
-	public List<squadboardBean> squadstate0Select();
+	public List<SquadboardBean> squadstate0Select();
 	/*
-	 * ¸ÞÀÎ ÆäÀÌÁö > ÀÎ±â ½ºÄõµå > ¸®½ºÆ® È£½ºÆ® ÆÈ·Î¿ö¼ø °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½Æ® È£ï¿½ï¿½Æ® ï¿½È·Î¿ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	 */
-	List<squadboardBean> squadPopularSelect();
+	List<SquadboardBean> squadPopularSelect();
 	/*
-	 * ¸ÞÀÎ ÆäÀÌÁö > ÀÎ±â°ÔÀÓ ¸®½ºÆ® °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Î±ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ë»ï¿½
 	 */	
-	public List<gamegenreBean> popularGameListSelect();
+	public List<GamegenreBean> popularGameListSelect();
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ > »ý¼º ÆäÀÌÁö > ¾ÆÀÌµð·Î ´Ð³×ÀÓ return 
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ return 
 	 */	
 	public String getUserName(String writerId);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ > »ý¼º ÆäÀÌÁö > °ÔÀÓ ÀÌ¹ÌÁö È£Ãâ 
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ È£ï¿½ï¿½ 
 	 */	
 	public String gameImgSrcSelect(int no);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ > »ý¼º ÆäÀÌÁö > ½ºÄõµå ¸ðÁý °Ô½ÃÆÇ PK »ý¼º
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ PK ï¿½ï¿½ï¿½ï¿½
 	 */	
 	public int getSquadBoardSequence();
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ > »ý¼º ÆäÀÌÁö > ½ºÄõµå ¸ðÁý ±Û insert
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ insert
 	 */	
-	public void insertSquadBoard(squadboardBean bean);
+	public void insertSquadBoard(SquadboardBean bean);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > ½ºÄõµå »ó¼¼³»¿ë °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¼¼³ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	 */	
 	Object selectSquadBoardInfo(int squadboardno);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > È£½ºÆ® ±âÁØ > ½ºÄõµå Á¤º¸ ¸®½ºÆ® °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > È£ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ë»ï¿½
 	 */	
-	List<squadboardBean>selectSquadBoardHost (HashMap<String, Object> map);
+	List<SquadboardBean>selectSquadBoardHost (HashMap<String, Object> map);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > È£½ºÆ® ±âÁØ > ¸®ºä ¸®½ºÆ® °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > È£ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ë»ï¿½
 	 */	
-	List<hostreviewBean>selectHostReviewHost(String hostId);
+	List<HostreviewBean>selectHostReviewHost(String hostId);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > È£½ºÆ® ±âÁØ > °Ô½ÃÆÇ ¼ö 
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > È£ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ > ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
 	 */	
 	int selectSquadCnt(String hostId);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡¹öÆ° > Âü°¡±â·Ï ³Ö±â
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 	 */	
-	void insertSquadHistory(squadhistoryBean bean);
+	void insertSquadHistory(SquadhistoryBean bean);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡¹öÆ° > ¼ö¶ô´ë±â ³Ö±â
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 	 */	
-	void insertAcceptWaitting(acceptwaittingBean bean);
+	void insertAcceptWaitting(AcceptwaittingBean bean);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡¹öÆ° > Âü°¡±â·Ï ±âº»Å° »ý¼º
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº»Å° ï¿½ï¿½ï¿½ï¿½
 	 */	
 	Integer getSequence_SquadHistory();
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡¹öÆ° > ¼ö¶ô´ë±â ±âº»Å° »ý¼º
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº»Å° ï¿½ï¿½ï¿½ï¿½
 	 */	
 	Integer getSequence_AcceptWaitting();
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡¹öÆ° > Âü°¡ÀÚ ¼ö Áõ°¡
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */	
 	void updateSB_acceptcnt_increase(int squadboardno);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡¹öÆ° > Âü°¡ÀÚ ¼ö °¨¼Ò
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */	
 	void updateSB_acceptcnt_decrease(int squadboardno) ;
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡¹öÆ° > Âü°¡ÀÚ¼ö ºñ±³
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½ ï¿½ï¿½
 	 */
 	String selelctCompareUserCnt(int squadboardno);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡³ª ½ÅÃ» ÁßÀÎÁö ¿©ºÎ È®ÀÎ(Âü°¡±â·Ï Å×ÀÌºí)
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½)
 	 */	
 	String selectIdSquadHistory(HashMap<String, Object>map);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Âü°¡³ª ½ÅÃ» ÁßÀÎÁö ¿©ºÎ È®ÀÎ(½ÅÃ»¿©ºÎ Å×ÀÌºí)
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½(ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½)
 	 */	
 	String selectIdAcceptWaitting(HashMap<String, Object>map);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > Ajax°Ë»ö(¿¹¾à½Ã°£)
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > Ajaxï¿½Ë»ï¿½(ï¿½ï¿½ï¿½ï¿½Ã°ï¿½)
 	 */	
 	String selectReserveDate(int squadboardno);
 	/*
-	 * ½ºÄõµå °Ô½ÃÆÇ ÆäÀÌÁö > »óÅÂ ¼öÁ¤
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */	
 	void updateSquadState(HashMap<String, Object>map);
 
 	/*
-	 *  ³» ½ºÄõµå ÆäÀÌÁö > °Ô½ºÆ® ±âÁØ ÁøÇà Àü ½ºÄõµå °Ë»ö
+	 *  ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ô½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	 */
-	List<squadboardBean>selectParticipationSquad(String hostId);
+	List<SquadboardBean>selectParticipationSquad(String hostId);
 	/*
-	 *  ³» ½ºÄõµå ÆäÀÌÁö > °Ô½ºÆ® ±âÁØ Âü°¡ ±â·Ï 
+	 *  ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ô½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 	 */
-	List<squadboardBean>selectGuestHistory(String hostId);
+	List<SquadboardBean>selectGuestHistory(String hostId);
 	/*
-	 *  ³» ½ºÄõµå ÆäÀÌÁö > È£½ºÆ® ±âÁØ Á¾·á Àü ½ºÄõµå °Ë»ö
+	 *  ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > È£ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	 */
-	List<squadboardBean>selectHostingSquad(String hostId);
+	List<SquadboardBean>selectHostingSquad(String hostId);
 	/*
-	 *  ³» ½ºÄõµå ÆäÀÌÁö > È£½ºÆ® ±âÁØ È£½ºÆÃ ±â·Ï
+	 *  ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > È£ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	 */
-	List<squadboardBean>selectHostingHistory(String hostId);
+	List<SquadboardBean>selectHostingHistory(String hostId);
 	/*
-	 * »èÁ¦ÆäÀÌÁö(°Ô½ºÆ®) > »èÁ¦¹öÆ° > ¼ö¶ô´ë±â »èÁ¦  
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ô½ï¿½Æ®) > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  
 	 */
 	void deleteAcceptWaittingGuest(HashMap<String, Object>map);
 	/*
-	 * »èÁ¦ÆäÀÌÁö(°Ô½ºÆ®) > »èÁ¦¹öÆ° > Âü°¡±â·Ï »èÁ¦
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ô½ï¿½Æ®) > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */
 	void deleteSquadHistoryGuest(HashMap<String, Object>map);
 	/*
-	 * »èÁ¦ÆäÀÌÁö(È£½ºÆ®) > »èÁ¦¹öÆ° > ¼ö¶ô´ë±â »èÁ¦(Á¶°Ç°Ô½ÃÆÇ)  
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(È£ï¿½ï¿½Æ®) > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ç°Ô½ï¿½ï¿½ï¿½)  
 	 */
 	void deleteAcceptWaittingSB(int squadboardno);
 	/*
-	 * »èÁ¦ÆäÀÌÁö(È£½ºÆ®) > »èÁ¦¹öÆ° > Âü°¡±â·Ï »èÁ¦(Á¶°Ç°Ô½ÃÆÇ)
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(È£ï¿½ï¿½Æ®) > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ° > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ç°Ô½ï¿½ï¿½ï¿½)
 	 */
 	void deleteSquadHistorySB(int squadboardno);
 	/*
-	 *  È£½ºÆÃ°ü¸®ÆäÀÌÁö > Âü°¡½ÅÃ» ¿Ï·á ÀÎ¿ø È®ÀÎ
+	 *  È£ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½Ï·ï¿½ ï¿½Î¿ï¿½ È®ï¿½ï¿½
 	 */
-	List<squadboardBean>selectSquadHistoryNo(int squadboardno);
+	List<SquadboardBean>selectSquadHistoryNo(int squadboardno);
 	/*
-	 *  È£½ºÆÃ°ü¸®ÆäÀÌÁö > ¼ö¶ô´ë±â ÀÎ¿ø È®ÀÎ
+	 *  È£ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ È®ï¿½ï¿½
 	 */
-	List<squadboardBean>selectAcceptWaittingNo(int squadboardno);
+	List<SquadboardBean>selectAcceptWaittingNo(int squadboardno);
 
 	/*
-	 * °øÁö»çÇ× ÆäÀÌÁö > ±âº»Å° »ý¼º
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½âº»Å° ï¿½ï¿½ï¿½ï¿½
 	 */	
 	Integer getSequence2();
 	/*
-	 * °øÁö»çÇ× ÆäÀÌÁö > µ¥ÀÌÅÍ ³Ö±â
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 	 */	
 	String insertNoticeBoard(NoticeBoardBean bean);
 	/*
-	 * °øÁö»çÇ× ÆäÀÌÁö > °Ë»ö
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Ë»ï¿½
 	 */	
 	List<NoticeBoardBean> selectNoticeBoard();
 
 	/*
-	 * ¸ÞÀÎÆäÀÌÁö > ÀÎ±â°ÔÀÓ > °ÔÀÓº° ½ºÄõµå ¸®½ºÆ®
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Î±ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½Óºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	 */
-	List<squadboardBean> squadListForEachGameSelect(int gamegenre_no);
+	List<SquadboardBean> squadListForEachGameSelect(int gamegenre_no);
 	/*
-	 * ¸ÞÀÎÆäÀÌÁö > ÀÎ±â°ÔÀÓ > °ÔÀÓº° È£½ºÆ® ¸®½ºÆ®
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Î±ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½Óºï¿½ È£ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Æ®
 	 */
-	List<membersBean> hostListForEachGameSelect(int gamegenre_no);
+	List<MembersBean> hostListForEachGameSelect(int gamegenre_no);
 	/*
-	 * ¸ÞÀÎÆäÀÌÁö > ÀÎ±â°ÔÀÓ > °ÔÀÓº° °ÔÀÓ Á¤º¸
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ > ï¿½Î±ï¿½ï¿½ï¿½ï¿½ > ï¿½ï¿½ï¿½Óºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */
-	List<gamegenreBean> popularGameInfoSelect(int gamegenre_no);
+	List<GamegenreBean> popularGameInfoSelect(int gamegenre_no);
 	/*
-	 * °ÔÀÓº° ½ºÄõµå¼ö ¾÷µ¥ÀÌÆ®
+	 * ï¿½ï¿½ï¿½Óºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	 */
 	void squadCntUpdate();
 	/* 
-	 * ¾ÆÀÌµð·Î ´Ð³×ÀÓ ±¸ÇØ¿À±â 
+	 * ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¿ï¿½ï¿½ï¿½ 
 	 */
 	String getNicknameById(String inputId);
 	
 	/*
-	 * ½ÅÃ» °¡´ÉÇÑ ½ºÄõµå(¸¶ÀÌÆäÀÌÁö)
+	 * ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	 */
-	List<squadboardBean> registerSquadInfoSelect(String userId);
+	List<SquadboardBean> registerSquadInfoSelect(String userId);
 	
-	List<gamegenreBean> mainGamePlay(String userId);
+	List<GamegenreBean> mainGamePlay(String userId);
 
 	/*
-	 * ??±âÅ¸?
+	 * ??ï¿½ï¿½Å¸?
 	 */	
 	int getUserNo(String writerId);
 	

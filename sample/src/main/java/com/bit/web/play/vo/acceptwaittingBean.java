@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class acceptwaittingBean {
+public class AcceptwaittingBean {
 	private int acceptwaitting_no;
 	private int squadboard_no;
 	private String members_id;

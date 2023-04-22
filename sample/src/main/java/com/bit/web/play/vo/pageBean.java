@@ -1,12 +1,11 @@
 package com.bit.web.play.vo;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 @Data
 @Alias("page")
-public class pageBean {
+public class PageBean {
 	private int totalPage;
 	private int start;
 	private int end;
@@ -15,11 +14,11 @@ public class pageBean {
 	private int startPage;
 	private int endPage;
 	
-	public pageBean() {
+	public PageBean() {
 		super();
 	}
 
-	public pageBean(int totalPage, int start, int end, int currentPage, int currentBlock, int startPage, int endPage) {
+	public PageBean(int totalPage, int start, int end, int currentPage, int currentBlock, int startPage, int endPage) {
 		super();
 		this.totalPage = totalPage;
 		this.start = start;

@@ -1,13 +1,13 @@
 package com.bit.web.play.vo;
 
-import java.util.Date;
-
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
+import java.util.Date;
+
 @Data
 @Alias("members")
-public class membersBean {
+public class MembersBean {
 
 	private String members_id;
 	private String password;
@@ -26,7 +26,4 @@ public class membersBean {
 	private int stopcnt;
 	private String isDeleted;
 
-	
-	
-	
 }

@@ -16,8 +16,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="pwSearch" parameterType="HashMap"
 		resultType="String">
 		SELECT PASSWORD FROM MEMBERS
-		WHERE members_id = #{userId}
-		WHERE EMAIL = #{pw_find_email}
+		WHERE  EMAIL = #{pw_find_email}
+		<if test=" userId != null and userId != '' ">
+			AND members_id = #{userId}
+		</if>
 	</select>
 
 	<!-- 로그인 > 비밀번호 비교 -->
@@ -40,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회원가입 -->
 	<!-- 회원가입 > 데이터 넣기 -->
 	<insert id="insertSeqNumber"
-		parameterType="com.bit.web.play.vo.membersBean">
+		parameterType="com.bit.web.play.vo.MembersBean">
 		INSERT INTO members(members_id, password, nickname,
 		birth, email, tel,
 		regdate, genre1, genre2)
@@ -70,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 마이페이지 -->
 	<!-- 마이페이지 > 프로필 수정 > 검색 -->
 	<select id="getViewProfile"
-		resultType="com.bit.web.play.vo.membersBean" parameterType="String">
+			resultType="com.bit.web.play.vo.MembersBean" parameterType="String">
 		select *
 		from members
 		where members_id = #{vaule}
@@ -78,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 마이페이지 > 프로필 수정 > 수정 -->
 	<update id="postViewProfile"
-		parameterType="com.bit.web.play.vo.membersBean">
+		parameterType="com.bit.web.play.vo.MembersBean">
 		UPDATE MEMBERS
 		SET
 		nickname = #{nickname},
@@ -105,7 +107,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 검색 구현 -->
 
 	<resultMap type="squadboard" id="selectBoardID">
-
 		<result property="gamegenre_no" column="gamegenre_no" />
 		<result property="members_id" column="members_id" />
 		<result property="hostname" column="hostname" />
@@ -123,7 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<select id="selectBoardList"
-		resultType="com.bit.web.play.vo.squadboardBean"
+		resultType="com.bit.web.play.vo.SquadboardBean"
 		resultMap="selectBoardID" parameterType="HashMap">
 		select (gg.name)gamegenre_name, sb.squadboard_no, sb.members_id,
 		sb.filename, sb.hostname, sb.title, sb.contents, sb.playtime,
@@ -153,7 +154,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 메인페이지 모집중인 스쿼드 -->
 	<select id="squadstate0Select"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 		SELECT SB.SQUADBOARD_NO, SB.MEMBERS_ID, SB.HOSTNAME,
 		SB.TITLE,
 		SB.USER_ACCEPTCNT, SB.USER_MAXCNT, SB.PLAYTIME, SB.REGDATE,
@@ -172,7 +173,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 메인페이지 인기 스쿼드 팔로워순 -->
 	<select id="squadPopularSelect"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 		SELECT SB.SQUADBOARD_NO, SB.MEMBERS_ID, SB.HOSTNAME,
 		SB.TITLE,
 		SB.USER_ACCEPTCNT, SB.USER_MAXCNT, SB.PLAYTIME, SB.REGDATE,
@@ -192,7 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 메인페이지 > 인기게임 리스트 검색 -->
 	<select id="popularGameListSelect"
-		resultType="com.bit.web.play.vo.gamegenreBean">
+		resultType="com.bit.web.play.vo.GamegenreBean">
 		SELECT GAMEGENRE_NO, NAME, GAME_IMG, SQUAD_CNT
 		FROM
 		GAMEGENRE
@@ -224,7 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 일반생성 > 스쿼드게시판 데이터 넣기 -->
 	<insert id="insertSquadBoard"
-		parameterType="com.bit.web.play.vo.squadboardBean">
+		parameterType="com.bit.web.play.vo.SquadboardBean">
 		INSERT INTO SQUADBOARD
 		(SQUADBOARD_NO, GAMEGENRE_NO,
 		MEMBERS_ID, HOSTNAME, TITLE, CONTENTS, USER_ACCEPTCNT, USER_MAXCNT,
@@ -246,7 +247,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 스쿼드게시판 > 스쿼드 상세내용 검색 -->
 	<select id="selectSquadBoardInfo"
 		parameterType="java.lang.Integer"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 		SELECT sb.squadboard_no as squadboard_no, sb.gamegenre_no
 		as gamegenre_no, sb.members_id as members_id,
 		sb.hostname as hostname, sb.title as title, sb.contents as contents,
@@ -265,7 +266,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 스쿼드게시판 > 호스트기준 스쿼드 정보 검색 -->
 	<select id="selectSquadBoardHost" parameterType="HashMap"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 	<![CDATA[
 		select gg.game_img as gamegenre_game_img, sb.squadboard_no as squadboard_no, 
 		sb.title as title, gg.name as gamegenre_name, sb.members_id as members_id , TO_CHAR(sb.reservedate, 'YYYY/MM/DD HH:SS') as reservedate,
@@ -286,7 +287,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 스쿼드게시판 > 호스트기준 리뷰 검색 -->
 	<select id="selectHostReviewHost"
 		parameterType="java.lang.String"
-		resultType="com.bit.web.play.vo.hostreviewBean">
+		resultType="com.bit.web.play.vo.HostreviewBean">
 		select m.profile_img as profile_img , hr.name as name,
 		TO_CHAR(hr.regdate, 'YYYY/MM/DD HH:SS') as regdate, hr.contents as
 		contents, hr.score as score
@@ -297,7 +298,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 스쿼드게시판 > 참가버튼 > 참가기록 넣기 -->
 	<insert id="insertSquadHistory"
-		parameterType="com.bit.web.play.vo.squadhistoryBean">
+		parameterType="com.bit.web.play.vo.SquadhistoryBean">
 		insert into
 		squadhistory(squadhistory_no, squadboard_no, members_id, regdate)
 		values(#{squadhistory_no},
@@ -305,7 +306,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<!-- 스쿼드게시판 > 참가버튼 > 수락대기 넣기 -->
 	<insert id="insertAcceptWaitting"
-		parameterType="com.bit.web.play.vo.acceptwaittingBean">
+		parameterType="com.bit.web.play.vo.AcceptwaittingBean">
 		insert into
 		acceptwaitting(acceptwaitting_no, squadboard_no, members_id, regdate)
 		values(#{acceptwaitting_no},
@@ -388,7 +389,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 내 스쿼드 페이지 > 게스트 기준 진행 전 스쿼드 검색 -->
 	<select id="selectParticipationSquad"
 		parameterType="java.lang.String"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 		SELECT gg.game_img AS gamegenre_game_img, sb.squadboard_no
 		AS squadboard_no,
 		sb.title AS title, gg.name AS gamegenre_name, sb.members_id AS members_id,
@@ -414,7 +415,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 내 스쿼드 페이지 > 게스트 기준 참가 기록 -->
 	<select id="selectGuestHistory" parameterType="java.lang.String"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 		select sb.squadboard_no as squadboard_no, sb.members_id as
 		members_id,
 		sb.title as title, gg.name as gamegenre_name, sb.hostname as hostname,
@@ -431,7 +432,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 내 스쿼드 페이지 > 호스트 기준 종료 전 스쿼드 검색 -->
 	<select id="selectHostingSquad" parameterType="java.lang.String"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 		select gg.game_img as gamegenre_game_img, sb.squadboard_no
 		as squadboard_no,
 		sb.title as title, gg.name as gamegenre_name, sb.members_id as members_id,
@@ -449,7 +450,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 내 스쿼드 페이지 > 호스트 기준 호스팅 기록 -->
 	<select id="selectHostingHistory"
 		parameterType="java.lang.String"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 		select sb.squadboard_no as squadboard_no, sb.members_id as
 		members_id,
 		sb.title as title, gg.name as gamegenre_name, sb.hostname as hostname,
@@ -490,7 +491,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 호스팅관리페이지 > 참가신청 완료 인원 확인 -->
 	<select id="selectSquadHistoryNo"
 		parameterType="java.lang.Integer"
-		resultType="com.bit.web.play.vo.squadhistoryBean">
+		resultType="com.bit.web.play.vo.SquadhistoryBean">
 		select sh.members_id as members_id, sh.squadboard_no as
 		squadboard_no,
 		m.profile_img as members_profile_img, m.nickname as members_nickname,
@@ -503,7 +504,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 호스팅관리페이지 > 수락대기 인원 확인 -->
 	<select id="selectAcceptWaittingNo"
 		parameterType="java.lang.Integer"
-		resultType="com.bit.web.play.vo.acceptwaittingBean">
+		resultType="com.bit.web.play.vo.AcceptwaittingBean">
 		select aw.members_id as members_id, aw.squadboard_no as
 		squadboard_no,
 		m.profile_img as members_profile_img, m.nickname as members_nickname,
@@ -583,7 +584,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<insert id="insertMyInfo"
-		parameterType="com.bit.web.play.vo.membersBean">
+		parameterType="com.bit.web.play.vo.MembersBean">
 		INSERT INTO MEMBERS(members_id, password, nickname,
 		birth,
 		email, tel, regdate, genre1, genre2, aboutme, profile_img,
@@ -600,7 +601,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="selectMyInfo"
-		resultType="com.bit.web.play.vo.membersBean">
+		resultType="com.bit.web.play.vo.MembersBean">
 		select members_id, nickname, profile_img,
 		grade,
 		follow_cnt, aboutme
@@ -613,7 +614,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 메인페이지 > 인기게임 리스트 > 선택 게임의 정보 검색 -->
 	<select id="popularGameInfoSelect"
 		parameterType="java.lang.Integer"
-		resultType="com.bit.web.play.vo.gamegenreBean">
+		resultType="com.bit.web.play.vo.GamegenreBean">
 		SELECT GAMEGENRE_NO, NAME, GAME_IMG, SQUAD_CNT
 		FROM GAMEGENRE
 		WHERE GAMEGENRE_NO = #{value}
@@ -621,7 +622,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 메인페이지 > 인기게임 리스트 > 선택 게임의 호스트 정보 검색 -->
 	<select id="hostListForEachGameSelect"
 		parameterType="java.lang.Integer"
-		resultType="com.bit.web.play.vo.membersBean">
+		resultType="com.bit.web.play.vo.MembersBean">
 		SELECT MB.MEMBERS_ID, MB.PROFILE_IMG, MB.NICKNAME, MB.REVIEW_CNT, MB.GRADE
 		FROM SQUADBOARD SB
 		JOIN MEMBERS MB ON MB.MEMBERS_ID = SB.MEMBERS_ID
@@ -633,7 +634,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 메인페이지 > 인기게임 리스트 > 선택 게임의 모집중인 스쿼드 검색 -->
 	<select id="squadListForEachGameSelect"
 		parameterType="java.lang.Integer"
-		resultType="com.bit.web.play.vo.squadboardBean">
+		resultType="com.bit.web.play.vo.SquadboardBean">
 		SELECT SB.SQUADBOARD_NO, SB.MEMBERS_ID, SB.HOSTNAME, SB.TITLE,
 		SB.USER_ACCEPTCNT, SB.USER_MAXCNT, SB.PLAYTIME, SB.REGDATE,
 		SB.RESERVEDATE, SB.PRICE, SB.FILENAME,
@@ -666,7 +667,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 사용자 아이디별로 신청 가능한 스쿼드(마이페이지) -->
-	<select id="registerSquadInfoSelect" parameterType="java.lang.String" resultType="com.bit.web.play.vo.squadboardBean">
+	<select id="registerSquadInfoSelect" parameterType="java.lang.String" resultType="com.bit.web.play.vo.SquadboardBean">
 		SELECT SB.SQUADBOARD_NO, SB.MEMBERS_ID, SB.HOSTNAME,
 		SB.TITLE,
 		SB.USER_ACCEPTCNT, SB.USER_MAXCNT, SB.PLAYTIME, SB.REGDATE,
@@ -683,7 +684,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</select>
 	
 	<!-- 주로 하는 게임(마이페이지) -->
-	<select id="mainGamePlay" parameterType="java.lang.String" resultType="com.bit.web.play.vo.gamegenreBean">
+	<select id="mainGamePlay" parameterType="java.lang.String" resultType="com.bit.web.play.vo.GamegenreBean">
 	select sb.gamegenre_no, gg.name, gg.game_img
 	from squadboard sb, gamegenre gg
 	where members_id = #{value} and sb.gamegenre_no = gg.gamegenre_no

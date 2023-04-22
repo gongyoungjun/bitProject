@@ -1,4 +1,4 @@
-<%@page import="com.bit.web.play.vo.membersBean"%>
+<%@page import="com.bit.web.play.vo.MembersBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>

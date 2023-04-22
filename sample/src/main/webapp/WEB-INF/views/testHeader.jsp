@@ -76,7 +76,7 @@ $(function(){
 			   success:function(s){
 				   console.log(s);
 				   //location.reload(true);
-				   window.location.replace('/web/play/mainpage.jsp');
+				   window.location.replace('/web');
 			   },
 			   error:function(e){
 				   console.log('error');
@@ -109,7 +109,7 @@ $(function(){
 <c:choose>
 <c:when test="${userId == null}"> <%-- 로그인 안 한 경 우 --%>
 <nav class="topFixBanner" style="background:transparent; display:flex; flez-wrap:wrap; justify-content:space-between; align-items:center;">
-	<a align="right"   href="/web/play/mainpage.jsp" style="width: 45px; height: auto; margin-left:0px;">
+	<a align="right"   href="/web" style="width: 45px; height: auto; margin-left:0px;">
 	<img src="/web/resources/img/play/technology.png" style="width:60px; height: auto; margin-left:50px;">
 	</a>
 	
@@ -128,7 +128,7 @@ $(function(){
 		<span class="search">
 
 					
-					<a type="button" href="search.jsp"> 
+					<a type="button" href="/web/search">
 						<i class="fa-solid fa-magnifying-glass"></i>
 					</a>
 					
@@ -136,11 +136,11 @@ $(function(){
 		</span>
 
 		<span class="login">	
-			<a type="button" href="/web/play/login.jsp" style="margin-left: 30px">로그인
+			<a type="button" href="/web/login" style="margin-left: 30px">로그인
 			</a>
 		</span>
 		<span class="signup">
-			<a type="button" href="/web/play/signup.jsp" style="margin-left: 30px;margin-right: 30px">회원가입
+			<a type="button" href="/web/signup" style="margin-left: 30px;margin-right: 30px">회원가입
 			</a>
 		</span>
 	</div>
@@ -150,7 +150,7 @@ $(function(){
 <c:otherwise> <%-- 로그인 한 경 우 --%>
 
 <nav class="topFixBanner" style="background:transparent; display:flex; flez-wrap:wrap; justify-content:space-between; align-items:center;">
-	<div class="banner_left" style="flex-grow:1; float:left; text-align:left;"><a href="/web/play/mainpage.jsp"><img src="/web/resources/img/play/technology.png" style="width:60px; height: auto; margin-left:50px;"></a></div>
+	<div class="banner_left" style="flex-grow:1; float:left; text-align:left;"><a href="/web"><img src="/web/resources/img/play/technology.png" style="width:60px; height: auto; margin-left:50px;"></a></div>
 	<div class="banner_middle" style="flex-grow:1; text-align:left;">
  		<span class="accordion" id="new_squad" style="display:inline-block">
 			
@@ -160,10 +160,10 @@ $(function(){
 			
  		</span>
 		<span class="my_squad" id="my_squad">
-			<button id="my_squad" onclick="location.href='/web/play/mysquad.jsp'" class="btn" style="margin:3px; background-color: #141414;">내 스쿼드</button>
+			<button id="my_squad" onclick="location.href='/web/mysquad'" class="btn" style="margin:3px; background-color: #141414;">내 스쿼드</button>
 		</span>
 		<span class="my_wallet" id="my_wallet">
-			<button id="my_wallet" onclick="location.href='/web/play/pay.jsp'" class="btn" style="margin:3px; background-color: #141414;">지갑</button>
+			<button id="my_wallet" onclick="location.href='/web/pay'" class="btn" style="margin:3px; background-color: #141414;">지갑</button>
 		</span>
 		<span class="noticeboard" id="noticeboard">
 			<button id="noticeboard" onclick="location.href='/web/selectNoticeBoard'" class="btn" style="margin:3px; background-color: #141414;">공지사항</button>
@@ -175,7 +175,7 @@ $(function(){
 		<span class="search">
 
 					
-					<a type="button" href="/web/play/search.jsp"> 
+					<a type="button" href="/web/search">
 						<i class="fa-solid fa-magnifying-glass"></i>
 					</a>
 					
@@ -183,7 +183,7 @@ $(function(){
 		</span>
 
 		<span class="my_page">
-			<button class="btn" onclick="location.href='/web/GuestReviewSelect?id=${userId}'" style="margin:3px; background-color: #141414;">마이페이지</button>
+			<button class="btn" onclick="location.href='/web/guestReviewSelect?id=${userId}'" style="margin:3px; background-color: #141414;">마이페이지</button>
 		</span>
 		
 		<c:choose>

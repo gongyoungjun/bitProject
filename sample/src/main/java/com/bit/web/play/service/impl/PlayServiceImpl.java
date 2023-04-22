@@ -1,31 +1,20 @@
 package com.bit.web.play.service.impl;
 
-import com.bit.web.play.dao.playDao;
+import com.bit.web.play.dao.PlayDao;
 import com.bit.web.play.service.PlayService;
-import com.bit.web.play.vo.GuestReviewBean;
-import com.bit.web.play.vo.NoticeBoardBean;
-import com.bit.web.play.vo.acceptwaittingBean;
-import com.bit.web.play.vo.gamegenreBean;
-import com.bit.web.play.vo.hostreviewBean;
-import com.bit.web.play.vo.membersBean;
-import com.bit.web.play.vo.squadboardBean;
-import com.bit.web.play.vo.squadhistoryBean;
-import com.mongodb.util.Hash;
-
+import com.bit.web.play.vo.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.jdbc.core.SqlReturnUpdateCount;
-import org.springframework.stereotype.Service;
-
 @Service
 @RequiredArgsConstructor
 public class PlayServiceImpl implements PlayService {
 
-	private final playDao dao;
+	private final PlayDao dao;
 
 	/* 
 	 * 로그인 페이지 > 로그인 > 아이디찾기 
@@ -58,7 +47,7 @@ public class PlayServiceImpl implements PlayService {
 	 * 회원가입 페이지 > 회원가입 > 데이터 넣기
 	 */
 	@Override
-	public void insertSeqNumber(membersBean bean) {
+	public void insertSeqNumber(MembersBean bean) {
 		dao.insertSeqNumber(bean);
 	}
 	/* 
@@ -79,14 +68,14 @@ public class PlayServiceImpl implements PlayService {
 	 * 마이 페이지 > 프로필 수정 > 검색
 	 */       	
 	@Override
-	public membersBean getViewProfile(String members_id) throws Exception {
+	public MembersBean getViewProfile(String members_id) throws Exception {
 		return dao.getViewProfile(members_id);
 	}
 	/*
 	 * 마이 페이지 > 프로필 수정 > 수정
 	 */       	
 	@Override
-	public void postViewProfile(membersBean bean) {
+	public void postViewProfile(MembersBean bean) {
 		dao.postViewProfile(bean);
 	}
 	/*
@@ -120,42 +109,42 @@ public class PlayServiceImpl implements PlayService {
 	}*/
 
 	@Override
-	public String insertMyInfo(membersBean bean) {
+	public String insertMyInfo(MembersBean bean) {
 		return dao.insertMyInfo(bean);
 	}
 	/*
 	 * 마이 페이지 > 사용자 정보 select 
 	 */	
 	@Override
-	public List<membersBean> selectMyInfo(String id) {
+	public List<MembersBean> selectMyInfo(String id) {
 		return dao.selectMyInfo(id);
 	}
 	/*
 	 * 검색 페이지
 	 */
 	@Override
-	public List<squadboardBean> selectBoardList(HashMap<String, Object>map) {
+	public List<SquadboardBean> selectBoardList(HashMap<String, Object>map) {
 		return dao.selectBoardList(map);
 	}
 	/*
 	 * 메인 페이지 > 모집중인 스쿼드 > 리스트 검색
 	 */
 	@Override
-	public List<squadboardBean> squadstate0Select() {
+	public List<SquadboardBean> squadstate0Select() {
 		return dao.squadstate0Select();
 	}
 	/*
 	 * 메인 페이지 > 인기 스쿼드 > 리스트 호스트 팔로워순 검색
 	 */
 	@Override
-	public List<squadboardBean> squadPopularSelect(){
+	public List<SquadboardBean> squadPopularSelect(){
 		return dao.squadPopularSelect();
 		/*
 		 * 메인 페이지 > 인기게임 리스트 검색
 		 */	
 	}
 	@Override
-	public List<gamegenreBean> popularGameListSelect(){
+	public List<GamegenreBean> popularGameListSelect(){
 		return dao.popularGameListSelect();
 	}
 	/*
@@ -183,7 +172,7 @@ public class PlayServiceImpl implements PlayService {
 	 * 스쿼드 게시판 > 생성 페이지 > 스쿼드 모집 글 insert
 	 */	
 	@Override
-	public void insertSquadBoard(squadboardBean bean) {
+	public void insertSquadBoard(SquadboardBean bean) {
 		dao.insertSquadBoard(bean);
 	}
 	/*
@@ -197,14 +186,14 @@ public class PlayServiceImpl implements PlayService {
 	 * 스쿼드 게시판 페이지 > 호스트 기준 > 스쿼드 정보 리스트 검색
 	 */	
 	@Override
-	public List<squadboardBean>selectSquadBoardHost (HashMap<String, Object> map){
+	public List<SquadboardBean>selectSquadBoardHost (HashMap<String, Object> map){
 		return dao.selectSquadBoardHost(map);
 	}
 	/*
 	 * 스쿼드 게시판 페이지 > 호스트 기준 > 리뷰 리스트 검색
 	 */	
 	@Override
-	public List<hostreviewBean>selectHostReviewHost(String hostId){
+	public List<HostreviewBean>selectHostReviewHost(String hostId){
 		return dao.selectHostReviewHost(hostId);
 	}
 	/*
@@ -218,14 +207,14 @@ public class PlayServiceImpl implements PlayService {
 	 * 스쿼드 게시판 페이지 > 참가버튼 > 참가기록 넣기
 	 */	
 	@Override
-	public void insertSquadHistory(squadhistoryBean bean) {
+	public void insertSquadHistory(SquadhistoryBean bean) {
 		dao.insertSquadHistory(bean);
 	}
 	/*
 	 * 스쿼드 게시판 페이지 > 참가버튼 > 수락대기 넣기
 	 */	
 	@Override
-	public void insertAcceptWaitting(acceptwaittingBean bean) {
+	public void insertAcceptWaitting(AcceptwaittingBean bean) {
 		dao.insertAcceptWaitting(bean);
 	}
 	/*
@@ -296,28 +285,28 @@ public class PlayServiceImpl implements PlayService {
 	 *  내 스쿼드 페이지 > 게스트 기준 진행 전 스쿼드 검색
 	 */
 	@Override
-	public List<squadboardBean>selectParticipationSquad(String hostId) {
+	public List<SquadboardBean>selectParticipationSquad(String hostId) {
 		return dao.selectParticipationSquad(hostId);
 	}
 	/*
 	 *  내 스쿼드 페이지 > 게스트 기준 참가 기록 
 	 */
 	@Override
-	public List<squadboardBean>selectGuestHistory(String hostId) {
+	public List<SquadboardBean>selectGuestHistory(String hostId) {
 		return dao.selectGuestHistory(hostId);
 	}
 	/*
 	 *  내 스쿼드 페이지 > 호스트 기준 종료 전 스쿼드 검색
 	 */
 	@Override
-	public List<squadboardBean>selectHostingSquad(String hostId) {
+	public List<SquadboardBean>selectHostingSquad(String hostId) {
 		return dao.selectHostingSquad(hostId);
 	}
 	/*
 	 *  내 스쿼드 페이지 > 호스트 기준 호스팅 기록
 	 */
 	@Override
-	public List<squadboardBean>selectHostingHistory(String hostId) {
+	public List<SquadboardBean>selectHostingHistory(String hostId) {
 		return dao.selectHostingHistory(hostId);
 	}
 	/*
@@ -352,14 +341,14 @@ public class PlayServiceImpl implements PlayService {
 	 *  호스팅관리페이지 > 참가신청 완료 인원 확인
 	 */
 	@Override
-	public List<squadboardBean>selectSquadHistoryNo(int squadboardno) {
+	public List<SquadboardBean>selectSquadHistoryNo(int squadboardno) {
 		return dao.selectSquadHistoryNo(squadboardno);
 	}
 	/*
 	 *  호스팅관리페이지 > 수락대기 인원 확인
 	 */
 	@Override
-	public List<squadboardBean>selectAcceptWaittingNo(int squadboardno) {
+	public List<SquadboardBean>selectAcceptWaittingNo(int squadboardno) {
 		return dao.selectAcceptWaittingNo(squadboardno);
 	}
 
@@ -389,21 +378,21 @@ public class PlayServiceImpl implements PlayService {
 	 * 메인페이지 > 인기게임 > 게임별 스쿼드 리스트
 	 */
 	@Override
-	public List<squadboardBean> squadListForEachGameSelect(int gamegenre_no){
+	public List<SquadboardBean> squadListForEachGameSelect(int gamegenre_no){
 		return dao.squadListForEachGameSelect(gamegenre_no);
 	}
 	/*
 	 * 메인페이지 > 인기게임 > 게임별 호스트 리스트
 	 */
 	@Override
-	public List<membersBean> hostListForEachGameSelect(int gamegenre_no){
+	public List<MembersBean> hostListForEachGameSelect(int gamegenre_no){
 		return dao.hostListForEachGameSelect(gamegenre_no);
 	}
 	/*
 	 * 메인페이지 > 인기게임 > 게임별 게임 정보
 	 */
 	@Override
-	public List<gamegenreBean> popularGameInfoSelect(int gamegenre_no){
+	public List<GamegenreBean> popularGameInfoSelect(int gamegenre_no){
 		return dao.gameInfoForEachGameSelect(gamegenre_no);
 	}
 	/* 
@@ -424,12 +413,12 @@ public class PlayServiceImpl implements PlayService {
 	 * 신청 가능한 스쿼드(마이페이지)
 	 */
 	@Override
-	public List<squadboardBean> registerSquadInfoSelect(String userId){
+	public List<SquadboardBean> registerSquadInfoSelect(String userId){
 		return dao.registerSquadInfoSelect(userId);
 	}
 	
 	@Override
-	public List<gamegenreBean> mainGamePlay(String userId){
+	public List<GamegenreBean> mainGamePlay(String userId){
 		return dao.mainGamePlay(userId);
 	}
 

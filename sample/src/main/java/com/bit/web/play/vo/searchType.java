@@ -1,34 +1,32 @@
 package com.bit.web.play.vo;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
-public class searchType {
+public class SearchType {
 	
-	// ÇöÀç ÆäÀÌÁö 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	private int pageNum;
 	
-	// ÇÑ ÆäÀÌÁö ´ç º¸¿©Áú °Ô½Ã¹° °¹¼ö
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private int amount;
 	
-	// °Ë»ö Å°¿öµå 
+	// ï¿½Ë»ï¿½ Å°ï¿½ï¿½ï¿½ï¿½ 
 	private String keyword;
 	
-	// °Ë»ö Å¸ÀÔ 
+	// ï¿½Ë»ï¿½ Å¸ï¿½ï¿½ 
 	private String type;
 	
-	// °Ë»ö Å¸ÀÔ ¹è¿­ º¯È¯
+	// ï¿½Ë»ï¿½ Å¸ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½È¯
 	private String[] typeArr;
 	
-	//±âº» »ý¼ºÀÚ -> ±âº¾ ¼¼ÆÃ : pageNum = 1, amount = 10 
-	public searchType() {
+	//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½âº¾ ï¿½ï¿½ï¿½ï¿½ : pageNum = 1, amount = 10 
+	public SearchType() {
 		this(1,10);
 	}
 	
-	/* »ý¼ºÀÚ => ¿øÇÏ´Â pageNum, ¿øÇÏ´Â amount */
-	public searchType(int pageNum, int amount) {
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ => ï¿½ï¿½ï¿½Ï´ï¿½ pageNum, ï¿½ï¿½ï¿½Ï´ï¿½ amount */
+	public SearchType(int pageNum, int amount) {
 		this.pageNum = pageNum;
 		this.amount = amount;
     }

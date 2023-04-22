@@ -126,7 +126,7 @@ $(function(){
 					   divStyle.height = '180px';
 					   divStyle.width = '120px';
 					   divStyle.background = 'transparent';
-					   div.innerHTML = `<a href="/web/GuestReviewSelect?id=\${eachHostId}"><table style="text-align:center; width:120px; height:180px;">
+					   div.innerHTML = `<a href="/web/guestReviewSelect?id=\${eachHostId}"><table style="text-align:center; width:120px; height:180px;">
 	 					    	  <tbody>
 	 					    	  <tr><td><img src="/web/resources/img/play/upload/profile/\${eachFilename}" style="width:100px; height:100px; border-radius:50%;"></td></tr>
 	 					    	  <tr><td style="text-align:center;"><b>\${eachNickname}</b></td></tr>

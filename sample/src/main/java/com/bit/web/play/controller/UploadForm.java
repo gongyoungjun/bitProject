@@ -1,18 +1,17 @@
 package com.bit.web.play.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Calendar;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Calendar;
 
 
 
@@ -68,7 +67,7 @@ public class UploadForm  {
         return "redirect:form";
     }
     
-    // ÇöÀç ½Ã°£À» ±âÁØÀ¸·Î ÆÄÀÏ ÀÌ¸§ »ý¼º
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
     private String genSaveFileName(String extName) {
         String fileName = "";
         

@@ -1,11 +1,11 @@
 package com.bit.web.play.vo;
 
-import java.util.Date;
-
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class squadhistoryBean {
+public class SquadhistoryBean {
 	private int squadhistory_no;
 	private int squadboard_no;
 	private String members_id;

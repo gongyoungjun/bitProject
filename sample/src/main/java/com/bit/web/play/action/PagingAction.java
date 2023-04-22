@@ -1,19 +1,18 @@
 package com.bit.web.play.action;
 
-import java.util.HashMap;
+import com.bit.web.play.dao.PlayDao;
+import com.bit.web.play.vo.PageBean;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Component;
-import com.bit.web.play.dao.playDao;
-import com.bit.web.play.vo.pageBean;
+import java.util.HashMap;
 @Component
 public class PagingAction {
 	@Resource(name = "playDao")
-	private playDao dao;
+	private PlayDao dao;
 	
-	public pageBean paging(HttpServletRequest request,HashMap<String, Object>map) {
+	public PageBean paging(HttpServletRequest request, HashMap<String, Object>map) {
 		int pageScacle=10;
 		int totalRow=dao.getTotalRow(map);
 		int totalPage=totalRow%pageScacle==0?totalRow/pageScacle:(totalRow/pageScacle)+1;
@@ -32,6 +31,6 @@ public class PagingAction {
 		int startPage=1+(currentBlock-1)*pageScacle;
 		int endPage=pageScacle+(currentBlock-1)*pageScacle;		
 		endPage=totalPage<=endPage?totalPage:endPage;		
-		return new pageBean(totalPage, start, end, currentPage, currentBlock, startPage, endPage);
+		return new PageBean(totalPage, start, end, currentPage, currentBlock, startPage, endPage);
 	}
 }

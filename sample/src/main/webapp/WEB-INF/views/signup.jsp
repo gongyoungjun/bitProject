@@ -14,7 +14,7 @@
 
     <jsp:include page="/header/default.jsp"></jsp:include>
     <!-- Custom Fonts -->
-    <link rel="stylesheet" href="../resources/css/play/index.css">
+    <link rel="stylesheet" href="/web/resources/css/play/index.css">
     <script type="text/javascript">
         $(function () {
             //아이디 중복 체크

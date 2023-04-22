@@ -1,7 +1,5 @@
 package com.bit.web.play.vo;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
